@@ -1,0 +1,30 @@
+#include <iostream>
+#include "canvas.h"
+#include "TProfile.h"
+#include "TH2D.h"
+#include "TCanvas.h"
+
+void canvas(TH2D *hist, int iteration, double loLim, double hiLim, string fileName, string title) 
+
+{
+
+      TCanvas *c = new TCanvas("c", "c", 2000, 1000);
+      TProfile *tpf = hist -> ProfileX();
+      tpf->Draw();
+      
+      if ( iteration == 0 ) {
+	tpf -> GetYaxis() -> SetRangeUser(loLim,hiLim);
+      }
+
+      tpf->SetName("Profile in X");
+      tpf -> SetLineColor(kBlack);
+      tpf -> SetMarkerColor(kBlack);
+      tpf-> SetTitle(title.c_str());
+      c->SetRightMargin(0.13);
+      c->SaveAs(fileName.c_str());
+    
+      delete c, tpf;
+     
+      return;
+
+}

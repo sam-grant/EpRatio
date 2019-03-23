@@ -1,0 +1,126 @@
+#include <iostream>
+#include <cmath>
+#include <TH1D.h>
+#include <TF1.h>
+#include <TH2D.h>
+#include <TRandom3.h>
+#include <TCanvas.h>
+#include <TObjArray.h>
+#include <TProfile.h>
+#include <TGraph.h>
+
+using namespace std;
+
+int main(){
+
+  // Book histograms
+   int bins = 500;
+  TH2D *h1 = new TH2D("h1","Uniform Random Numbers", bins, 0, 1, bins, 0, 1);
+
+
+  // Create a TRandom3 object to generate random numbers
+  int seed = 12345;
+  TRandom3 *rand = new TRandom3(seed);
+
+  // Generate some random numbers and fill histograms
+
+  const int numValues = 10000;
+
+  for (int i=0; i < numValues; ++i){
+        double r1 = rand->Rndm();
+    // double r2 = rand->Rndm();
+	h1->Fill(r1,rand->Gaus(0.5,0.1));
+	cout<< r1 << rand->Gaus(.5,.1) << endl;
+    }
+
+  
+  TCanvas *c1 = new TCanvas();
+  c1->Divide(1,4);
+
+  c1->cd(1);
+  h1->Draw();
+  h1->SetTitle(";X;Y");
+
+  c1->cd(2);
+  TH1D *pY = h1 -> ProjectionY();
+  pY->Fit("gaus");
+  pY->Draw();
+
+  c1->cd(3);
+  TH2D *slice = (TH2D*)h1->Clone("slice");
+  slice->GetXaxis()->SetRange(1,100);
+  slice->Draw();
+ 
+  c1->cd(4);
+
+  TH1D *pslice = slice->ProjectionY();
+
+  TF1 *f1 = new TF1("f1", "gaus",0.5,0.1);
+  //f1->Draw("same");
+  pslice->Fit(f1);
+  pslice->Draw();
+  f1->Draw("same");
+
+  double mean = f1->GetParameter(1);
+  double std = f1->GetParameter(2);
+
+  cout << mean << endl;;
+  c1->SaveAs("../testPlots/testSample.pdf");
+  
+
+  ////////////////////////////////////////////
+
+  TH2D *h2 = (TH2D*)h1->Clone("h2");
+  TH1D *prY;
+  int nBins = h2->GetNbinsX();
+  int N = 5;
+  int length = nBins / N; //how many bins per slice
+  TH1D *prX = h2 -> ProjectionX("prX");
+  prX -> Rebin(length);
+  prX -> Reset();
+  double meansY[N];
+  double meansX[N];
+  int loStep;
+  int hiStep;
+
+  for(int i = 0 ; i < N; i++) {
+
+    loStep = i*length;
+    hiStep = (i+1)*length;
+    // h2->GetXaxis()->SetRange(loStep, hiStep);
+    prY=h2->ProjectionY("mname", loStep, hiStep-1);
+    prY->Fit(f1);
+    meansY[i] = f1->GetParameter(1);
+    meansX[i] = h2->GetXaxis()->GetBinCenter((loStep+hiStep)/2);
+    cout<<i<<endl;
+    prX -> SetBinContent(i+1, f1->GetParameter(1));
+    prX -> SetBinError(i+1, f1->GetParError(1));
+    TCanvas *c3 = new TCanvas();
+    prY -> Draw();
+    f1 -> Draw("same");
+    string foo = "../testPlots/testGaus"+to_string(i)+".pdf";
+    c3->SaveAs(foo.c_str());
+    delete c3;
+
+  }
+  // slice->Draw();
+
+  cout<<meansY[99]<<endl;
+  /* Define a TH1D instead of TGraph with nBins = nScices  */
+  //  TCanvas *c2 = new TCanvas();
+  h2->GetXaxis()->SetRange(0,500);
+  //  TGraph* gr1 = new TGraph(N,meansX,meansY);
+  // gr1->SetTitle("Test Data;Ln Iterations;Total Error");
+ TCanvas *c2 = new TCanvas(); 
+c2->Divide(1,2);
+ c2->cd(1);
+ prX -> DrawCopy();
+ // gr1->Draw("A*");
+  // c2->SaveAs("../testPlots/testMeans.pdf");
+  c2->cd(2);
+  TProfile *tpf = new TProfile();
+  tpf = h2 -> ProfileX();
+  tpf->Draw();
+ c2->SaveAs("../testPlots/testMeans.pdf");
+  return 0;
+}

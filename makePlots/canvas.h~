@@ -1,0 +1,6 @@
+#ifndef CANVAS
+#define CANVAS
+
+int canvas(double *hist, int iteration, double loLim, double hiLim, string fileName, string title) 
+
+#endif
