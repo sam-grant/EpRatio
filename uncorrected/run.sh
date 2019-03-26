@@ -6,8 +6,8 @@ for file in `ls /unix/muons/g-2/omegaEU/60h_5036B/gm2*.root`; do
     # ignore truncated file 
     #[[ $file == *30.root ]] && continue ; 
 
-    ./Plotter $file
+    ./plotter_uncorrected $file
 
 done
 
-hadd merged_uncorrected.root plots*.root
+hadd merged_uncorrected2.root plots*.root
