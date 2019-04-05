@@ -123,7 +123,7 @@ void Plotter::Run() {
     const double Ep = E/p;
 
     // Time cut 
-    // if (t < 30000) continue;
+    if (t < 30000) continue;
 
     // Fiducial cut 
     int k;

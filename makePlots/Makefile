@@ -1,22 +1,17 @@
+
 C++ = g++
 C_FLAGS = -g
 
 ROOTCFLAGS=$(shell root-config --cflags)
 ROOTLIBS=$(shell root-config --libs)
 
-SOURCES = $(shell find . ! -name "canvas.C" -name "*.C")
+SOURCES = $(shell find . ! -name "Reader.C" -name "*.C")
 
 all : $(SOURCES:.C=)
 
 clean:
 	rm *.o $(SOURCES:.C=)
 
-canvas.o: canvas.C canvas.h
-	$(C++) -c $(ROOTCFLAGS) $(C_FLAGS) canvas.C -o canvas.o
-
-%: %.C canvas.o
+##generic rule:
+%: %.C
 	$(C++) $(ROOTCFLAGS) $(C_FLAGS) $<  -o $@  $(ROOTLIBS)
-
-
-
-

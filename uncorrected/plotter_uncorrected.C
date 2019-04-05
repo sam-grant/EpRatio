@@ -32,7 +32,7 @@ void Plotter::InitHistos() {
   // Start region loop
   for (int i = 0 ;  i < 4 ; i++) {
     //Mess around with the ranges, all tracks needs a bigger range
-    if (i == 0) {
+    if (i == 0 || i == 2) {
       ymin = 0.0;
       ymax = 5;
     }
@@ -74,7 +74,7 @@ void Plotter::Run() {
     
       if( am->trkPvalue[i] < 0.05) continue;
       // require quality cut pass
-      // if(am->trkPassTrackQuality[i] == false) continue;
+      if(am->trkPassTrackQuality[i] == false) continue;
       
       
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);

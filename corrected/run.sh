@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in `ls /unix/muons/g-2/omegaEU/60hr_v9_11_00/gm2*root`; do
+for file in `ls /unix/muons/g-2/omegaEU/60hr_v9_11_00/gm2*.root`; do
 
     echo $file
     # ignore truncated file 
@@ -10,4 +10,4 @@ for file in `ls /unix/muons/g-2/omegaEU/60hr_v9_11_00/gm2*root`; do
 
 done
 
-hadd merged_corrected2.root plots*.root
+hadd merged_corrected_tcut.root plots*.root
