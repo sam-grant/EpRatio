@@ -1,0 +1,44 @@
+#include <iostream>
+#include "TF1.h"
+#include "TH1.h"
+#include "TRandom3.h"
+#include "TCanvas.h"
+
+using namespace std;
+
+double gain_sag(double *x, double *par) {
+  double time = x[0];
+  double A = par[0];
+  double tau_mu = par[1];
+  double tau_r = par[2];
+
+  double function = 1 - A * ( (exp( -time / tau_mu ) - exp( - time / tau_r) ) );
+  return function;
+}
+
+int main() {
+
+  int earlyTime = 4.2*50; // us
+  TF1 *gain_sag = new TF1("gain_sag", "gain_sag", gain_sag, 0, earlyTime, 3);
+  TH1 *hist = new TH1("hist","hist", 500, 0, earlyTime);
+  int seed = 12345;
+  TRandom3 *rand = new TRandom3(seed);
+
+  double numEvents = 1e6;
+  double input;
+  for(int i = 0 ; i < numEvents ; i++) {
+    input = gain_sag -> GetRandom(0, earlyTime);
+    hist -> Fill(input);
+  }
+
+  hist -> Scale( 1 / (hist->Integral() ) );
+
+  TCanvas *c1 = new TCanvas("c1","c1",2000,1000);
+  hist->Draw();
+  c1->SaveAs("gain_sag.png");
+
+
+  return 0;
+  
+}
+  
