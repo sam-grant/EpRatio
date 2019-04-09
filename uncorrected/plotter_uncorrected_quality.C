@@ -43,12 +43,13 @@ void Plotter::InitHistos() {
     // Start fiducial loop
     for (int j = 0 ; j < 3 ; j++ ) {
       // 0 all tracks, 1 fiducial, 2 non fiducial
-      plot2D("E_vs_p_"+std::to_string(i)+"_"+std::to_string(j),500,0,4000,500,0,4000,"p [MeV]","E [MeV]");
-      plot2D("Ep_vs_E_"+std::to_string(i)+"_"+std::to_string(j),500,0,4000,500,ymin,ymax,"E [MeV]","E/p");
-      plot2D("Ep_vs_t_"+std::to_string(i)+"_"+std::to_string(j),150,0,5*126000,500,ymin,ymax,"t [ns]","E/p");
-      plot2D("Ep_vs_t_early_"+std::to_string(i)+"_"+std::to_string(j),50,0,210000,500,ymin,ymax,"t [ns]", "E/p");
-      plot2D("Ep_vs_p_"+std::to_string(i)+"_"+std::to_string(j),500,0,4000,500,ymin,ymax,"p [MeV]","E/p");
-      plot2D("xy_calo_"+std::to_string(i)+"_"+std::to_string(j),500,-150,150,500,-120,120,"Calo Position X [mm]","Calo Position Y [mm]");
+      plot2D("E_vs_p_"+std::to_string(i)+"_"+std::to_string(j),20,0,4000,20,0,4000,"p [MeV]","E [MeV]");
+      plot2D("Ep_vs_E_"+std::to_string(i)+"_"+std::to_string(j),20,0,4000,200,ymin,ymax,"E [MeV]","E/p");
+      plot2D("Ep_vs_t_"+std::to_string(i)+"_"+std::to_string(j),150,0,5*126000,200,ymin,ymax,"t [ns]","E/p");
+      plot2D("Ep_vs_t_early_"+std::to_string(i)+"_"+std::to_string(j),50,0,4200*50,200,ymin,ymax,"t [ns]", "E/p");
+      plot2D("Ep_vs_p_"+std::to_string(i)+"_"+std::to_string(j),20,0,4000,200,ymin,ymax,"p [MeV]","E/p");
+      plot2D("xy_calo_"+std::to_string(i)+"_"+std::to_string(j),60,-150,150,48,-120,120,"Calo Position X [mm]","Calo Position Y [mm]");
+      plot2D("Ep_vs_x_"+std::to_string(i)+"_"+std::to_string(j),60,-150,150,200,ymin,ymax,"Calo Position X [mm]","E/p");
     }
 
   }
@@ -99,7 +100,7 @@ void Plotter::Run() {
       const double caloX_raw = am->cluX[i];
       const double caloY_raw = am->cluY[i];
       const int xtalNum = CaloNum(caloX_raw, caloY_raw);
-      if(xtalNum <-0.01) continue;
+      //  if(xtalNum <-0.01) continue;
       
       const double caloX = 112.5 - 25*(caloX_raw);
       const double caloY = SetCaloY(caloSt, caloY_raw);
@@ -129,8 +130,9 @@ void Plotter::Run() {
       
       // Fiducial cut 
       int k;
-      if (Fiducial(caloX, caloY) == true) {k=1;}
-      else if (Fiducial(caloX, caloY) == false) {k=2;}
+      //      if (FiducialSam(trX, trY) || !FiducialSam(trX,trY)) {k=0;}
+      if (FiducialSam(trX, trY)) {k=1;}
+      else if (!FiducialSam(trX, trY)) {k=2;}
  
       bool region[5] = {false};
     
@@ -147,19 +149,21 @@ void Plotter::Run() {
    
 	if(region[i]) {
 	  // All tracks
-	  Fill2D("E_vs_p_"+std::to_string(i)+"_0",p,E);
+	   Fill2D("E_vs_p_"+std::to_string(i)+"_0",p,E);
 	  Fill2D("Ep_vs_E_"+std::to_string(i)+"_0",E,Ep);
 	  Fill2D("Ep_vs_p_"+std::to_string(i)+"_0",p,Ep);
 	  Fill2D("Ep_vs_t_"+std::to_string(i)+"_0",t,Ep);
 	  Fill2D("Ep_vs_t_early_"+std::to_string(i)+"_0",t,Ep);
-	  Fill2D("xy_calo_"+std::to_string(i)+"_0",caloX,caloY);
+	  Fill2D("xy_calo_"+std::to_string(i)+"_0",trX,trY);
+	  Fill2D("Ep_vs_x_"+std::to_string(i)+"_0",trX,Ep);
 	  // Fiducial and non-fiducial tracks
 	  Fill2D("E_vs_p_"+std::to_string(i)+"_"+std::to_string(k),p,E);
 	  Fill2D("Ep_vs_E_"+std::to_string(i)+"_"+std::to_string(k),E,Ep);
 	  Fill2D("Ep_vs_p_"+std::to_string(i)+"_"+std::to_string(k),p,Ep);
 	  Fill2D("Ep_vs_t_"+std::to_string(i)+"_"+std::to_string(k),t,Ep);
 	  Fill2D("Ep_vs_t_early_"+std::to_string(i)+"_"+std::to_string(k),t,Ep);
-	  Fill2D("xy_calo_"+std::to_string(i)+"_"+std::to_string(k),caloX,caloY);	  
+	  Fill2D("xy_calo_"+std::to_string(i)+"_"+std::to_string(k),trX,trY);
+	  Fill2D("Ep_vs_y_"+std::to_string(i)+"_"+std::to_string(k),trY,Ep);
 	}
 
       }
