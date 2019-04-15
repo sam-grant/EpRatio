@@ -1,0 +1,117 @@
+ FCN=50.0437 FROM HESSE     STATUS=OK             16 CALLS         238 TOTAL
+                     EDM=3.20142e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00282e+00   3.01716e-04   2.39091e-07   3.82550e-01
+   2  A            1.35270e-02   3.02847e-03   1.13315e-06  -1.48522e-01
+   3  #tau_{r}     9.03437e+00   2.05318e+00   6.81234e-04  -2.37080e-04
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St13_fit_Ep_vs_t_early_0_1.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=54.0652 FROM HESSE     STATUS=OK             16 CALLS         235 TOTAL
+                     EDM=1.30677e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00735e+00   4.97347e-04   2.48478e-07  -1.22128e+00
+   2  A            1.14113e-02   2.85662e-03   1.18162e-06   6.79587e-02
+   3  #tau_{r}     1.14739e+01   3.59345e+00   1.23478e-03  -2.98659e-04
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St13_fit_Ep_vs_t_early_1_1.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=56.5962 FROM HESSE     STATUS=OK             16 CALLS         248 TOTAL
+                     EDM=4.06332e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.96408e-01   5.60051e-04   2.58427e-07   1.11213e+00
+   2  A            1.55781e-02   3.60906e-03   1.21628e-06  -5.22079e-01
+   3  #tau_{r}     1.25458e+01   3.87630e+00   1.03496e-03  -5.75000e-04
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St13_fit_Ep_vs_t_early_2_1.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=57.5847 FROM HESSE     STATUS=OK             16 CALLS         233 TOTAL
+                     EDM=6.6842e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.97026e-01   2.85697e-04   2.37710e-07  -2.45167e+00
+   2  A            1.42294e-02   2.68515e-03   1.18503e-06   9.91386e-03
+   3  #tau_{r}     7.84989e+00   1.51502e+00   6.02986e-04   8.48814e-04
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St13_fit_Ep_vs_t_early_0_2.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=56.2818 FROM HESSE     STATUS=OK             16 CALLS         230 TOTAL
+                     EDM=2.96174e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.94985e-01   4.25934e-04   2.74902e-07  -1.35120e+00
+   2  A            1.49523e-02   6.39685e-03   2.98683e-06   7.81849e-02
+   3  #tau_{r}     5.99454e+00   1.97329e+00   8.65336e-04   5.72207e-04
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St13_fit_Ep_vs_t_early_1_2.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=55.0341 FROM HESSE     STATUS=OK             16 CALLS         219 TOTAL
+                     EDM=1.55298e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.96045e-01   4.27399e-04   2.45705e-07   3.15962e-01
+   2  A            1.52911e-02   3.89934e-03   1.58429e-06  -7.11959e-02
+   3  #tau_{r}     8.61125e+00   2.26549e+00   8.21733e-04  -1.56051e-04
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St13_fit_Ep_vs_t_early_2_2.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=65.0344 FROM HESSE     STATUS=OK             16 CALLS         226 TOTAL
+                     EDM=1.75183e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.76768e-01   2.91857e-04   2.32880e-07   7.23339e-01
+   2  A            2.61380e-03   1.98404e-03   1.21088e-06  -1.13950e-01
+   3  #tau_{r}     6.85585e+00   4.23260e+00   2.60159e-03  -1.69763e-04
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St19_fit_Ep_vs_t_early_0_1.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=42.1829 FROM HESSE     STATUS=NOT POSDEF     16 CALLS        1455 TOTAL
+                     EDM=2.69805e-06    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.16394e+00   6.88418e-03   3.23691e-07   2.04804e+00
+   2  A            1.71146e-01   4.90270e-03   2.31586e-07  -2.89361e+00
+   3  #tau_{r}     1.45521e+04   9.55353e+03   2.73480e+00  -3.49205e-07
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St19_fit_Ep_vs_t_early_1_1.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=69.1049 FROM HESSE     STATUS=OK             16 CALLS         234 TOTAL
+                     EDM=8.14621e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.82867e-01   3.99676e-04   2.90359e-07   2.56175e-01
+   2  A            5.66938e-03   3.08226e-03   1.92957e-06  -3.88720e-02
+   3  #tau_{r}     5.91392e+00   2.97434e+00   1.81346e-03  -5.37379e-05
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St19_fit_Ep_vs_t_early_2_1.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=53.6101 FROM HESSE     STATUS=OK             16 CALLS         247 TOTAL
+                     EDM=3.46022e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.02043e+00   3.31692e-04   2.43288e-07  -2.26993e-01
+   2  A            6.48722e-03   1.43778e-03   6.29434e-07  -1.16688e-02
+   3  #tau_{r}     1.26385e+01   4.24252e+00   3.05517e-04  -3.33088e-06
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St19_fit_Ep_vs_t_early_0_2.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=47.3027 FROM HESSE     STATUS=OK             16 CALLS         251 TOTAL
+                     EDM=9.16729e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.01981e+00   4.20858e-04   2.43142e-07  -2.64772e-01
+   2  A            1.14140e-02   4.25776e-03   1.57388e-06   6.76748e-03
+   3  #tau_{r}     6.28609e+00   2.43977e+00   8.26143e-04   6.77209e-05
+Warning in <TCanvas::Constructor>: Deleting canvas with same name: c1
+Info in <TCanvas::Print>: png file St19_fit_Ep_vs_t_early_1_2.png has been created
+Info in <TCanvas::MakeDefCanvas>:  created default TCanvas with name c1
+ FCN=68.4088 FROM HESSE     STATUS=OK             16 CALLS         255 TOTAL
+                     EDM=2.86034e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.01774e+00   6.19038e-04   2.84125e-07   1.97699e+00
+   2  A            6.55905e-03   1.80879e-03   8.71150e-07  -4.74255e-01
+   3  #tau_{r}     1.79381e+01   8.27374e+00   3.04263e-03  -1.92327e-04

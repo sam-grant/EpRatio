@@ -130,8 +130,8 @@ void Plotter::Run() {
       
       // Fiducial cut 
       int k;
-      if (Fiducial(caloX, caloY) == true) {k=1;}
-      else if (Fiducial(caloX, caloY) == false) {k=2;}
+      if (FiducialXtal(caloX, caloY) == true) {k=1;}
+      else if (FiducialXtal(caloX, caloY) == false) {k=2;}
  
       bool region[5] = {false};
     

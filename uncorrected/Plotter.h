@@ -60,9 +60,9 @@ public:
   void Extrapolate(double &x, double &y, double distance=64.9);
   double ExtrapolateToExit(const double x, const double y, bool xonly=true);
 
-  bool Fiducial(const double x, const double y);
-  bool FiducialSam(const double x, const double y);
-  bool LowLifeTimeCrystal(const double x, const double y);
+  bool FiducialXtal(const double x, const double y);
+  bool FiducialMain(const double x, const double y);
+
   //could add any number of readers here:
   clusterTrackerTrackReader *ctt;
   clusterTrackerClusterReader *ctc;
@@ -313,7 +313,7 @@ double Plotter::ExtrapolateToExit(const double x, const double y, bool xonly) {
 //=========================================================
 
 
-bool Plotter::Fiducial(const double x, const double y) {
+bool Plotter::FiducialXtal(const double x, const double y) {
 
   //crystal is 25 x 25
   //fiducial centre is 0.707 * 25
@@ -344,7 +344,7 @@ bool Plotter::Fiducial(const double x, const double y) {
 }
 // Different definition of fiducial, take the central crystals including edges
 // Take inner region of 5x4 crystals
-bool Plotter::FiducialSam(const double x, const double y) {
+bool Plotter::FiducialMain(const double x, const double y) {
 
   bool fid = false;
   bool fidy = false;
@@ -355,9 +355,9 @@ bool Plotter::FiducialSam(const double x, const double y) {
   // const double xCentre = (9*25)/2;
   //const double yCentre = (6*25)/2;
   const double xLo = -62.5;//-80;
-  const double xHi = 37.5;
+  const double xHi = 12.5;
   const double yLo = -25;
-  const double yHi = 50;
+  const double yHi = 25;
   // const double yBound = 50;
 
   if( yLo < y && y < yHi) fidy = true;
@@ -370,17 +370,6 @@ bool Plotter::FiducialSam(const double x, const double y) {
   return fid;
 }
 
-bool Plotter::LowLifeTimeCrystal(const double x, const double y) { 
-  //0,9,18,27,36,45,10,19,11,20,30,39,40,14,23,15,24,34,44,43,35
-  bool lowLife = false; 
-
-  
-  return lowLife;
-
-
-
-
-}
 
 
 

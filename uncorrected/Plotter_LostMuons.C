@@ -215,7 +215,7 @@ void Plotter::Run() {
       const double R = sqrt(trX*trX + trY*trY);
 
       if( ctt->clusterHits==1) {
-	if(Fiducial(trX, trY) ) {
+	if(FiducialXtal(trX, trY) ) {
 	  Fill1DTr("mu_E_fid", ctt->clusterE );
 	  Fill2DTr("mu_E_vs_angle_fid", ctt->trackMomentumTheta, ctt->clusterE);
 	  Fill2DTr("mu_E_vs_R_fid", R, ctt->clusterE);

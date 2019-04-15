@@ -39,11 +39,12 @@ void Plotter::InitHistos() {
       // 0 all tracks, 1 fiducial, 2 non fiducial
       plot2D("E_vs_p_3_"+std::to_string(j),20,0,4000,20,0,4000,"p [MeV]","E [MeV]");
       plot2D("Ep_vs_E_3_"+std::to_string(j),20,0,4000,200,ymin,ymax,"E [MeV]","E/p");
-      plot2D("Ep_vs_t_3_"+std::to_string(j),150,0,5*126000,20,ymin,ymax,"t [ns]","E/p");
-      plot2D("Ep_vs_t_early_3_"+std::to_string(j),50,0,4200*50,20,ymin,ymax,"t [ns]", "E/p");
-      plot2D("Ep_vs_p_3_"+std::to_string(j),20,0,4000,20,ymin,ymax,"p [MeV]","E/p");
+      plot2D("Ep_vs_t_3_"+std::to_string(j),150,0,5*126000,200,ymin,ymax,"t [ns]","E/p");
+      plot2D("Ep_vs_t_early_3_"+std::to_string(j),50,0,4200*50,200,ymin,ymax,"t [ns]", "E/p");
+      plot2D("Ep_vs_p_3_"+std::to_string(j),20,0,4000,200,ymin,ymax,"p [MeV]","E/p");
       plot2D("xy_calo_3_"+std::to_string(j),60,-150,150,48,-120,120,"Calo Position X [mm]","Calo Position Y [mm]");
-      plot2D("Ep_vs_x_3_"+std::to_string(j),60,-150,150,20,ymin,ymax,"Calo Position X [mm]","E/p");
+      plot2D("Ep_vs_x_3_"+std::to_string(j),60,-150,150,200,ymin,ymax,"Calo Position X [mm]","E/p");
+      plot2D("Ep_vs_y_3_"+std::to_string(j),48,-120,120,200,ymin,ymax,"Calo Position Y [mm]","E/p");
     }
 
 }
@@ -115,7 +116,7 @@ void Plotter::Run() {
 
       double t = (am -> decayTime[i]);
       // Time cut 
-      //  if (t < 30000) continue;
+      if (t < 30000) continue;
       double E = am->cluEne[i];
       double Ep = E/p;
       //========================== SNIP!
@@ -138,29 +139,28 @@ void Plotter::Run() {
       if(region[1]==true && region[2]==true) region[3]=true;   
 
 
-      if(!region[3]) continue;
+      if(region[3]) {
+	// All tracks
+	Fill2D("E_vs_p_3_0",p,E);
+	Fill2D("Ep_vs_E_3_0",E,Ep);
+	Fill2D("Ep_vs_p_3_0",p,Ep);
+	Fill2D("Ep_vs_t_3_0",t,Ep);
+	Fill2D("Ep_vs_t_early_3_0",t,Ep);
+	Fill2D("xy_calo_3_0",trX,trY);
+	Fill2D("Ep_vs_x_3_0",trX,Ep);
+	Fill2D("Ep_vs_y_3_0",trY,Ep);
+	// Fiducial and non-fiducial tracks
+	Fill2D("E_vs_p_3_"+std::to_string(k),p,E);
+	Fill2D("Ep_vs_E_3_"+std::to_string(k),E,Ep);
+	Fill2D("Ep_vs_p_3_"+std::to_string(k),p,Ep);
+	Fill2D("Ep_vs_t_3_"+std::to_string(k),t,Ep);
+	Fill2D("Ep_vs_t_early_3_"+std::to_string(k),t,Ep);
+	Fill2D("xy_calo_3_"+std::to_string(k),trX,trY);
+	Fill2D("Ep_vs_x_3_"+std::to_string(k),trX,Ep);
+	Fill2D("Ep_vs_y_3_"+std::to_string(k),trY,Ep);
+      }
 
-      //    for (int i = 0 ; i < 4 ; i++ ) {
-   
-	  // All tracks
-	   Fill2D("E_vs_p_3_0",p,E);
-	  Fill2D("Ep_vs_E_3_0",E,Ep);
-	  Fill2D("Ep_vs_p_3_0",p,Ep);
-	  Fill2D("Ep_vs_t_3_0",t,Ep);
-	  Fill2D("Ep_vs_t_early_3_0",t,Ep);
-	  Fill2D("xy_calo_3_0",trX,trY);
-	  Fill2D("Ep_vs_x_3_0",trX,Ep);
-	  // Fiducial and non-fiducial tracks
-	  Fill2D("E_vs_p_3_"+std::to_string(k),p,E);
-	  Fill2D("Ep_vs_E_3_"+std::to_string(k),E,Ep);
-	  Fill2D("Ep_vs_p_3_"+std::to_string(k),p,Ep);
-	  Fill2D("Ep_vs_t_3_"+std::to_string(k),t,Ep);
-	  Fill2D("Ep_vs_t_early_3_"+std::to_string(k),t,Ep);
-	  Fill2D("xy_calo_3_"+std::to_string(k),trX,trY);
-	  Fill2D("Ep_vs_x_3_"+std::to_string(k),trX,Ep);
-
-
-	  //  }
+     
       
     }
     

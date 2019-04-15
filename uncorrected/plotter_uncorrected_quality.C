@@ -131,8 +131,8 @@ void Plotter::Run() {
       // Fiducial cut 
       int k;
       //      if (FiducialSam(trX, trY) || !FiducialSam(trX,trY)) {k=0;}
-      if (FiducialSam(trX, trY)) {k=1;}
-      else if (!FiducialSam(trX, trY)) {k=2;}
+      if (FiducialMain(trX, trY)) {k=1;}
+      else if (!FiducialMain(trX, trY)) {k=2;}
  
       bool region[5] = {false};
     

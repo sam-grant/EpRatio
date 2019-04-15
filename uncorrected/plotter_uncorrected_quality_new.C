@@ -31,24 +31,36 @@ void Plotter::InitTrees(TString input_file) {
 
 void Plotter::InitHistos() {
 
+  const double ymin = 0.71;
+  const double ymax = 1.25;
+  // const int fidMain = 0;
+  //const int board = 0;
+  for (int stn = 13; stn < 20 ; stn = stn + 6) {
+    //  for (int board = 0; board < 3; board++) {
+    // for (int fidMain = 0; fidMain < 3; fidMain++) {
+    for (int fidXtal = 0; fidXtal < 3; fidXtal++) {
 
-    double ymin = 0.71;
-    double ymax = 1.25;
-    // Start fiducial loop
-    for (int j = 0 ; j < 3 ; j++ ) {
-      // 0 all tracks, 1 fiducial, 2 non fiducial
-      plot2D("E_vs_p_3_"+std::to_string(j),20,0,4000,20,0,4000,"p [MeV]","E [MeV]");
-      plot2D("Ep_vs_E_3_"+std::to_string(j),20,0,4000,200,ymin,ymax,"E [MeV]","E/p");
-      plot2D("Ep_vs_t_3_"+std::to_string(j),150,0,5*126000,200,ymin,ymax,"t [ns]","E/p");
-      plot2D("Ep_vs_t_early_3_"+std::to_string(j),50,0,4200*50,200,ymin,ymax,"t [ns]", "E/p");
-      plot2D("Ep_vs_p_3_"+std::to_string(j),20,0,4000,200,ymin,ymax,"p [MeV]","E/p");
-      plot2D("xy_calo_3_"+std::to_string(j),60,-150,150,48,-120,120,"Calo Position X [mm]","Calo Position Y [mm]");
-      plot2D("Ep_vs_x_3_"+std::to_string(j),60,-150,150,200,ymin,ymax,"Calo Position X [mm]","E/p");
-      plot2D("Ep_vs_y_3_"+std::to_string(j),48,-120,120,200,ymin,ymax,"Calo Position Y [mm]","E/p");
+      /*	    plot2D("St"+std::to_string(stn)+"_E_vs_p_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),20,0,4000,20,0,4000,"p [MeV]","E [MeV]");
+		    plot2D("St"+std::to_string(stn)+"_Ep_vs_E_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),20,0,4000,200,ymin,ymax,"E [MeV]","E/p");
+		    plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),150,0,5*126000,200,ymin,ymax,"t [ns]","E/p");
+		    plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),50,0,4200*50,200,ymin,ymax,"t [ns]", "E/p");
+		    plot2D("St"+std::to_string(stn)+"_Ep_vs_p_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),20,0,4000,200,ymin,ymax,"p [MeV]","E/p");
+		    plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),60,-150,150,48,-120,120,"Calo Position X [mm]","Calo Position Y [mm]");
+		    plot2D("St"+std::to_string(stn)+"_Ep_vs_x_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),60,-150,150,200,ymin,ymax,"Calo Position X [mm]","E/p");
+		    plot2D("St"+std::to_string(stn)+"_Ep_vs_y_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),48,-120,120,200,ymin,ymax,"Calo Position Y [mm]","E/p");
+		    plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal_"+std::to_string(board)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),54,0,53,200,ymin,ymax,"Crystal Number","E/p");
+      */
+      //	}
+      // }
+      // }
+      //  }
+      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal_"+std::to_string(fidXtal),54,-0.5,53.5,200,ymin,ymax,"Crystal Number","E/p");
+      // plot2D("xy_calo_"+std::to_string(fidMain),200,-150,150,200,-120,120,"Calo Position X [mm]","Calo Position Y [mm]");
+      //plot2D("Ep_vs_x_"+std::to_string(fidMain),60,-150,150,200,ymin,ymax,"Calo Position X [mm]","E/p");
+      // plot2D("Ep_vs_y_"+std::to_string(fidMain),48,-120,120,200,ymin,ymax,"Calo Position Y [mm]","E/p");
     }
-
+  }
 }
-
 
 
 //=========================================================
@@ -93,8 +105,8 @@ void Plotter::Run() {
       const double caloX_raw = am->cluX[i];
       const double caloY_raw = am->cluY[i];
       const int xtalNum = CaloNum(caloX_raw, caloY_raw);
-      //  if(xtalNum <-0.01) continue;
-      
+      // cout << xtalNum << endl;
+      //Convert to mm from calo number I believe
       const double caloX = 112.5 - 25*(caloX_raw);
       const double caloY = SetCaloY(caloSt, caloY_raw);
       // -75 + 25*(caloY_raw); //SetCaloY(ctt->clusterCaloNum, caloY_raw);
@@ -115,20 +127,17 @@ void Plotter::Run() {
       if(dR>30) continue;
 
       double t = (am -> decayTime[i]);
+
       // Time cut 
-      if (t < 30000) continue;
+      bool tcut = false;
+      if (t > 30000) tcut = true;
+
       double E = am->cluEne[i];
       double Ep = E/p;
       //========================== SNIP!
-      
-      // Fiducial cut 
-      int k;
-      //      if (FiducialSam(trX, trY) || !FiducialSam(trX,trY)) {k=0;}
-      if (FiducialSam(trX, trY)) {k=1;}
-      else if (!FiducialSam(trX, trY)) {k=2;}
- 
-      bool region[5] = {false};
     
+  
+      bool region[5] = {false};
       // All Tracks   
       region[0] = true;
       // Positrons 
@@ -137,34 +146,152 @@ void Plotter::Run() {
       if (1250 < E && E < 2250) region[2]=true;
       // High Flux - Energy - Positrons
       if(region[1]==true && region[2]==true) region[3]=true;   
+      if(!region[3]) continue;
+      //   Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0_0_0",E,Ep);
+      //  Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_0_0_0",p,Ep);
+      int fidXtal;// = 0;
+      if (FiducialXtal(trX, trY)) {fidXtal=1;}
+      else if (!FiducialXtal(trX, trY)) {fidXtal=2;}
+
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0",xtalNum,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_"+std::to_string(fidXtal),xtalNum,Ep);
+    
+
+      //  Fill2D("xy_calo_"+std::to_string(fidMain),trX,trY);
+      // Fill2D("Ep_vs_x_"+std::to_string(fidMain),trX,Ep);
+      //Fill2D("Ep_vs_y_"+std::to_string(fidMain),trY,Ep);
+      ////////////////////////////////////////////
+      //int lowLifeXtal[22] = {0,9,10,11,14,15,18,19,20,23,24,27,30,31,34,35,36,39,40,43,44,45};
+      // const int brd = 0;
+      /*for (int i = 0 ; i < 22 ; i++ ) {
+	if (xtalNum == lowLifeXtal[i]) {
+	  brd = 1;
+      	}
+	else if (xtalNum != lowLifeXtal[i]) {
+	  brd = 2;
+	}
+	else { 
+	  cout << "Error, no crystal match! xtal = " << xtalNum << endl; 
+	  }*/
+
+      // const int fidMain = 0;
+	//if (FiducialSam(trX, trY)) {fidMain=1;}
+	// else if (!FiducialSam(trX, trY)) {fidMain=2;}
+	
+       //   int fidXtal;
+       // if (FiducialSam(trX, trY)) {fidXtal=1;}
+       //else if (!FiducialSam(trX, trY)) {fidXtal=2;}
+
+      /* Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0_0_0",E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_0_0_0",p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_0_0_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_0_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_0_0",trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_0_0_0",trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_0_0_0",trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0_0_0",xtalNum,Ep);
+
+      Fill2D("St"+std::to_string(caloSt)+"_E_vs_p_0_0_"+std::to_string(fidXtal),p,E);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),xtalNum,Ep);
 
 
-      if(region[3]) {
-	// All tracks
-	Fill2D("E_vs_p_3_0",p,E);
-	Fill2D("Ep_vs_E_3_0",E,Ep);
-	Fill2D("Ep_vs_p_3_0",p,Ep);
-	Fill2D("Ep_vs_t_3_0",t,Ep);
-	Fill2D("Ep_vs_t_early_3_0",t,Ep);
-	Fill2D("xy_calo_3_0",trX,trY);
-	Fill2D("Ep_vs_x_3_0",trX,Ep);
-	Fill2D("Ep_vs_y_3_0",trY,Ep);
-	// Fiducial and non-fiducial tracks
-	Fill2D("E_vs_p_3_"+std::to_string(k),p,E);
-	Fill2D("Ep_vs_E_3_"+std::to_string(k),E,Ep);
-	Fill2D("Ep_vs_p_3_"+std::to_string(k),p,Ep);
-	Fill2D("Ep_vs_t_3_"+std::to_string(k),t,Ep);
-	Fill2D("Ep_vs_t_early_3_"+std::to_string(k),t,Ep);
-	Fill2D("xy_calo_3_"+std::to_string(k),trX,trY);
-	Fill2D("Ep_vs_x_3_"+std::to_string(k),trX,Ep);
-	Fill2D("Ep_vs_y_3_"+std::to_string(k),trY,Ep);
+      */
+      // Time cut 
+      //  int tcut = 0;
+      //if (t > 30000) tcut = true;
+      /*
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0_0_0",E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_0_0_0",p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_0_0_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_0_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_0_0",trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_0_0_0",trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_0_0_0",trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0_0_0",xtalNum,Ep);
+
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_"+std::to_string(brd)+"_0_0",E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_"+std::to_string(brd)+"_0_0",p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd)+"_0_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(brd)+"_0_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_"+std::to_string(brd)+"_0_0",trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_"+std::to_string(brd)+"_0_0",trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_"+std::to_string(brd)+"_0_0",trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_"+std::to_string(brd)+"_0_0",xtalNum,Ep);
+
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0_"+std::to_string(fidMain)+"_0",E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_0_"+std::to_string(fidMain)+"_0",p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_0_"+std::to_string(fidMain)+"_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_"+std::to_string(fidMain)+"_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_"+std::to_string(fidMain)+"_0",trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_0_"+std::to_string(fidMain)+"_0",trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_0_"+std::to_string(fidMain)+"_0",trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0_"+std::to_string(fidMain)+"_0",xtalNum,Ep);
+
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0_0_"+std::to_string(fidXtal),E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_0_0_"+std::to_string(fidXtal),p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_0_0_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_0_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_0_"+std::to_string(fidXtal),trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_0_0_"+std::to_string(fidXtal),trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_0_0_"+std::to_string(fidXtal),trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0_0_"+std::to_string(fidXtal),xtalNum,Ep);
+
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),xtalNum,Ep);
+
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_"+std::to_string(brd)+"_0_"+std::to_string(fidXtal),xtalNum,Ep);
+
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_0",xtalNum,Ep);
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      Fill2D("St"+std::to_string(caloSt)+"_E_vs_p_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),p,E);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),E,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),p,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trX,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),trY,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_"+std::to_string(brd)+"_"+std::to_string(fidMain)+"_"+std::to_string(fidXtal),xtalNum,Ep);
+      */
       }
-
+   
      
-      
     }
     
-  }
+  //}
 
   return;
 
