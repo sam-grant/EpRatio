@@ -169,7 +169,7 @@ int main() {
       c4->SaveAs(fname4.c_str());
       delete c4;
 
-      delete f1, E, t, tpf; 
+      //  delete f1, E, t, tpf; 
 
     }
 

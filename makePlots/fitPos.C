@@ -224,7 +224,7 @@ int main() {
       c7->SaveAs(fname7.c_str());
       delete c7;
       */
-      delete f1, E, t, tpf1, tpf2, tpf3; 
+      //  delete f1, E, t, tpf1, tpf2, tpf3; 
 
     }
 
