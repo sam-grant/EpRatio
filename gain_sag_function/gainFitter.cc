@@ -25,7 +25,7 @@ double gain_sag(double *x, double *par) {
 
 int main() {
 
-  
+  bool save = true;
   bool scaled = false;
   string in;
 
@@ -43,13 +43,12 @@ int main() {
   string output_fname;
   
   if (scaled) {
-    input_fname = "scaled_time_boards.root";
-    output_fname = "scaled_time_boards_fits.root";
+    input_fname = "../makePlots/fits_t_by_xtal_normalised_brd.root";
+    output_fname = "taus_normalised_xtals_boards.root";
   }
   else if ( !scaled ) {
-    input_fname = "unscaled_time_boards.root";
-    output_fname = "unscaled_time_boards_fits.root";
-  }
+    input_fname = "../makePlots/fits_t_by_xtal_unnormalised_brd.root";
+    output_fname = "taus_unnormalised_xtals_boards.root";  }
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
@@ -69,6 +68,7 @@ int main() {
 
 	string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(fidXtal)+"_"+to_string(brd);
 	TH1D *t_early = (TH1D*)input->Get(h.c_str());
+	if(t_early == 0) continue;
  
 	//Set parameters
 	//f1->SetParameter(1,0.0005);//,0.001); 
@@ -82,15 +82,23 @@ int main() {
 	t_early->Fit(f1,"M");
   
 	TCanvas *c1 = new TCanvas("c1","c1",2000,1000);
+	t_early->SetStats(1);
 	gStyle->SetOptStat(0);
 	gStyle->SetOptFit();
+
 	gStyle->SetStatX(0.49);
 	gStyle->SetStatY(0.89);
+	t_early->GetXaxis()->SetTitle("Fill Time [#mus]");
+	t_early->Draw();
+	//	gStyle->SetOptFit();
+	//	t_early
 	//  t_early->SetStats(0);
 	// t_early->SetTitle(";;");
 	// t_all->SetTitle("E/p vs t (early), e^{+}, High Flux;Absolute Time [#mus];E/p");
-	t_early->Draw();
+
+	if (save){
 	c1->SaveAs((h+".png").c_str());
+	}
 	t_early->SetDirectory(output);
 	delete c1;
       }

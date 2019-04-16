@@ -15,5 +15,5 @@ gain_energy_function.exe: gain_energy_function.cc
 
 cmap.exe: cmap.cc
 	g++ -o $@ cmap.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)
-clear:
+clean:
 	rm *exe
