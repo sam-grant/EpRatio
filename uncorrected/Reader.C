@@ -226,7 +226,7 @@ void allmuonsReader::Init() {
    LoadBranchVector("cluCaloNum", cluCaloNum, b_cluCaloNum);
    LoadBranchVector("cluX", cluX, b_cluX);
    LoadBranchVector("cluY", cluY, b_cluY);
-   LoadBranchVector("cluNhit", cluNhit, b_cluNhit);
+   LoadBranchVector("cluNhit", cluNhit, b_cluNhit);  // number of crystals per cluster
    LoadBranchVector("cluTime", cluTime, b_cluTime);
    LoadBranchVector("cluEne", cluEne, b_cluEne);
    LoadBranchVector("EovP", EovP, b_EovP);

@@ -4,6 +4,7 @@
 for file in `ls ../../v9_17_01_new/gm2*.root`; do
     echo $file
     ./plotter_uncorrected_crystals $file
+ #   ./plotter_uncorrected_quality_new $file
 done
 
-hadd xtal4.root plots*.root
+hadd t_by_xtal_normalised_brd.root plots*.root
