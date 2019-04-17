@@ -43,12 +43,12 @@ int main() {
   string output_fname;
   
   if (scaled) {
-    input_fname = "../makePlots/fits_t_by_xtal_normalised_brd.root";
-    output_fname = "taus_normalised_xtals_boards.root";
+    input_fname = "../makePlots/fits_t_by_xtal_normalised_brd2.root";
+    output_fname = "taus_normalised_xtals_boards2.root";
   }
   else if ( !scaled ) {
-    input_fname = "../makePlots/fits_t_by_xtal_unnormalised_brd.root";
-    output_fname = "taus_unnormalised_xtals_boards.root";  }
+    input_fname = "../makePlots/fits_t_by_xtal_unnormalised_brd2.root";
+    output_fname = "taus_unnormalised_xtals_boards2.root";  }
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
@@ -59,7 +59,7 @@ int main() {
     // board loop
     for (int brd = 1 ; brd < 3 ; brd++ ) {
       // crystal fiducial region
-      for (int fidXtal = 0 ; fidXtal < 3 ; fidXtal++ ) {
+      for (int fidXtal = 0 ; fidXtal < 2 ; fidXtal++ ) {
 	
 	const int earlyTime = 4.2*50;
 	// Fit function with 4 paramters 
@@ -89,6 +89,7 @@ int main() {
 	gStyle->SetStatX(0.49);
 	gStyle->SetStatY(0.89);
 	t_early->GetXaxis()->SetTitle("Fill Time [#mus]");
+	t_early->GetYaxis()->SetRangeUser(0.98,1.02);
 	t_early->Draw();
 	//	gStyle->SetOptFit();
 	//	t_early
