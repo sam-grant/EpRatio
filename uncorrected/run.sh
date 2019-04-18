@@ -3,8 +3,9 @@
 #for file in `ls /unix/muons/g-2/omegaEU/60h_5036B/gm2*.root`; do
 for file in `ls ../../v9_17_01_new/gm2*.root`; do
     echo $file
-    ./plotter_uncorrected_crystals $file
+   # ./plotter_uncorrected_crystals $file
  #   ./plotter_uncorrected_quality_new $file
+    ./plotter_energy $file
 done
 
-hadd t_by_xtal_normalised_brd_testing.root plots*.root
+hadd energy_plots.root plots*.root
