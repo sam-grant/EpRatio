@@ -5,7 +5,7 @@ for file in `ls ../../v9_17_01_new/gm2*.root`; do
     echo $file
    # ./plotter_uncorrected_crystals $file
  #   ./plotter_uncorrected_quality_new $file
-    ./plotter_energy $file
+    ./plotter_time_normalised $file
 done
 
-hadd energy_plots.root plots*.root
+hadd time_frac_cut.root plots*.root
