@@ -8,4 +8,4 @@ for file in `ls ../../v9_17_01_new/gm2*.root`; do
     ./plotter_time_normalised $file
 done
 
-hadd time_frac_cut.root plots*.root
+hadd time_frac_cut_testing.root plots*.root

@@ -26,29 +26,14 @@ double gain_sag(double *x, double *par) {
 int main() {
 
   bool save = true;
-  bool scaled = false;
   string in;
-
-  cout << "Scaled? Yes (y) or no (n): ";
-  cin >> in;
-
-  if (in == "y") { scaled = true; }
-  else if (in == "n" ) { scaled = false; }
-  else {
-    cout << "Error, try again" << endl;
-    return 0;
-  }
   
   string input_fname;
   string output_fname;
   
-  if (scaled) {
-    input_fname = "../makePlots/fits_t_by_xtal_normalised_brd2.root";
-    output_fname = "taus_normalised_xtals_boards2.root";
-  }
-  else if ( !scaled ) {
-    input_fname = "../makePlots/fits_t_by_xtal_unnormalised_brd2.root";
-    output_fname = "taus_unnormalised_xtals_boards2.root";  }
+    // output_fname = "taus_normalised_xtals_boards2.root";
+  input_fname = "../makePlots2/profile_time_normalised.root";
+  output_fname = "taus_time_normalised.root";
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
@@ -91,14 +76,9 @@ int main() {
 	t_early->GetXaxis()->SetTitle("Fill Time [#mus]");
 	t_early->GetYaxis()->SetRangeUser(0.98,1.02);
 	t_early->Draw();
-	//	gStyle->SetOptFit();
-	//	t_early
-	//  t_early->SetStats(0);
-	// t_early->SetTitle(";;");
-	// t_all->SetTitle("E/p vs t (early), e^{+}, High Flux;Absolute Time [#mus];E/p");
 
 	if (save){
-	c1->SaveAs((h+".png").c_str());
+	c1->SaveAs((h+"_full.png").c_str());
 	}
 	t_early->SetDirectory(output);
 	delete c1;
@@ -107,6 +87,7 @@ int main() {
   }
   output->Write();
   output->Close();
+  input->Close();
   
   return 0; 
 }
