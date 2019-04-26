@@ -31,7 +31,7 @@ void Plotter::InitTrees(TString input_file) {
 void Plotter::InitHistos() {
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
     for (int fidXtal = 0; fidXtal < 2; fidXtal++) {
-      plot2D("St"+std::to_string(stn)+"_E_vs_xtal_"+std::to_string(fidXtal),54,-0.5,53.5,20,1200,2400,"Crystal Number", "Energy in Calo [MeV]");
+      plot2D("St"+std::to_string(stn)+"_E_vs_xtal_"+std::to_string(fidXtal),54,-0.5,53.5,6,1200,2400,"Crystal Number", "Cluster Energy [MeV]");
       plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(fidXtal),500,-150,150,500,-120,120,"Calo Decay Position X [mm]", "Calo Decay Position Y [mm]");
     }
   }

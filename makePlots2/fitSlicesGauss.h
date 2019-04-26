@@ -81,6 +81,7 @@ void fitSlicesGauss(TH2D *hist, string title, string fname, string g_fname, TFil
       c1->SaveAs((g_fname+to_string(i)+".png").c_str());
     }
     delete c1;
+    cout << i << " " <<  gFunc->GetParameter(1) << endl;
   } // End slice loop
   delete hist_clone;
   //Force the ranges to be sensible if ROOT's autoscale fails

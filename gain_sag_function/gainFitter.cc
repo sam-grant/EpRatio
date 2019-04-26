@@ -33,7 +33,7 @@ int main() {
   
     // output_fname = "taus_normalised_xtals_boards2.root";
   input_fname = "../makePlots2/profile_time_normalised.root";
-  output_fname = "taus_time_normalised.root";
+  output_fname = "taus_time_normalised_full.root";
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
@@ -74,7 +74,7 @@ int main() {
 	gStyle->SetStatX(0.49);
 	gStyle->SetStatY(0.89);
 	t_early->GetXaxis()->SetTitle("Fill Time [#mus]");
-	t_early->GetYaxis()->SetRangeUser(0.98,1.02);
+	t_early->GetYaxis()->SetRangeUser(0.99,1.01);
 	t_early->Draw();
 
 	if (save){
