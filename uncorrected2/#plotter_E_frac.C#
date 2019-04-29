@@ -1,13 +1,20 @@
-// Plotter to make enegy E/p plots
-// Select positrons
-// Select high flux region energy, defined to leave no bin left out. 1.2 - 2.4 GeV!
-// 3% energy resolution, leading to 200 MeV bin width -> 20 bins
-// Plot all tracks and fiducial region
+//Simple code to make plots from the Europa OmegaA ntuples
+// gavin.hesketh@ucl.ac.uk
+// modified by: samuel.grant.18@ucl.ac.uk
+
+//to use a particular branch, make sure it is uncommented in Reader.C
+//branch variables are listed in Reader.h
+
+
+//Just going with one region
+
+
 
 #define Plotter_C
 #include "Plotter.h"
 #include "TMath.h"
 #include "TFile.h"
+
 
 int CaloNum(int caloX, int caloY) {
   return caloX+9*caloY;
@@ -27,18 +34,15 @@ void Plotter::InitHistos() {
 
   const double ymin = 0.71;
   const double ymax = 1.25;
-
-
-  for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    for (int fidMain = 0 ; fidMain < 2 ; fidMain++) { 
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_E_"+std::to_string(fidMain),20,0,4000,200,ymin,ymax,"Energy in calo [MeV]", "E/p");
-      plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(fidMain),200,-150,150,200,-120,120,"Calo X [mm]", "Calo Y [mm]");
-    }
-  }
   
+  for (int stn = 13; stn < 20 ; stn = stn + 6) {
+    //  for (int fidXtal = 0; fidXtal < 2; fidXtal++) {
+      plot2D("St"+std::to_string(stn)+"_xyclu",9,-0.5,8.5,6,-0.5,5.5,"xclu","yclu");
+       plot2D("St"+std::to_string(stn)+"_cluXY",500,-0.5,8.5,6,-0.5,6.5,"cluX","cluY");
+
+      // }
+     }
 }
-
-
 
 //=========================================================
 
@@ -47,19 +51,20 @@ void Plotter::InitHistos() {
 void Plotter::Run() {
 
   //loop over the clusterTracker/tracker tree:
+
   while( NextallmuonsEvent() ) {
 
     //loop over the matches in this event:
     for(int i=0; i<am->nmatches; i++) {
 
-
+      // require quality cut pass
       if(am->trkPassTrackQuality[i] == false) continue;
       
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
-    
+      
       const double logEop = log(am->EovP[i]);
       const double dt = am->Tdiff[i];
-
+ 
       const int caloSt = am->cluCaloNum[i];
       if(caloSt==13){
 	if (dt<-8 || dt>3 ) continue;
@@ -74,16 +79,14 @@ void Plotter::Run() {
       
       const double caloX_raw = am->cluX[i];
       const double caloY_raw = am->cluY[i];
-      const int xTal = CaloNum(caloX_raw, caloY_raw);
-
+      const int xtal = CaloNum(caloX_raw, caloY_raw);
       //Convert to mm from calo number I believe
       const double caloX = 112.5 - 25*(caloX_raw);
       const double caloY = SetCaloY(caloSt, caloY_raw);
-     
       // Tracker decay vertices
       double trX = am->vX[i];
       double trY = am->vY[i];
- 
+
       const double dX = caloX - trX;
       const double dY = caloY - trY;
       const double dR = sqrt(dX*dX + dY*dY);
@@ -91,34 +94,45 @@ void Plotter::Run() {
       if(dR>30) continue;
 
       double t = (am -> decayTime[i]);
-      if(t < 30000) continue;
+      //  if (t < 60000) continue;
 
       double E = am->cluEne[i];
       double Ep = E/p;
-      //========================== SNIP!
+      // I think xyclu tells you the crystal number corresponding to cluster, sometimes it's a decimal
+      double clux = am->xclu[i];
+      double cluy = am->yclu[i];
+      double nclu = am->ncluster;
+      cout << nclu << endl;
+      cout << "\n" << endl;
+      cout << E << " " << clux << " " << cluy << endl;
 
+      //========================== SNIP!
+  
       bool region[3] = {false};
       // Positrons 
-      if(logEop>-0.3 && logEop<0.2 ) region[0]=true;
+      if(logEop>-0.3 && logEop<0.2) region[0]=true;
       // High Flux - Energy - All Tracsk
       if (1200 < E && E < 2400) region[1]=true;
       // High Flux - Energy - Positrons
-      if(region[0]==true && region[1]==true) region[2] = true;
-
+      if(region[0]==true && region[1]==true) region[2]=true;   
+      // Select high flux positrons
       if(!region[2]) continue;
-   
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0",E,Ep);
-      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0",trX,trY);
 
-      if(FiducialMain(trX,trY)){
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_1",E,Ep);
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1",trX,trY);
-      }
+      // if (xtal != 21 ) continue;
+      ////////////////////////////////////////////
+    
+      Fill2D("St"+std::to_string(caloSt)+"_xyclu",clux,cluy);
+       
+      // if (FiducialXtal(trX, trY)) { //
+      //	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_1",xtal,Ep);
+      // }
 
+no     
     }
     
   }
   
+  
   return;
-
+  
 }

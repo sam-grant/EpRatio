@@ -32,8 +32,8 @@ int main() {
   string output_fname;
   
     // output_fname = "taus_normalised_xtals_boards2.root";
-  input_fname = "../makePlots2/profile_time_normalised.root";
-  output_fname = "taus_time_normalised_full.root";
+  input_fname = "../makePlots2/fits_time_normalised_frac2.root";
+  output_fname = "taus_time_normalised_frac2.root";
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
@@ -44,7 +44,7 @@ int main() {
     // board loop
     for (int brd = 1 ; brd < 3 ; brd++ ) {
       // crystal fiducial region
-      for (int fidXtal = 0 ; fidXtal < 2 ; fidXtal++ ) {
+      for (int fidXtal = 0 ; fidXtal < 4 ; fidXtal++ ) {
 	
 	const int earlyTime = 4.2*50;
 	// Fit function with 4 paramters 
@@ -75,10 +75,11 @@ int main() {
 	gStyle->SetStatY(0.89);
 	t_early->GetXaxis()->SetTitle("Fill Time [#mus]");
 	t_early->GetYaxis()->SetRangeUser(0.99,1.01);
+	t_early->GetXaxis()->SetRangeUser(0,4.2*50);
 	t_early->Draw();
 
 	if (save){
-	c1->SaveAs((h+"_full.png").c_str());
+	c1->SaveAs((h+"_frac2.png").c_str());
 	}
 	t_early->SetDirectory(output);
 	delete c1;
