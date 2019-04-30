@@ -12,4 +12,4 @@ for file in `ls ../../60hr_v9_17_01/gm2*.root`; do
    # ./plotter_E_frac $file
 done
 
-hadd time_normalised_2.root plots*.root
+hadd time_normalised_3.root plots*.root

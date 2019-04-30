@@ -8,6 +8,7 @@
 #include "TCanvas.h"
 #include "TFile.h"
 #include "TStyle.h"
+#include "TLegend.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ double gain_sag(double *x, double *par) {
 
 int main() {
 
-  bool save = false;
+  bool save = true;
   string in;
   
   string input_fname;
@@ -39,6 +40,11 @@ int main() {
   cout << "Reading ... " << input_fname << endl;
   
   TFile *output = new TFile(output_fname.c_str(), "recreate");
+
+  TH1D *taus13 = new TH1D("tau 13","Calo 13",82,-0.2,16.2);
+  TH1D *taus19 = new TH1D("tau 19","Calo 19",82,-0.2,16.2);
+  TH1D *amps13 = new TH1D("amp 13","Calo 13",27,-0.002,0.052);
+  TH1D *amps19 = new TH1D("amp 19","Calo 19",27,-0.002,0.052);
   //station loop
   for (int stn = 13 ; stn < 20 ; stn = stn + 6 ) {
     // board loop
@@ -63,18 +69,27 @@ int main() {
 	  //Set parameters
 	  //f1->SetParameter(1,0.0005);//,0.001); 
 	  //  f1->SetParLimits(1,0.00001,0.0001);
-	  // f1->SetParameter(1,0.001);//,0.001); 
+	  // f1->SetParameter(1,0.001);//,0.001); ]
+	
 	  f1->SetParameter(2,10);
 	  f1->SetParName(0,"G_{0}");
 	  f1->SetParName(1,"A");
 	  f1->SetParName(2,"#tau_{r}");
 	  // Perform fit
-	  t_early->Fit(f1,"QM");
-
-	  cout << "Amplitude " << xtal << " " << brd << " " <<f1->GetParameter(2) << "+/- " << f1->GetParError(2) << endl;
-	  cout << "Tau " << xtal << " " << brd <<" "<< f1->GetParameter(3) << "+/-" << f1->GetParError(3) << endl;
-	 TCanvas *c1 = new TCanvas("c1","c1",2000,1000);
-  
+	  t_early->Fit(f1,"M");
+	   cout<<f1->GetParameter(1)<<endl;
+           //par(2) : ext no 3
+	   if(stn==13){
+	     taus13->Fill(f1->GetParameter(2));
+	     amps13->Fill(f1->GetParameter(1));
+	   }
+	   if(stn==19){
+	     taus19->Fill(f1->GetParameter(2));
+	     amps19->Fill(f1->GetParameter(1));
+	
+	   }
+	  TCanvas *c1 = new TCanvas("c1","c1",2000,1000);
+        
 	  t_early->SetStats(1);
 	  gStyle->SetOptStat(0);
 	  gStyle->SetOptFit();
@@ -86,18 +101,42 @@ int main() {
 	  t_early->GetXaxis()->SetRangeUser(0,4.2*50);
 	  t_early->Draw();
 
-	  if (save){
-	    c1->SaveAs((h+"_frac2.png").c_str());
-	  }
 	  
 	  t_early->SetDirectory(output);
-
+	  
+	  if (save){
+	    c1->SaveAs((h+"_frac2.png").c_str());
+	    //
+	  }
 	  delete c1;
-	 
+	  // delete c2;
 	}
       }
     }
   }
+
+  TCanvas *c2 = new TCanvas();//"c2","c2",2000,1000);
+  taus13->SetLineColor(kOrange+2);
+  taus19->SetLineColor(kBlue+2);
+  taus13->Draw();
+  taus19->Draw("same");
+  c2->BuildLegend(0.79,0.79,0.89,0.89);
+  taus13->SetTitle("Recovery times, crystal by crystal;In Fill Time [#mus];N");
+
+  c2->SaveAs("tau.png");
+  delete c2;
+
+  TCanvas *c3 = new TCanvas();//"c3","c3",2000,1000);
+  amps13->SetLineColor(kOrange+2);
+  amps19->SetLineColor(kBlue+2);
+  amps13->Draw();
+  amps19->Draw("same");
+  c3->BuildLegend(0.79,0.79,0.89,0.89);
+  amps13->SetTitle("Gain sag amplitudes, crystal by crystal;Amplitude;N");
+ 
+  c3->SaveAs("amps.png");
+  delete c3;
+	  
   output->Write();
   output->Close();
   input->Close();
