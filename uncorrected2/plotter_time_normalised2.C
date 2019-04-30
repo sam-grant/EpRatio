@@ -39,7 +39,7 @@ void Plotter::InitHistos() {
     for (int cut = 0; cut < 4; cut++) {
       for (int brd = 1; brd < 3; brd++) {
 	  plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(cut)+"_"+std::to_string(brd),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
-	  plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(cut)+"_"+std::to_string(brd),500,-150,150,500,-120,120,"Calo Decay Vertex X [mm]", "Calo Decay Vertex Y [mm]");
+	  plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(cut)+"_"+std::to_string(brd),500,-150,150,500,-120,120,"Cluster X [mm]", "Cluster Y [mm]");
 	  plot1D("St"+std::to_string(stn)+"_efrac_"+std::to_string(cut)+"_"+std::to_string(brd),101,-0.005,1.005,"Cluster Energy in Crystal / Cluster Energy","N");  
 
       }
@@ -161,24 +161,25 @@ void Plotter::Run() {
       double Ep1 = Ep * (1 / sf1 );
       
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_"+std::to_string(brd),t,Ep1);
-      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_"+std::to_string(brd),trX,trY);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_"+std::to_string(brd),caloX,caloY);
       Fill1D("St"+std::to_string(caloSt)+"_efrac_0_"+std::to_string(brd),efrac);
 	
       if (efrac > .605) {
 	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_1_"+std::to_string(brd),t,Ep1);
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1_"+std::to_string(brd),trX,trY);
+	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1_"+std::to_string(brd),caloX,caloY);
 	Fill1D("St"+std::to_string(caloSt)+"_efrac_1_"+std::to_string(brd),efrac);
       }
 
       if (efrac > .755) {
 	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_2_"+std::to_string(brd),t,Ep1);
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_2_"+std::to_string(brd),trX,trY);
+	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_2_"+std::to_string(brd),caloX,caloY);
 	Fill1D("St"+std::to_string(caloSt)+"_efrac_2_"+std::to_string(brd),efrac);
       }
 
       if (efrac > .995) {
+	
 	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_3_"+std::to_string(brd),t,Ep1);
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_3_"+std::to_string(brd),trX,trY);
+	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_3_"+std::to_string(brd),caloX,caloY);
 	Fill1D("St"+std::to_string(caloSt)+"_efrac_3_"+std::to_string(brd),efrac);
       }
 

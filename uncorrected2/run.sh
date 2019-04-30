@@ -5,11 +5,11 @@ for file in `ls ../../60hr_v9_17_01/gm2*.root`; do
     echo $file
    # ./plotter_uncorrected_crystals $file
  #   ./plotter_uncorrected_quality_new $file
-     ./plotter_time_normalised_xtal $file
+     ./plotter_time_normalised2 $file
     # ./plotter_Ep_xtal_check $file
     #./plotter_xtal_energy_normalised_cut $file
     # ./plotter_momentum $file
    # ./plotter_E_frac $file
 done
 
-hadd time_normalised_xtal.root plots*.root
+hadd time_normalised_2.root plots*.root

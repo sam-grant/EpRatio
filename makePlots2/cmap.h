@@ -17,6 +17,7 @@ Arguments: input 2D histogram, output histogram title, output histogram filename
 #include "TFile.h"
 #include "TStyle.h"
 #include "TDirectory.h"
+#include "TCanvas.h"
 
 using namespace std;
 

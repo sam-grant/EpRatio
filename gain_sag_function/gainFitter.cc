@@ -43,15 +43,15 @@ int main() {
   for (int stn = 13 ; stn < 20 ; stn = stn + 6 ) {
     // board loop
     for (int brd = 1 ; brd < 3 ; brd++ ) {
-      // crystal fiducial region
-      for (int fidXtal = 0 ; fidXtal < 4 ; fidXtal++ ) {
+      // fractional energy cut
+      for (int cut = 0 ; cut < 4 ; cut++ ) {
 	
 	const int earlyTime = 4.2*50;
 	// Fit function with 4 paramters 
 	TF1 *f1 = new TF1("f1", gain_sag, 0, earlyTime, 3);//earlyTime, 3);
 	f1->SetNpx(10000);
 
-	string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(fidXtal)+"_"+to_string(brd);
+	string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(cut)+"_"+to_string(brd);
 	TH1D *t_early = (TH1D*)input->Get(h.c_str());
 	if(t_early == 0) continue;
  
@@ -73,7 +73,7 @@ int main() {
 
 	gStyle->SetStatX(0.49);
 	gStyle->SetStatY(0.89);
-	t_early->GetXaxis()->SetTitle("Fill Time [#mus]");
+	t_early->GetXaxis()->SetTitle("In Fill Time [#mus]");
 	t_early->GetYaxis()->SetRangeUser(0.99,1.01);
 	t_early->GetXaxis()->SetRangeUser(0,4.2*50);
 	t_early->Draw();
