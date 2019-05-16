@@ -16,12 +16,6 @@ clean:
 Reader.o: Reader.C Reader.h
 	$(C++) -c $(ROOTCFLAGS) $(C_FLAGS) Reader.C -o Reader.o
 
-Drawer: Drawer.C 
-	$(C++) $(ROOTCFLAGS) $(C_FLAGS) Drawer.C -o Drawer $(ROOTLIBS)
-
-Residuals: Residuals.C 
-	$(C++) $(ROOTCFLAGS) $(C_FLAGS) Residuals.C -o Residuals $(ROOTLIBS)
-
 
 Ntuple_dict.so: LinkDef.h
 	rootcling -f Ntuple_dict.c -p $^

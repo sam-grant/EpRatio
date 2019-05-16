@@ -68,17 +68,22 @@ void fitSlicesGauss(TH2D *hist, string title, string fname, string g_fname, TFil
     // "Q" : supress printing "M" use minuit to improve fit result, "R" fit over range
     projY -> Fit(gFunc,"RQM","",fitMin,fitMax);
     // Fill a histogram with the fit results
-    projX -> SetBinContent(i+1, gFunc->GetParameter(1));
-    projX -> SetBinError(i+1, gFunc->GetParError(1));
+    double value = gFunc->GetParameter(1);
+    double error = gFunc->GetParError(1);
+    if(error>0.05*value) continue;
+    
+    projX -> SetBinContent(i+1, value);//gFunc->GetParameter(1));
+    projX -> SetBinError(i+1, error);//gFunc->GetParError(1));
     TCanvas *c1 = new TCanvas();
     projY->SetMarkerColor(kBlack);
     projY->SetLineColor(kBlack);
     projY->Draw();
-    gStyle->SetOptFit();
+    // gStyle->SetOptFit();
+    projY->SetStats(0);
     projY->SetName((g_fname+"_"+to_string(i)).c_str());
     projY->SetDirectory(output);
     if (save) {
-      c1->SaveAs((g_fname+to_string(i)+".png").c_str());
+      c1->SaveAs((g_fname+"_"+to_string(i)+".png").c_str());
     }
     delete c1;
     cout << i << " " <<  gFunc->GetParameter(1) << endl;
@@ -96,8 +101,12 @@ void fitSlicesGauss(TH2D *hist, string title, string fname, string g_fname, TFil
   projX->SetTitle(title.c_str());
   projX->SetMarkerColor(kBlack);
   projX->SetLineColor(kBlack);
+  projX->SetLineWidth(2);
   projX->GetXaxis()->SetRange(binmin,binmax);
+  //  projX->GetYaxis()->SetRangeUser(.71,1.25);
+  gPad->SetGridy();
   projX->DrawCopy();
+
   if (save) {
     c2->SaveAs((fname+".png").c_str());
   }

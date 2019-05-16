@@ -32,8 +32,8 @@ int main() {
   string output_fname;
   
     // output_fname = "taus_normalised_xtals_boards2.root";
-  input_fname = "../makePlots2/fits_time_normalised_frac2.root";
-  output_fname = "taus_time_normalised_frac2.root";
+  input_fname = "../makePlots2/fits_time_normalised2.root";
+  output_fname = "taus_time_normalised2.root";
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
@@ -44,14 +44,14 @@ int main() {
     // board loop
     for (int brd = 1 ; brd < 3 ; brd++ ) {
       // fractional energy cut
-      for (int cut = 0 ; cut < 4 ; cut++ ) {
+      // for (int cut = 0 ; cut < 4 ; cut++ ) {
 	
 	const int earlyTime = 4.2*50;
 	// Fit function with 4 paramters 
 	TF1 *f1 = new TF1("f1", gain_sag, 0, earlyTime, 3);//earlyTime, 3);
 	f1->SetNpx(10000);
 
-	string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(cut)+"_"+to_string(brd);
+	string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(brd);
 	TH1D *t_early = (TH1D*)input->Get(h.c_str());
 	if(t_early == 0) continue;
  
@@ -63,6 +63,8 @@ int main() {
 	f1->SetParName(0,"G_{0}");
 	f1->SetParName(1,"A");
 	f1->SetParName(2,"#tau_{r}");
+	f1->SetNpx(5000);
+	f1->SetLineWidth(2);
 	// Perform fit
 	t_early->Fit(f1,"M");
   
@@ -70,6 +72,7 @@ int main() {
 	t_early->SetStats(1);
 	gStyle->SetOptStat(0);
 	gStyle->SetOptFit();
+	t_early->SetLineWidth(2);
 
 	gStyle->SetStatX(0.49);
 	gStyle->SetStatY(0.89);
@@ -79,11 +82,11 @@ int main() {
 	t_early->Draw();
 
 	if (save){
-	c1->SaveAs((h+"_frac2.png").c_str());
+	c1->SaveAs((h+".png").c_str());
 	}
 	t_early->SetDirectory(output);
 	delete c1;
-      }
+	//  }
     }
   }
   output->Write();

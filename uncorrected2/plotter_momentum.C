@@ -30,12 +30,12 @@ void Plotter::InitHistos() {
 
 
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    for (int fidMain = 0 ; fidMain < 2 ; fidMain++) { 
+    for (int fidMain = 0 ; fidMain < 1 ; fidMain++) { 
       plot2D("St"+std::to_string(stn)+"_Ep_vs_p_"+std::to_string(fidMain),20,0,4000,200,ymin,ymax,"Track Momentum [MeV]", "E/p");
       plot2D("St"+std::to_string(stn)+"_Ep_vs_E_"+std::to_string(fidMain),20,0,4000,200,ymin,ymax,"Cluster Energy [MeV]", "E/p");
-      plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(fidMain),200,-150,150,200,-120,120,"Calo Decay Vertex X [mm]", "Calo Decay Vertex Y [mm]");
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_x_"+std::to_string(fidMain),60,-150,150,200,ymin,ymax,"Calo Decay Vertex X [mm]", "E/p");
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_y_"+std::to_string(fidMain),48,-120,120,200,ymin,ymax,"Calo Decay Vertex Y [mm]", "E/p");
+      //  plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(fidMain),200,-150,150,200,-120,120,"Calo Decay Vertex X [mm]", "Calo Decay Vertex Y [mm]");
+      // plot2D("St"+std::to_string(stn)+"_Ep_vs_x_"+std::to_string(fidMain),60,-150,150,200,ymin,ymax,"Calo Decay Vertex X [mm]", "E/p");
+      // plot2D("St"+std::to_string(stn)+"_Ep_vs_y_"+std::to_string(fidMain),48,-120,120,200,ymin,ymax,"Calo Decay Vertex Y [mm]", "E/p");
     }
   }
   
@@ -93,7 +93,7 @@ void Plotter::Run() {
       
       if(dR>30) continue;
 
-      double t = (am -> decayTime[i]);
+      double t = (am -> cluTime[i]);
       if(t < 30000) continue;
 
       double E = am->cluEne[i];
@@ -108,23 +108,23 @@ void Plotter::Run() {
       // High Flux - Energy - Positrons
       if(region[0]==true && region[1]==true) region[2] = true;
 
-      if(!region[2]) continue;
+      if(!region[0]) continue;
    
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_0",p,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_0",E,Ep);
 
-      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0",trX,trY);
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_0",trX,Ep);
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_0",trY,Ep);
+      // Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0",trX,trY);
+      // Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_0",trX,Ep);
+      // Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_0",trY,Ep);
 
-      if(FiducialMain(trX,trY)){
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_1",p,Ep);
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_1",E,Ep);
+      // if(FiducialMain(trX,trY)){
+      //	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_p_1",p,Ep);
+      //	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_E_1",E,Ep);
 	
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1",trX,trY);
-        Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_1",trX,Ep);
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_1",trY,Ep);
-      }
+      //	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1",trX,trY);
+      //        Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_x_1",trX,Ep);
+      //	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_y_1",trY,Ep);
+      //  }
 
     }
     

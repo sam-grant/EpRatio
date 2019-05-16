@@ -32,9 +32,6 @@ void Plotter::InitHistos() {
   // Start region loop
   for (int i = 0 ;  i < 4 ; i++) {
     //Mess around with the ranges, all tracks needs a bigger range
-    if (i == 0 || i == 2) {
-      ymin = 0.0;
-      ymax = 5;
     }
     else {
       ymin = 0.71;
@@ -42,12 +39,7 @@ void Plotter::InitHistos() {
     }
     // Start fiducial loop
     for (int j = 0 ; j < 3 ; j++ ) {
-      // 0 all tracks, 1 fiducial, 2 non fiducial
-      plot2D("E_vs_p_"+std::to_string(i)+"_"+std::to_string(j),500,0,4000,500,0,4000,"p [MeV]","E [MeV]");
-      plot2D("Ep_vs_E_"+std::to_string(i)+"_"+std::to_string(j),500,0,4000,500,ymin,ymax,"E [MeV]","E/p");
-      plot2D("Ep_vs_t_"+std::to_string(i)+"_"+std::to_string(j),150,0,5*126000,500,ymin,ymax,"t [ns]","E/p");
       plot2D("Ep_vs_t_early_"+std::to_string(i)+"_"+std::to_string(j),50,0,210000,500,ymin,ymax,"t [ns]", "E/p");
-      plot2D("Ep_vs_p_"+std::to_string(i)+"_"+std::to_string(j),500,0,4000,500,ymin,ymax,"p [MeV]","E/p");
       plot2D("xy_calo_"+std::to_string(i)+"_"+std::to_string(j),500,-150,150,500,-120,120,"Calo Position X [mm]","Calo Position Y [mm]");
     }
 

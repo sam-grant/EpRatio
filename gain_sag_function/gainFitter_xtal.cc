@@ -26,20 +26,20 @@ double gain_sag(double *x, double *par) {
 
 int main() {
 
-  bool save = true;
+  bool save = false;//true;
   string in;
   
-  string input_fname;
-  string output_fname;
-  
-    // output_fname = "taus_normalised_xtals_boards2.root";
-  input_fname = "../makePlots2/fits_time_normalised_xtal.root";
-  output_fname = "taus_time_normalised_xtal.root";
+   // output_fname = "taus_normalised_xtals_boards2.root";
+  string input_fname = "../makePlots2/fits_time_normalised_xtal.root";
+  string output_fname = "taus_time_normalised_xtal.root";
+  string output_fname2 = "inFillGainParams_sam.root";
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
   
   TFile *output = new TFile(output_fname.c_str(), "recreate");
+  TFile *output2 = new TFile(output_fname2.c_str(), "recreate");
+  
 
   TH1D *taus13 = new TH1D("tau 13","Calo 13",82,-0.2,16.2);
   TH1D *taus19 = new TH1D("tau 19","Calo 19",82,-0.2,16.2);
@@ -52,7 +52,7 @@ int main() {
       // cut region region
       for (int cut = 0 ; cut < 4 ; cut++ ) {
 
-	if ( cut != 1 ) continue;
+	if ( cut != 1 ) continue; // Select 60%
 
 	for (int xtal = 0 ; xtal < 54 ; xtal++) {
 	  
@@ -122,7 +122,8 @@ int main() {
   taus19->Draw("same");
   c2->BuildLegend(0.79,0.79,0.89,0.89);
   taus13->SetTitle("Recovery times, crystal by crystal;In Fill Time [#mus];N");
-
+  taus13->SetDirectory(output2);
+  taus19->SetDirectory(output2);
   c2->SaveAs("tau.png");
   delete c2;
 
@@ -133,12 +134,16 @@ int main() {
   amps19->Draw("same");
   c3->BuildLegend(0.79,0.79,0.89,0.89);
   amps13->SetTitle("Gain sag amplitudes, crystal by crystal;Amplitude;N");
+  amps13->SetDirectory(output2);
+  amps19->SetDirectory(output2);
  
   c3->SaveAs("amps.png");
   delete c3;
 	  
   output->Write();
   output->Close();
+  output2->Write();
+  output2->Close();
   input->Close();
   
   return 0; 

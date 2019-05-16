@@ -36,13 +36,10 @@ void Plotter::InitHistos() {
   const double ymax = 1.5;
  
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    for (int cut = 0; cut < 4; cut++) {
-      for (int brd = 1; brd < 3; brd++) {
-	  plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(cut)+"_"+std::to_string(brd),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
-	  plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(cut)+"_"+std::to_string(brd),500,-150,150,500,-120,120,"Track position at calo face X [mm]", "Track position at calo face Y [mm]");
-	  plot1D("St"+std::to_string(stn)+"_efrac_"+std::to_string(cut)+"_"+std::to_string(brd),101,-0.005,1.005,"Cluster Energy in Crystal / Cluster Energy","N");  
-
-      }
+   
+    for (int brd = 1; brd < 3; brd++) {
+      plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(brd),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
+	
     }
   }
 
@@ -99,7 +96,7 @@ void Plotter::Run() {
       
       if(dR>30) continue;
 
-      double t = (am -> decayTime[i]);
+      double t = (am -> cluTime[i]);
       if (t < 4200) continue;
 
       double E = am->cluEne[i];
@@ -120,19 +117,15 @@ void Plotter::Run() {
       ////////////////////////////////////////////
       //Energy Fraction Cut
 
-      const double efrac = am->efracmaxclu[i];
-      //  if(efrac < 0.505) continue;
+      //////////
+      // Require 1 hit
+      const double hits = am->nhits[i];
+      if(hits != 1) continue;
+      // cout << hits << endl;
+
+      //      const double efrac = am->efracmaxclu[i];
+      //  if(efrac < 0.605) continue;
       
-    
-      int hiEnergyXtal[12] = {12,13,14,21,22,23,30,31,32,39,40,41};
-      bool centre = false;
-      for (int l = 0 ; l < 12 ; l++ ){
-	if (xtal == hiEnergyXtal[l] ){
-	  centre = true;
-	  break;
-	}
-	
-      }
       ////////////////////////////////////////////
       int shortLifeXtal[22] = {0,9,10,11,14,15,18,19,20,23,24,27,30,31,34,35,36,39,40,43,44,45};
       // cout<<shortLifeXtal[0]<<endl;
@@ -151,20 +144,20 @@ void Plotter::Run() {
 
       /////////////////////////
       //Normalisation
-      std::string h1 = "St"+std::to_string(caloSt)+"_fit_Ep_vs_xtal_0";
+      std::string h1 = "St"+std::to_string(caloSt)+"_fit_Ep_vs_xtal";
        
       TH1D *scale1 = (TH1D*)input1->Get(h1.c_str());
       if(scale1 == 0) continue;
      
       double sf1 = scale1->GetBinContent(xtal+1);
        
-      double Ep1 = Ep * (1 / sf1 );
+      double Ep1 = Ep * (1/sf1);
+
       
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_"+std::to_string(brd),t,Ep1);
-      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_"+std::to_string(brd),trX,trY);
-      Fill1D("St"+std::to_string(caloSt)+"_efrac_0_"+std::to_string(brd),efrac);
+      
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(brd),t,Ep1);
 	
-      if (efrac > .605) {
+      /*    if (efrac > .605) {
 	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_1_"+std::to_string(brd),t,Ep1);
 	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1_"+std::to_string(brd),trX,trY);
 	Fill1D("St"+std::to_string(caloSt)+"_efrac_1_"+std::to_string(brd),efrac);
@@ -182,7 +175,7 @@ void Plotter::Run() {
 	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_3_"+std::to_string(brd),caloX,caloY);
 	Fill1D("St"+std::to_string(caloSt)+"_efrac_3_"+std::to_string(brd),efrac);
       }
-
+      */
      
     }
     

@@ -36,9 +36,9 @@ void Plotter::InitHistos() {
   const double ymax = 1.25;
   
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    for (int fidXtal = 0; fidXtal < 2; fidXtal++) {
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal_"+std::to_string(fidXtal),54,-0.5,53.5,200,ymin,ymax,"Crystal Number","E/p");
-    }
+ 
+      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,200,ymin,ymax,"Crystal Number","E/p");
+ 
   }
 }
 
@@ -91,9 +91,15 @@ void Plotter::Run() {
       
       if(dR>30) continue;
 
-      double t = (am -> decayTime[i]);
+      const double t = (am->cluTime[i]);
       if (t < 60000) continue;
 
+      //  const double efrac = am->efracmaxclu[i];
+      // if(efrac < 0.99) continue;
+
+      const int hits = am->nhits[i];
+      if(hits != 1) continue;
+ 
       double E = am->cluEne[i];
       double Ep = E/p;
 
@@ -111,12 +117,7 @@ void Plotter::Run() {
 
       ////////////////////////////////////////////
     
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0",xtal,Ep);
-       
-      if (FiducialXtal(trX, trY)) { 
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_1",xtal,Ep);
-      }
-
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal",xtal,Ep);
      
     }
     

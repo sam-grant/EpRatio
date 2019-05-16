@@ -2,3 +2,5 @@
 /testPlots/*
 /newPlots/*
 *.root
+*.png
+*.pdf

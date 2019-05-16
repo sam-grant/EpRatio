@@ -1,12 +1,19 @@
 //Simple code to make plots from the Europa OmegaA ntuples
 // gavin.hesketh@ucl.ac.uk
+// modified by: samuel.grant.18@ucl.ac.uk
 
 //to use a particular branch, make sure it is uncommented in Reader.C
 //branch variables are listed in Reader.h
 
+
+//Just going with one region
+
+
+
 #define Plotter_C
 #include "Plotter.h"
 #include "TMath.h"
+#include "TFile.h"
 
 
 int CaloNum(int caloX, int caloY) {
@@ -20,75 +27,26 @@ void Plotter::InitTrees(TString input_file) {
   // cr = new clusterTrackerClusterReader(input_file);  
   // cl = new clusterReader(input_file);  
   //  tr = new trackerReader(input_file);  
-   am = new allmuonsReader(input_file);  
+  am = new allmuonsReader(input_file);  
 }
 
 void Plotter::InitHistos() {
 
-  plot1D("pval", 100,0,1, "Track p-value");
+  const double ymin = 0.5;
+  const double ymax = 1.5;
+ 
+  for (int stn = 13; stn < 20 ; stn = stn + 6) {
+    for (int cut = 0; cut < 4; cut++) {
+      for (int brd = 1; brd < 3; brd++) {
+	  plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(cut)+"_"+std::to_string(brd),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
+	  plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(cut)+"_"+std::to_string(brd),500,-150,150,500,-120,120,"Track position at calo face X [mm]", "Track position at calo face Y [mm]");
+	  plot1D("St"+std::to_string(stn)+"_efrac_"+std::to_string(cut)+"_"+std::to_string(brd),101,-0.005,1.005,"Cluster Energy in Crystal / Cluster Energy","N");  
 
-  plot2D("E_vs_p", 100, 0,4000, 100, 0,4000, "p", "E");
-  plot1D("Eop", 100, -4,4, "log (E/p)");
-  plot1D("dt", 100, -30,30, "#Delta t");
-  plot2D("xy_calo_raw", 100, -1,11, 100, -1,7, "xtal x", "xtal y");
-  plot2D("xy_calo", 100, -150,150 , 100, -100,100, "calo x", "calo y");
-  plot2D("xy_track", 100, -300,150, 100, -150,150, "track x", "track y");
-  plot1D("dR", 100, 0,100, "#Delta R");
-  plot1D("p", 100, 0,4000, "p [MeV]");
-
-  /*
-  //arguments (^ = optional) :
-  // name (also used as title), nbins, xlow, xhigh, xtitle^, ytitle^, line colour^
-  plot1DTr("Eop", 100, -4,4, "log (E/p)");
-  plot2DTr("E_vs_p", 100, 0,4000, 100, 0,4000, "p", "E");
-  plot1DTr("dt", 100, -30,30, "#Delta t");
-  plot1DTr("dR", 100, 0,100, "#Delta R");
-  plot2DTr("Eop_vs_dX", 100,-30,30, 100,-4,3, "#Delta x", "log (E/p)");
-  plot2DTr("Eop_vs_dY", 100,-30,30, 100,-4,3, "#Delta y", "log (E/p)");
-  plot2DTr("xy_calo_raw", 100, -1,11, 100, -1,7, "xtal x", "xtal y");
-  plot2DTr("xy_calo", 100, -150,150 , 100, -100,100, "calo x", "calo y");
-  plot2DTr("xy_track", 100, -300,150, 100, -150,150, "track x", "track y");
-  plot2DTr("xy_calo_cut", 100, -150,150 , 100, -100,100, "calo x", "calo y");
-  plot2DTr("xy_track_cut", 100, -150,150, 100, -100,100, "track x", "track y");
-  plot2DTr("x", 100,-150,150, 100,-150,150, "calo x", "track x");
-  plot2DTr("y", 100,-150,150, 100,-150,150, "calo y", "track y");
-  plot2DTr("mu_xy_track", 100,-150,150, 100,-100,100, "track x", "track y");
-  plot1DTr("mu_time", 100, 0, 100000, "cluster time [ns]");
-  
-  for(int i=0; i<9*6; i++)  {
-    plot2DTr("mu_xy_track_"+std::to_string(i), 100,-150,150, 100,-100,100, "track x [mm]", "track y [mm]");
-    plot1DTr("mu_angle_track_"+std::to_string(i), 100,-0.5, 0.5, "angle [rad]");
-    plot1DTr("mu_x_track_"+std::to_string(i), 300,-150, 150, "track x [mm]");
-    plot1DTr("mu_y_track_"+std::to_string(i), 200,-100, 100, "track y [mm]");
-    plot1DTr("mu_p_track_"+std::to_string(i), 200, 0, 4000, "track momentum [MeV]");
-    plot1DTr("mu_E_"+std::to_string(i), 250, 0, 500, "calo energy [MeV]");
+      }
+    }
   }
-  plot2DTr("mu_xy_calo", 100,-150,150 , 100,-100,100, "calo x", "calo y");
-  for(int iX=0; iX<9; iX++) {
-    for(int iY=0; iY<6; iY++) {
-      plot1DTr("mu_dX_"+std::to_string(iX)+"_"+std::to_string(iY), 100,-35,35);
-      plot1DTr("mu_dY_"+std::to_string(iX)+"_"+std::to_string(iY), 100,-35,35);
-     }
-  }
-  
-  plot2DTr("pos_xy_track", 100,-150,150, 100,-100,100, "track x", "track y");
-  plot2DTr("pos_xy_calo", 100,-150,150 , 100,-100,100, "calo x", "calo y");
-  plot2DTr("pos_px_py", 100, -1000,1000, 100, -1000,1000, "track p_X", "track p_Y");
-  plot2DTr("pos_p_x", 100, -150,150, 100, 0, 4000, "track x", "track p");
-  plot1DTr("pos_dx", 100, -35, 35, "#Delta x [mm]");
-  plot1DTr("pos_dy", 100, -35, 35, "#Delta y [mm]");
-  
-  for(int iX=0; iX<9; iX++) {
-     for(int iY=0; iY<6; iY++) {
-       plot1DTr("pos_dX_"+std::to_string(iX)+"_"+std::to_string(iY), 100,-35,35, "cluster X - track X [mm]");
-       plot1DTr("pos_dY_"+std::to_string(iX)+"_"+std::to_string(iY), 100,-35,35, "cluster Y - track Y [mm]");
-     }
-   }
-  */
 
-};
-
-
+}
 
 //=========================================================
 
@@ -96,29 +54,23 @@ void Plotter::InitHistos() {
 
 void Plotter::Run() {
 
-
+ TFile *input1 = TFile::Open("../makePlots2/fitted_Ep_xtal.root");  
+     
   //loop over the clusterTracker/tracker tree:
-  while( NextallmuonsEvent() ) {
+
+ while( NextallmuonsEvent() ) {
 
     //loop over the matches in this event:
     for(int i=0; i<am->nmatches; i++) {
-
-    //    if(ctt->hitVolume == true) continue;
-      Fill1D("pval", am->trkPvalue[i] );
-      if( am->trkPvalue[i] < 0.05) continue;
-   
-
-
-
+      //  cout<<i<<endl;
+      // require quality cut pass
+      if(am->trkPassTrackQuality[i] == false) continue;
       
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
-      Fill2D("E_vs_p", p, am->cluEne[i]);
       
       const double logEop = log(am->EovP[i]);
       const double dt = am->Tdiff[i];
-      Fill1D("Eop", logEop);
-      Fill1D("dt", dt );
-
+ 
       const int caloSt = am->cluCaloNum[i];
       if(caloSt==13){
 	if (dt<-8 || dt>3 ) continue;
@@ -133,181 +85,101 @@ void Plotter::Run() {
       
       const double caloX_raw = am->cluX[i];
       const double caloY_raw = am->cluY[i];
-      const int xtalNum = CaloNum(caloX_raw, caloY_raw);
-      if(xtalNum <-0.01) continue;
-      
+      const int xtal = CaloNum(caloX_raw, caloY_raw);
+      //Convert to mm from calo number I believe
       const double caloX = 112.5 - 25*(caloX_raw);
       const double caloY = SetCaloY(caloSt, caloY_raw);
-      // -75 + 25*(caloY_raw); //SetCaloY(ctt->clusterCaloNum, caloY_raw);
-     
+      // Tracker decay vertices
       double trX = am->vX[i];
       double trY = am->vY[i];
 
-      //the raw distributions:
-      Fill2D("xy_calo_raw", caloX_raw, caloY_raw);
-      Fill2D("xy_calo", caloX, caloY);
-      Fill2D("xy_track", trX, trY);
-      
       const double dX = caloX - trX;
       const double dY = caloY - trY;
       const double dR = sqrt(dX*dX + dY*dY);
       
-      Fill1D("dR", dR );
       if(dR>30) continue;
+
+      double t = (am -> decayTime[i]);
+      if (t < 4200) continue;
+
+      double E = am->cluEne[i];
+      double Ep = E/p;
+
       //========================== SNIP!
-      
-
-      //classify the tracks:
-      bool lostMu=false;
-      bool positron=false;
-      if( logEop>-3.2 && logEop<-2.4) lostMu=true;
-      else if( /*dX>-0.4 && dX<0.5 && */ logEop>-0.3 && logEop<0.2 ) positron=true;
-      
-      if( lostMu ) {
-	Fill1D("p", p );
-	if( caloSt==13 &&  p < 2200) lostMu=false;
-	if( caloSt==19 &&  p < 2350) lostMu=false;
-      }
-
-
-
-      
-      if( !(lostMu) ) continue;
-
-
-
-
-      
-      
-    }
-    
-  }
-
-
-  return;
-
-
-
-
-
-
   
-  
+      bool region[3] = {false};
+      // Positrons 
+      if(logEop>-0.3 && logEop<0.2 ) region[0]=true;
+      // High Flux - Energy - All Tracsk
+      if (1200 < E && E < 2400) region[1]=true;
+      // High Flux - Energy - Positrons
+      if(region[0]==true && region[1]==true) region[2]=true;   
+      // Select high flux positrons
+      if(!region[2]) continue;
 
-  //loop over the clusterTracker/tracker tree:
-  while( NextClTrTrEvent() ) {
+      ////////////////////////////////////////////
+      //Energy Fraction Cut
 
-    //    if(ctt->hitVolume == true) continue;
-    if(ctt->trackPValue < 0.05) continue;
-
-    const double logEop = log(ctt->clusterEoverP);
-    const double dt = ctt->trackTimeDiff;
-    Fill1DTr("Eop", logEop);
-    Fill2DTr("E_vs_p", ctt->trackMomentum, ctt->clusterE);
-    Fill1DTr("dt", dt );
-    
-    //calo range from 0->8 in x (needs flipping), 0->5 in y
-    //tracker range from -120 -> 100 in x, -50 to 50 in y
-    // x scaling ~9/220=0.041; y scaling ~ 6/100 = 0.06
-
-    const double caloX_raw = ctt->clusterX;
-    const double caloY_raw = ctt->clusterY;
-    const double caloX = 112.5 - 25*(caloX_raw);
-    const double caloY = SetCaloY(ctt->clusterCaloNum, caloY_raw);
-    // -75 + 25*(caloY_raw); //SetCaloY(ctt->clusterCaloNum, caloY_raw);
-
-
-    double trX = ctt->caloVertexPosX;
-    double trY = ctt->caloVertexPosY;
-    //  Extrapolate(trX, trY, 35.6); //1/4 way through calo cell
-    //    Extrapolate(trX, trY, 64.9); //cluster z posn
-    // Extrapolate(trX, trY, 105.6); 
-    //  Extrapolate(trX, trY, 120.6); 
-    //      cout <<ctt->caloVertexPosZ<<endl;
-    // Z is -70.6
-
-    //the raw distributions:
-    Fill2DTr("xy_calo_raw", caloX_raw, caloY_raw);
-    Fill2DTr("xy_calo", caloX, caloY);
-    Fill2DTr("xy_track", trX, trY);
-    Fill2DTr("x", caloX, trX );    
-    Fill2DTr("y", caloY, trY );
-
-    const double dX = caloX - trX;
-    const double dY = caloY - trY;
-    const double dR = sqrt(dX*dX + dY*dY);
-    Fill1DTr("dR", dR );
-
-    //========================== SNIP!
-    
-    if(ctt->trackTimeDiff<-10 || ctt->trackTimeDiff>6) continue;
-    if(dR>30) continue;
-        
-    //========================== SNIP!
-
-    Fill2DTr("Eop_vs_dX", dX, logEop);
-    Fill2DTr("Eop_vs_dY", dY, logEop);
-    Fill2DTr("xy_calo_cut", caloX, caloY);
-    Fill2DTr("xy_track_cut", trX, trY);
-  
-    //classify the tracks:
-    bool lostMu=false;
-    bool positron=false;
-    bool neg = false;
-    bool pos = false;
-    if(logEop>-3.2 && logEop<-2.4) lostMu=true;
-    else if( /*dX>-0.4 && dX<0.5 && */ logEop>-0.3 && logEop<0.2 ) positron=true;
-
-    //========================== SNIP!
-    if( !(lostMu||positron) ) continue;
-    //========================== SNIP!
-
-   
-    if(lostMu) {
-
-      Fill2DTr("mu_xy_calo", caloX, caloY);
-      Fill2DTr("mu_xy_track", trX, trY);
-
-      if(ctt->clusterHits==1) {
-	const int caloNum = CaloNum(caloX_raw, caloY_raw);
-	if(caloNum > -1) {
-	  Fill2DTr("mu_xy_track_"+std::to_string(caloNum), trX, trY);
-	  const double angle = ctt->trackMomentumTheta * cos(ctt->trackMomentumPhi) ;
-	  Fill1DTr("mu_angle_track_"+std::to_string(caloNum), angle);
-	  Fill1DTr("mu_x_track_"+std::to_string(caloNum), trX);
-	  Fill1DTr("mu_y_track_"+std::to_string(caloNum), trY);
-	  Fill1DTr("mu_p_track_"+std::to_string(caloNum),  ctt->trackMomentum );
-	  Fill1DTr("mu_E_"+std::to_string(caloNum), ctt->clusterE);
-
-	  Fill1DTr("mu_time", ctt->clusterTime);
-
+      const double efrac = am->efracmaxclu[i];
+      //  if(efrac < 0.605) continue;
+      
+      ////////////////////////////////////////////
+      int shortLifeXtal[22] = {0,9,10,11,14,15,18,19,20,23,24,27,30,31,34,35,36,39,40,43,44,45};
+      // cout<<shortLifeXtal[0]<<endl;
+      int brd;
+      for (int j = 0 ; j < 22 ; j++ ) {
+	//	cout<<shortLifeXtal[i]<<" "<<xtal<<endl;
+	if (xtal == shortLifeXtal[j]) {
+	  brd = 1;
+	  break;
+	  
 	}
-
+	else {
+	  brd = 2;
+	}
       }
 
+      /////////////////////////
+      //Normalisation
+      std::string h1 = "St"+std::to_string(caloSt)+"_fit_Ep_vs_xtal_0";
+       
+      TH1D *scale1 = (TH1D*)input1->Get(h1.c_str());
+      if(scale1 == 0) continue;
+     
+      double sf1 = scale1->GetBinContent(xtal+1);
+       
+      double Ep1 = Ep * (1 / sf1 );
+      
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_0_"+std::to_string(brd),t,Ep1);
+      Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_"+std::to_string(brd),trX,trY);
+      Fill1D("St"+std::to_string(caloSt)+"_efrac_0_"+std::to_string(brd),efrac);
+	
+      if (efrac > .605) {
+	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_1_"+std::to_string(brd),t,Ep1);
+	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1_"+std::to_string(brd),trX,trY);
+	Fill1D("St"+std::to_string(caloSt)+"_efrac_1_"+std::to_string(brd),efrac);
+      }
 
-      
-      Fill1DTr("mu_dX_"+std::to_string((int)caloX_raw)+"_"+std::to_string((int)caloY_raw), dX);
-      Fill1DTr("mu_dY_"+std::to_string((int)caloX_raw)+"_"+std::to_string((int)caloY_raw), dY);
-      
+      if (efrac > .755) {
+	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_2_"+std::to_string(brd),t,Ep1);
+	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_2_"+std::to_string(brd),caloX,caloY);
+	Fill1D("St"+std::to_string(caloSt)+"_efrac_2_"+std::to_string(brd),efrac);
+      }
+
+      if (efrac > .995) {
+	
+	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_3_"+std::to_string(brd),t,Ep1);
+	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_3_"+std::to_string(brd),caloX,caloY);
+	Fill1D("St"+std::to_string(caloSt)+"_efrac_3_"+std::to_string(brd),efrac);
+      }
+
+     
     }
-    else {  
-      Fill2DTr("pos_xy_calo", caloX, caloY);
-      Fill2DTr("pos_xy_track", trX, trY);
-      Fill1DTr("pos_dx", dX);
-      Fill1DTr("pos_dy", dY);
-      Fill2DTr("pos_p_x", trX, ctt->trackMomentum);
-      //      cout<<"clusterX: "<<caloX_raw<<", converted to mm: "<<caloX<<endl;
-      //      cout<<"clusterY: "<<caloY_raw<<", converted to mm: "<<caloY<<endl;
-
-      Fill1DTr("pos_dX_"+std::to_string((int)caloX_raw)+"_"+std::to_string((int)caloY_raw), dX);
-      Fill1DTr("pos_dY_"+std::to_string((int)caloX_raw)+"_"+std::to_string((int)caloY_raw), dY);
-
-      
-
-
-    }
-
-  }
-  return;
+    
+ }
+  
+ input1 -> Close();
+  
+ return;
+  
 }
