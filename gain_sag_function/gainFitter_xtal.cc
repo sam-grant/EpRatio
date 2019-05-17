@@ -48,11 +48,11 @@ int main() {
   //station loop
   for (int stn = 13 ; stn < 20 ; stn = stn + 6 ) {
     // board loop
-    for (int brd = 1 ; brd < 3 ; brd++ ) {
+    //  for (int brd = 1 ; brd < 3 ; brd++ ) {
       // cut region region
-      for (int cut = 0 ; cut < 4 ; cut++ ) {
+    // for (int cut = 0 ; cut < 4 ; cut++ ) {
 
-	if ( cut != 1 ) continue; // Select 60%
+    //	if ( cut != 1 ) continue; // Select 60%
 
 	for (int xtal = 0 ; xtal < 54 ; xtal++) {
 	  
@@ -62,7 +62,7 @@ int main() {
 	  TF1 *f1 = new TF1("f1", gain_sag, 0, earlyTime, 3);//earlyTime, 3);
 	  f1->SetNpx(10000);
 
-	  string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(cut)+"_"+to_string(brd)+"_"+to_string(xtal);
+	  string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(xtal);
 	  TH1D *t_early = (TH1D*)input->Get(h.c_str());
 	  if(t_early == 0) continue;
  
@@ -77,8 +77,8 @@ int main() {
 	  f1->SetParName(2,"#tau_{r}");
 	  // Perform fit
 	  t_early->Fit(f1,"M");
-	   cout<<f1->GetParameter(1)<<endl;
-           //par(2) : ext no 3
+	  cout<<f1->GetParameter(1)<<endl;
+	  //par(2) : ext no 3
 	   if(stn==13){
 	     taus13->Fill(f1->GetParameter(2));
 	     amps13->Fill(f1->GetParameter(1));
@@ -105,31 +105,35 @@ int main() {
 	  t_early->SetDirectory(output);
 	  
 	  if (save){
-	    c1->SaveAs((h+"_frac2.png").c_str());
+	    c1->SaveAs((h+".png").c_str());
 	    //
 	  }
 	  delete c1;
 	  // delete c2;
-	}
-      }
+	  //	}
+	  // }
     }
   }
 
   TCanvas *c2 = new TCanvas();//"c2","c2",2000,1000);
   taus13->SetLineColor(kOrange+2);
   taus19->SetLineColor(kBlue+2);
+  taus13->SetLineWidth(2);
+  taus19->SetLineWidth(2);
   taus13->Draw();
   taus19->Draw("same");
   c2->BuildLegend(0.79,0.79,0.89,0.89);
   taus13->SetTitle("Recovery times, crystal by crystal;In Fill Time [#mus];N");
   taus13->SetDirectory(output2);
   taus19->SetDirectory(output2);
-  c2->SaveAs("tau.png");
+  c2->SaveAs("tau_sam.png");
   delete c2;
 
   TCanvas *c3 = new TCanvas();//"c3","c3",2000,1000);
   amps13->SetLineColor(kOrange+2);
   amps19->SetLineColor(kBlue+2);
+  amps13->SetLineWidth(2);
+  amps19->SetLineWidth(2);
   amps13->Draw();
   amps19->Draw("same");
   c3->BuildLegend(0.79,0.79,0.89,0.89);
@@ -137,7 +141,7 @@ int main() {
   amps13->SetDirectory(output2);
   amps19->SetDirectory(output2);
  
-  c3->SaveAs("amps.png");
+  c3->SaveAs("amp_sam.png");
   delete c3;
 	  
   output->Write();

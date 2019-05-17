@@ -31,8 +31,8 @@ int main() {
   
    // output_fname = "taus_normalised_xtals_boards2.root";
   string input_fname = "../makePlots2/fits_time_normalised_xtal.root";
-  string output_fname = "taus_time_normalised_xtal.root";
-  string output_fname2 = "inFillGainParams_Sam.root";
+  string output_fname = "taus_time_normalised_xtal2.root";
+  string output_fname2 = "inFillGainParams_Sam2.root";
 
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
@@ -41,19 +41,19 @@ int main() {
   TFile *output2 = new TFile(output_fname2.c_str(), "recreate");
   
 
-  TH1D *taus13 = new TH1D("tau 13","Calo 13",82,-0.2,16.2);
-  TH1D *taus19 = new TH1D("tau 19","Calo 19",82,-0.2,16.2);
-  TH1D *amps13 = new TH1D("amp 13","Calo 13",27,-0.002,0.052);
-  TH1D *amps19 = new TH1D("amp 19","Calo 19",27,-0.002,0.052);
+  TH1D *taus13 = new TH1D("tau 13","Calo 13",64,0,16);
+  TH1D *taus19 = new TH1D("tau 19","Calo 19",64,0,16);
+  TH1D *amps13 = new TH1D("amp 13","Calo 13",50,0,0.05);
+  TH1D *amps19 = new TH1D("amp 19","Calo 19",50,0,0.05);
   //station loop
   for (int stn = 13 ; stn < 20 ; stn = stn + 6 ) {
     // board loop
-    for (int brd = 1 ; brd < 3 ; brd++ ) {
+    //  for (int brd = 1 ; brd < 3 ; brd++ ) {
       // cut region region
-      for (int cut = 0 ; cut < 4 ; cut++ ) {
+    // for (int cut = 0 ; cut < 4 ; cut++ ) {
 
-	if ( cut != 1 ) continue; // Select 60%
-
+    //	if ( cut != 1 ) continue; // Select 60%
+	  cout<<"Stn "<<stn<<endl;
 	for (int xtal = 0 ; xtal < 54 ; xtal++) {
 	  
 	 
@@ -62,7 +62,7 @@ int main() {
 	  TF1 *f1 = new TF1("f1", gain_sag, 0, earlyTime, 3);//earlyTime, 3);
 	  f1->SetNpx(10000);
 
-	  string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(cut)+"_"+to_string(brd)+"_"+to_string(xtal);
+	  string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(xtal);
 	  TH1D *t_early = (TH1D*)input->Get(h.c_str());
 	  if(t_early == 0) continue;
  
@@ -76,8 +76,8 @@ int main() {
 	  f1->SetParName(1,"A");
 	  f1->SetParName(2,"#tau_{r}");
 	  // Perform fit
-	  t_early->Fit(f1,"M");
-	   cout<<f1->GetParameter(1)<<endl;
+	  t_early->Fit(f1,"QM");
+	  //  cout<<f1->GetParameter(1)<<endl;
            //par(2) : ext no 3
 	   if(stn==13){
 	     taus13->Fill(f1->GetParameter(2));
@@ -110,34 +110,40 @@ int main() {
 	  }
 	  delete c1;
 	  // delete c2;
-	}
-      }
+	  //	}
+	  //   }
+
+	  cout<<xtal<<","<<f1->GetParameter(1)<<","<<f1->GetParameter(2)<<endl;
     }
   }
 
   TCanvas *c2 = new TCanvas();//"c2","c2",2000,1000);
   taus13->SetLineColor(kOrange+2);
   taus19->SetLineColor(kBlue+2);
+  taus13->SetLineWidth(2);
+  taus19->SetLineWidth(2);
   taus13->Draw();
   taus19->Draw("same");
   c2->BuildLegend(0.79,0.79,0.89,0.89);
-  taus13->SetTitle("Recovery times, crystal by crystal;In Fill Time [#mus];N");
+  taus13->SetTitle("Recovery times;In Fill Time [#mus];N");
   taus13->SetDirectory(output2);
   taus19->SetDirectory(output2);
-  c2->SaveAs("tau.png");
+  c2->SaveAs("tau_sam.png");
   delete c2;
 
   TCanvas *c3 = new TCanvas();//"c3","c3",2000,1000);
   amps13->SetLineColor(kOrange+2);
   amps19->SetLineColor(kBlue+2);
+  amps13->SetLineWidth(2);
+  amps19->SetLineWidth(2);
   amps13->Draw();
   amps19->Draw("same");
   c3->BuildLegend(0.79,0.79,0.89,0.89);
-  amps13->SetTitle("Gain sag amplitudes, crystal by crystal;Amplitude;N");
+  amps13->SetTitle("Amplitudes;Amplitude;N");
   amps13->SetDirectory(output2);
   amps19->SetDirectory(output2);
  
-  c3->SaveAs("amps.png");
+  c3->SaveAs("amps_sam.png");
   delete c3;
 	  
   output->Write();
