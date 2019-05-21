@@ -1,0 +1,44 @@
+#include <iostream>
+#include "TF1.h"
+#include "TH1D.h"
+#include "TCanvas.h"
+#include "TFile.h"
+#include "TStyle.h"
+#include "TLegend.h"
+
+using namespace std;
+
+int main() {
+  string input_name = "../makePlots2/fits_time_normalised_xtal.root";
+  TFile *input = Open::TFile(input_name.c_str());
+  // string
+
+  string h[4] = {"tau 13","tau 19","amp 13","amp 19"};
+  
+  TH1D *fit;// = (TH1D*)input->Get("tau 13");
+  TH1D //new TH1D("tau 13","Calo 13",54,-0.5,53.5);
+  TH1D *tau19 = new TH1D("tau 19","Calo 19",54,-0.5,53.5);
+  TH1D *amp13 = new TH1D("amp 13","Calo 13",54,-0.5,53.5);
+  TH1D *amp19 = new TH1D("amp 19","Calo 19",54,-0.5,53.5);
+
+
+  double amp_value;
+  double amp_error;
+
+   for (int i = 0 ; i < 54 ; i++){
+     fit = (TH1D*)input->Get();
+     amp_value = 
+     
+
+   if(amp <= 0 || tau <=0) continue;
+   if(amp > 0.1 || tau > 16) continue;
+
+   amp13->SetBinContent(i+1,amp);
+   amp13->SetBinError(i+1,
+   tau13->SetBinContent(i,tau);
+   // amp13->Fill(amp);
+   //tau13->Fill(tau);
+ }
+  
+  return 0;
+}

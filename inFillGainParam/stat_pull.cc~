@@ -1,0 +1,23 @@
+// Get the abs statisical pull betwen laser and E/p
+#include <iostream>
+#include "TF1.h"
+#include "TH1D.h"
+#include "TCanvas.h"
+#include "TFile.h"
+#include "TStyle.h"
+#include "TLegend.h"
+#include "TDirectory.h"
+
+using namespace std;
+
+int main() {
+  
+  string input_sam = "inFillGainParams_sam_xtal2.root";
+  string input_laser = "inFillGainParams_laser_xtal.root";
+
+  
+  
+  // string 
+
+  return 0;
+}
