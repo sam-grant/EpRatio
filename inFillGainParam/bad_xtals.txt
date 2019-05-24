@@ -1,0 +1,10 @@
+Nothing obviously wrong with them except a high pull
+
+pull tau 13:
+all OK
+pull tau 19:
+16
+pull amp 13:
+23, 32
+pull amp 19:
+23, 30, 35

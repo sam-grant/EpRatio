@@ -11,7 +11,7 @@ using namespace std;
 int main() {
   // The "2" means 1 crystal hit per cluster 
   string input_name = "taus_time_normalised_xtal2.root";
-  string output_name = "inFillGainParams_sam_xtal2.root";
+  string output_name = "inFillGainParams_sam_xtal2_Q.root";
   
   TFile *input = TFile::Open(input_name.c_str());
   TFile *output = new TFile(output_name.c_str(),"RECREATE");
@@ -44,7 +44,7 @@ int main() {
       amp_err = fit->GetParError(1);
       tau = fit->GetParameter(2);
       tau_err = fit->GetParError(2);
-       if(amp <= 0 || tau <=0) continue;
+      if(amp <= 0 || tau <=0) continue;
       if(amp > 0.1 || tau > 16) continue;
       
       cout<<xtal<<" | amp: "<<amp<<"+/-"<<amp_err<<"  | tau: "<<tau<<"+/-"<<tau_err<<endl;

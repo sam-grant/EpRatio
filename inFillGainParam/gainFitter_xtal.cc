@@ -9,6 +9,7 @@
 #include "TFile.h"
 #include "TStyle.h"
 #include "TLegend.h"
+#include "TDirectory.h"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ int main() {
   
    // output_fname = "taus_normalised_xtals_boards2.root";
   string input_fname = "../makePlots2/fits_time_normalised_xtal.root";
-  string output_fname = "taus_time_normalised_xtal2.root";
+  string output_fname = "taus_time_normalised_xtal2_testing.root";
   string output_fname2 = "inFillGainParams_Sam2.root";
 
   TFile *input = TFile::Open(input_fname.c_str());
@@ -77,22 +78,12 @@ int main() {
 	  f1->SetParName(2,"#tau_{r}");
 	  // Perform fit
 	  t_early->Fit(f1,"QM");
-	  //  cout<<f1->GetParameter(1)<<endl;
-           //par(2) : ext no 3
-	   if(stn==13){
-	     taus13->Fill(f1->GetParameter(2));
-	     amps13->Fill(f1->GetParameter(1));
-	   }
-	   if(stn==19){
-	     taus19->Fill(f1->GetParameter(2));
-	     amps19->Fill(f1->GetParameter(1));
-	
-	   }
+
 	  TCanvas *c1 = new TCanvas("c1","c1",2000,1000);
-        
 	  t_early->SetStats(1);
 	  gStyle->SetOptStat(0);
 	  gStyle->SetOptFit();
+	  t_early->SetLineWidth(2);
 
 	  gStyle->SetStatX(0.49);
 	  gStyle->SetStatY(0.89);
@@ -100,18 +91,21 @@ int main() {
 	  t_early->GetYaxis()->SetRangeUser(0.99,1.01);
 	  t_early->GetXaxis()->SetRangeUser(0,4.2*50);
 	  t_early->Draw();
-
-	  
 	  t_early->SetDirectory(output);
 	  
 	  if (save){
-	    c1->SaveAs((h+"_frac2.png").c_str());
-	    //
+	    c1->SaveAs((h+"_testing.png").c_str());
 	  }
 	  delete c1;
-	  // delete c2;
-	  //	}
-	  //   }
+	 
+	  if(stn==13){
+	    taus13->Fill(f1->GetParameter(2));
+	    amps13->Fill(f1->GetParameter(1));
+	  }
+	  if(stn==19){
+	    taus19->Fill(f1->GetParameter(2));
+	    amps19->Fill(f1->GetParameter(1));
+	  }
 
 	  cout<<xtal<<","<<f1->GetParameter(1)<<","<<f1->GetParameter(2)<<endl;
     }
