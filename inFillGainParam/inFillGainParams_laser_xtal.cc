@@ -78,8 +78,8 @@ int main() {
     double dtau = atof(laserTau[j+1].c_str());
     cout<<i-55<<" "<<amp<<" "<<damp<<" "<<tau<<" "<<dtau<<endl;
     tau = tau * 1.25;
-    if(amp <= 0 || tau <=0) continue;
-    if(amp > 0.1 || tau > 16) continue;
+    //    if(amp <= 0 || tau <=0) continue;
+    //    if(amp > 0.1 || tau > 16) continue;
 
     amp13->SetBinContent(i,amp);
     amp13->SetBinError(i,damp);
@@ -95,8 +95,8 @@ int main() {
     double dtau = atof(laserTau[j+1].c_str());
     cout<<i-55<<" "<<amp<<" "<<damp<<" "<<tau<<" "<<dtau<<endl;
     tau = tau * 1.25;
-    if(amp <= 0 || tau <=0) continue;
-    if(amp > 0.1 || tau > 16) continue;
+    //   if(amp <= 0 || tau <=0) continue;
+    // if(amp > 0.1 || tau > 16) continue;
  
     amp19->SetBinContent(i-54,amp);
     amp19->SetBinError(i-54,damp);

@@ -50,20 +50,20 @@ int main() {
 
   const double factor = 10000;
   
-  string input_sam_name = "inFillGainParams_sam_xtal2_Q.root";
+  string input_sam_name = "inFillGainParams_sam_xtal_errors_Q.root";
   string input_laser_name = "inFillGainParams_laser_xtal_errors_Q.root";
 
   TFile *input_sam = TFile::Open(input_sam_name.c_str());
   TFile *input_laser = TFile::Open(input_laser_name.c_str());
 
   // Set output
-  TFile *output = new TFile("stat_1D_err.root","RECREATE");
+  TFile *output = new TFile("stat_1D_err_Q.root","RECREATE");
 
    // book historgrams 
-  TH1D *pull_tau13 = new TH1D("1D_tau_13","1D_tau_13",33,-4,2.6);//28
-  TH1D *pull_tau19 = new TH1D("1D_tau_19","1D_tau_19",33,-4,2.6);//28
-  TH1D *pull_amp13 = new TH1D("1D_amp_13","1D_amp_13",33,-4,2.6);//20
-  TH1D *pull_amp19 = new TH1D("1D_amp_19","1D_amp_19",33,-4,2.6);//20
+  TH1D *pull_tau13 = new TH1D("1D_tau_13","1D_tau_13",50,-3.5,3.5);//-4,2.6);//28
+  TH1D *pull_tau19 = new TH1D("1D_tau_19","1D_tau_19",50,-3.5,3.5);//-4,2.6);//28
+  TH1D *pull_amp13 = new TH1D("1D_amp_13","1D_amp_13",50,-3.5,3.5);//-4,2.6);//20
+  TH1D *pull_amp19 = new TH1D("1D_amp_19","1D_amp_19",50,-3.5,3.5);//-4,2.6);//20
 
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
 
@@ -84,7 +84,11 @@ int main() {
     	cout << h[i] << endl;
 	
     for(int xtal = 0; xtal < 54; xtal++) {
-      
+
+      // xtal 15 is bad for station 19, get rid of it
+      if((i == 1 && xtal == 15) || (i == 3 && xtal == 15)) continue;
+
+       
       sam = (TH1D*)input_sam->Get(h[i].c_str());
       if (sam==0) continue;
       laser = (TH1D*)input_laser->Get(h[i].c_str());
@@ -176,10 +180,10 @@ int main() {
   // pull_amp13->Add(pull_amp19);
   pull_amp19->SetName("A");
     
-  draw(pull_tau13,output,"stdev_tau13.png","Calo 13 | Recovery Times Comparison;Standard Deviations, #sigma;Entries");
+  draw(pull_tau13,output,"stdev_tau13.png","Calo 13 | Recovery Times Comparison;Pull [#sigma];Entries");
    draw(pull_tau19,output,"stdev_tau19.png","Calo 19 | Recovery Time Comparison;Standard Deviations;Entries");
-  draw(pull_amp13,output,"stdev_amp13.png","Calo 13 | Amplitudes Comparison;Standard Deviations, #sigma;Entries");
-  draw(pull_amp19,output,"stdev_amp19.png","Calo 19 | Amplitude Comparison;Standard Deviations;Entries");
+  draw(pull_amp13,output,"stdev_amp13.png","Calo 13 | Amplitudes Comparison;Pull [#sigma];Entries");
+  draw(pull_amp19,output,"stdev_amp19.png","Calo 19 | Amplitude Comparison;Pull [#sigma];Entries");
 
 
   ///////////////////////////////////////////////////////////////

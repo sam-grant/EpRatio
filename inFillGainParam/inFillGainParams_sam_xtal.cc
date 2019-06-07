@@ -10,8 +10,8 @@ using namespace std;
 
 int main() {
   // The "2" means 1 crystal hit per cluster 
-  string input_name = "taus_time_normalised_xtal2.root";
-  string output_name = "inFillGainParams_sam_xtal2_Q.root";
+  string input_name = "taus_time_normalised_xtal.root";
+  string output_name = "inFillGainParams_sam_xtal_errors_Q.root";
   
   TFile *input = TFile::Open(input_name.c_str());
   TFile *output = new TFile(output_name.c_str(),"RECREATE");
@@ -28,7 +28,7 @@ int main() {
   double tau_err;
     // Station loop
   for (int stn = 13; stn < 20; stn = stn + 6) {
-    cout <<"Station " << stn << endl;
+    cout <<"********************\nStation " << stn <<"\n********************" << endl;
     for (int xtal = 0; xtal < 54; xtal++ ) {
       
     
@@ -39,15 +39,23 @@ int main() {
 
       TF1 *fit = (TF1*)hist->GetFunction("f1");
      
-      
-      amp = fit->GetParameter(1);
+       // Better quality cuts
+      double N = hist->GetEntries();
+      double chiSq = fit->GetChisquare();
+      if (N < 1000 || chiSq > 100) continue; 
+
+      // Clumsy quality cuts 
+      //  if(amp <= 0 || tau <=0) continue;
+      // if(amp > 0.1 || tau > 16) continue;
+
+        amp = fit->GetParameter(1);
       amp_err = fit->GetParError(1);
       tau = fit->GetParameter(2);
       tau_err = fit->GetParError(2);
-      if(amp <= 0 || tau <=0) continue;
-      if(amp > 0.1 || tau > 16) continue;
-      
-      cout<<xtal<<" | amp: "<<amp<<"+/-"<<amp_err<<"  | tau: "<<tau<<"+/-"<<tau_err<<endl;
+
+
+   
+      cout<<"----------\nxtal = "<<xtal<<"\namp = "<<amp<<"+/-"<<amp_err<<"\ntau =  "<<tau<<"+/-"<<tau_err<<endl;
       
       //Fill histograms
       if (stn == 13) {

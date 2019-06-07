@@ -27,7 +27,7 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
   // hist->SetLineFill(0);
   hist->SetTitle(title.c_str());
   hist->Draw();
-  gPad->SetGridy();
+  gPad->SetGrid();
   c->SaveAs(name.c_str());
   hist->SetDirectory(output);
   delete c;
@@ -37,8 +37,8 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 
 int main() {
   
-  string input_sam_name = "inFillGainParams_sam_xtal2.root";
-  string input_laser_name = "inFillGainParams_laser_xtal_errors.root";
+  string input_sam_name = "inFillGainParams_sam_xtal_errors_Q.root";
+  string input_laser_name = "inFillGainParams_laser_xtal_errors_Q.root";
 
   TFile *input_sam = TFile::Open(input_sam_name.c_str());
   TFile *input_laser = TFile::Open(input_laser_name.c_str());
@@ -51,6 +51,10 @@ int main() {
   TH1D *pull_tau19 = new TH1D("pull_tau_19","pull_tau_19",54,-0.5,53.5);
   TH1D *pull_amp13 = new TH1D("pull_amp_13","pull_amp_13",54,-0.5,53.5);
   TH1D *pull_amp19 = new TH1D("pull_amp_19","pull_amp_19",54,-0.5,53.5);
+  pull_tau13->GetXaxis()->SetNdivisions(27);
+  pull_tau19->GetXaxis()->SetNdivisions(27);
+  pull_amp13->GetXaxis()->SetNdivisions(27);
+  pull_amp19->GetXaxis()->SetNdivisions(27);
 
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
 
@@ -70,6 +74,14 @@ int main() {
     	cout << h[i] << endl;
 	
     for(int xtal = 0; xtal < 54; xtal++) {
+
+      
+      // xtal 15 is bad for station 19, get rid of it
+      if((i == 1 && xtal == 15) || (i == 3 && xtal == 15)) continue;
+      // xtal 51 is bad for station 13, get rid of it
+      if((i == 0 && xtal == 51) || (i == 2 && xtal == 51)) continue;
+      // xtal 35 is bad for station 13, get rid of it
+       if((i == 0 && xtal == 35) || (i == 2 && xtal == 35)) continue;
       
       sam = (TH1D*)input_sam->Get(h[i].c_str());
       if (sam==0) continue;
@@ -144,10 +156,10 @@ int main() {
 
  
     
-  draw(pull_tau13,output,"pull_tau13_err.png","Calo 13 | Recovery Time Comparison;Crystal Number;Standard Deviations");
-  draw(pull_tau19,output,"pull_tau19_err.png","Calo 19 | Recovery Time Comparison;Crystal Number;Standard Deviations");
-  draw(pull_amp13,output,"pull_amp13_err.png","Calo 13 | Amplitude Comparison;Crystal Number;Standard Deviations");
-  draw(pull_amp19,output,"pull_amp19_err.png","Calo 19 | Amplitude Comparison;Crystal Number;Standard Deviations");
+  draw(pull_tau13,output,"pull_tau13_err.png","Calo 13 | Recovery Time Pull;Crystal Number;Pull [#sigma]");
+  draw(pull_tau19,output,"pull_tau19_err.png","Calo 19 | Recovery Time Pull ;Crystal Number;Pull [#sigma]");
+  draw(pull_amp13,output,"pull_amp13_err.png","Calo 13 | Amplitude Pull;Crystal Number;Pull [#sigma]");
+  draw(pull_amp19,output,"pull_amp19_err.png","Calo 19 | Amplitude Pull;Crystal Number;Pull [#sigma]");
 
 
   ///////////////////////////////////////////////////////////////
