@@ -37,10 +37,10 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 
 int main() {
   
-  string input_sam_name = "inFillGainParams_sam_xtal_errors_Q.root";
+  string input_Ep_name = "inFillGainParams_sam_xtal_errors_Q.root";
   string input_laser_name = "inFillGainParams_laser_xtal_errors_Q.root";
 
-  TFile *input_sam = TFile::Open(input_sam_name.c_str());
+  TFile *input_Ep = TFile::Open(input_Ep_name.c_str());
   TFile *input_laser = TFile::Open(input_laser_name.c_str());
 
   // Set output
@@ -58,101 +58,46 @@ int main() {
 
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
 
-  TH1D *sam;
+  TH1D *Ep;
   TH1D *laser;
 
-  double tau13_pull;
-  double amp13_pull;
-  double tau19_pull;
-  double amp19_pull;
-  double sam_content;
-  double sam_error;
+  double pull_value;
+  double Ep_content;
+  double Ep_error;
   double laser_content;
   double laser_error;
   
-  for (int i = 0; i < 4; i++) {
-    	cout << h[i] << endl;
-	
-    for(int xtal = 0; xtal < 54; xtal++) {
 
-      
-      // xtal 15 is bad for station 19, get rid of it
-      if((i == 1 && xtal == 15) || (i == 3 && xtal == 15)) continue;
-      // xtal 51 is bad for station 13, get rid of it
-      if((i == 0 && xtal == 51) || (i == 2 && xtal == 51)) continue;
-      // xtal 35 is bad for station 13, get rid of it
-       if((i == 0 && xtal == 35) || (i == 2 && xtal == 35)) continue;
-      
-      sam = (TH1D*)input_sam->Get(h[i].c_str());
-      if (sam==0) continue;
-      laser = (TH1D*)input_laser->Get(h[i].c_str());
-      if (laser == 0) continue;
 
-      if(i == 0) {
-	
-	sam_content = sam->GetBinContent(xtal+1);
-	sam_error = sam->GetBinError(xtal+1);
-	if (sam_error == 0) continue;
-     
-	laser_content = laser->GetBinContent(xtal+1);
-	laser_error = laser->GetBinError(xtal+1);
-	if(laser_error == 0) continue;
+for (int ihist(0); ihist < 4; ihist++) {                                                                                
+    cout<<"hist : "<<h[ihist]<<endl;                                                                                      
+    for(int xtal(0); xtal < 54; xtal++) {                                                                                 
+                                                                                                                          
+      Ep = (TH1D*)input_Ep->Get(h[ihist].c_str());                                                                        
+      laser = (TH1D*)input_laser->Get(h[ihist].c_str());                                                                  
+                                                                                                                          
+      Ep_content = Ep->GetBinContent(xtal+1);                                                                             
+        Ep_error = Ep->GetBinError(xtal+1);                                                                               
+        if (Ep_error == 0 || Ep_content == 0) continue;                                                                   
+                                                                                                                          
+        laser_content = laser->GetBinContent(xtal+1);                                                                     
+        laser_error = laser->GetBinError(xtal+1);                                                                         
+        if(laser_error == 0 || laser_content == 0) continue;                                                              
+                                                                                                                          
+                                                                                                                          
+        //   if(laser_error > factor*laser_content || Ep_error >  factor*Ep_content) continue;                            
+        pull_value=pull(Ep_content,laser_content,Ep_error,laser_error);                                                   
+                                                                                                                          
+        cout<<"xtal: "<<xtal<<"; pull: "<<pull_value<<endl;                                                               
+        if(ihist==0) pull_tau13->SetBinContent(xtal+1,pull_value);                                                                        
+        if(ihist==1) pull_tau19->SetBinContent(xtal+1,pull_value);                                                                        
+        if(ihist==2) pull_amp13->SetBinContent(xtal+1,pull_value);                                                                        
+        if(ihist==3) pull_amp19->SetBinContent(xtal+1,pull_value);                                                                        
+          //      }                                                                                                       
+    }                                                                                                                     
+  }          
 
-	tau13_pull=pull(sam_content,laser_content,sam_error,laser_error);
-	
-	cout << tau13_pull << endl;
-	
-	pull_tau13->SetBinContent(xtal+1,tau13_pull);
-	
-      }
-      
-      else if(i == 1) {
-	
-	sam_content = sam->GetBinContent(xtal+1);
-	sam_error = sam->GetBinError(xtal+1);
-	if (sam_error == 0) continue;
-	
-	laser_content = laser->GetBinContent(xtal+1);
-	laser_error = laser->GetBinError(xtal+1);
-	if(laser_error == 0) continue;
-	
-	tau19_pull=pull(sam_content,laser_content,sam_error,laser_error);
-	cout << tau19_pull << endl;
-	pull_tau19->SetBinContent(xtal+1,tau19_pull);
-	
-      }
-      else if(i == 2) {
 
-	sam_content = sam->GetBinContent(xtal+1);
-	sam_error = sam->GetBinError(xtal+1);
-	if (sam_error == 0) continue;
-	
-	laser_content = laser->GetBinContent(xtal+1);
-	laser_error = laser->GetBinError(xtal+1);
-	if(laser_error == 0) continue;
-
-	amp13_pull=pull(sam_content,laser_content,sam_error,laser_error);
-	cout << amp13_pull << endl;
-	pull_amp13->SetBinContent(xtal+1,amp13_pull);
-	
-      }
-      else if(i == 3) {
-	
-	sam_content = sam->GetBinContent(xtal+1);
-	sam_error = sam->GetBinError(xtal+1);
-	if (sam_error == 0) continue;
-	
-	laser_content = laser->GetBinContent(xtal+1);
-	laser_error = laser->GetBinError(xtal+1);
-	if(laser_error == 0) continue;
-
-	amp19_pull=pull(sam_content,laser_content,sam_error,laser_error);
-	cout << amp19_pull << endl;
-	pull_amp19->SetBinContent(xtal+1,amp19_pull);
-      }
- 
-    }  
-  }
 
  
     

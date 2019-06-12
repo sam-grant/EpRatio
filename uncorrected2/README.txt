@@ -1,5 +1,10 @@
 Plotting code for gain uncorrected ntuples 
 
+6/10/2019
+
+Just use plotter_time_normalised_xtal.C!
+
+
 Latest quality cuts: 
 /unix/muons/g-2/omegaEU/v9_17_01_new/
 

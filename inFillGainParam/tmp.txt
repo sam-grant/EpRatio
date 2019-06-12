@@ -1,0 +1,661 @@
+Reading ... ../makePlots2/fits_time_normalised_xtal.root
+Stn 13
+ FCN=2.63541e-19 FROM HESSE     STATUS=FAILED         15 CALLS         154 TOTAL
+                     EDM=1.05434e-18    STRATEGY= 1  ERROR MATRIX UNCERTAINTY 100.0 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00000e+00   5.00000e-01   2.44141e-04   2.05345e-09
+   2  A            0.00000e+00   5.40549e+01   6.32456e-01  -9.49730e-12
+   3  #tau_{r}    -6.31456e+03   4.24264e+00   4.24264e-02  -3.04372e-01
+ FCN=20.2753 FROM HESSE     STATUS=OK             16 CALLS         343 TOTAL
+                     EDM=9.20901e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.03905e+00   4.71209e-01   5.34222e-05   5.32975e-03
+   2  A           -4.23180e+00   2.22765e+00   3.95508e-04  -1.02613e-03
+   3  #tau_{r}     4.31122e+01   2.36937e+01   4.11524e-03   8.90332e-05
+ FCN=582.669 FROM HESSE     STATUS=OK             16 CALLS         283 TOTAL
+                     EDM=1.39626e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.01983e+00   5.56388e-03   8.27784e-06  -1.93030e-01
+   2  A           -7.69665e+01   4.67062e+00   9.77618e-03   2.89399e-04
+   3  #tau_{r}     2.26536e+01   7.02340e-01   1.97066e-04  -1.98175e-04
+ FCN=2255.17 FROM MIGRAD    STATUS=CALL LIMIT   1347 CALLS        1348 TOTAL
+                     EDM=0.00127486    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  66.1 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        6.38114e+00   1.65441e+00  -7.14419e-03  -2.01281e-01
+   2  A            8.50556e-01   4.00552e-02  -1.94766e-04   7.92198e+00
+   3  #tau_{r}     3.92200e+03   1.27494e+03  -6.74826e+00  -1.51378e-05
+ FCN=3477.17 FROM HESSE     STATUS=OK             16 CALLS         327 TOTAL
+                     EDM=1.07458e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99788e-01   3.67671e-03   3.81941e-06  -5.71187e-02
+   2  A            7.29825e-02   2.10223e-01   6.66166e-05   3.46320e-03
+   3  #tau_{r}     4.06988e+00   6.78298e+00   2.11198e-03   1.69519e-04
+ FCN=2700.88 FROM MIGRAD    STATUS=CALL LIMIT   1355 CALLS        1356 TOTAL
+                     EDM=0.000340959    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  27.6 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        5.86324e+00   4.20810e+00   7.03036e-02  -4.80202e-01
+   2  A            8.33182e-01   1.21314e-01   2.03329e-03   1.57415e+01
+   3  #tau_{r}     5.44691e+03   5.60513e+03   9.13532e+01   1.83771e-05
+ FCN=1.34928e-22 FROM HESSE     STATUS=FAILED         15 CALLS         154 TOTAL
+                     EDM=6.07801e-22    STRATEGY= 1  ERROR MATRIX UNCERTAINTY 100.0 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00000e+00   7.07107e-01   3.45267e-04   3.28546e-11
+   2  A            0.00000e+00   2.85733e+00   4.89898e-01  -5.83474e-12
+   3  #tau_{r}    -4.88898e+03   4.24264e+00   4.24264e-02  -3.04372e-01
+ FCN=35.1705 FROM MIGRAD    STATUS=CALL LIMIT   1347 CALLS        1348 TOTAL
+                     EDM=0.000367698    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  23.0 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        2.06160e-02   2.34486e-02   3.21783e-05  -2.00619e-01
+   2  A           -1.16516e+03   1.31581e+03   9.85549e-01   2.06276e-05
+   3  #tau_{r}     6.60545e+01   4.97797e+00  -4.57131e-03   2.62765e-03
+ FCN=2975.32 FROM HESSE     STATUS=OK             16 CALLS         286 TOTAL
+                     EDM=1.15034e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.89733e-01   1.77165e-02   8.96871e-06   4.57449e-03
+   2  A           -1.40407e-02   1.64254e-02   1.40262e-05  -1.45380e-01
+   3  #tau_{r}     7.82189e+01   1.81943e+02   3.63368e-02  -5.65221e-06
+ FCN=1935.26 FROM HESSE     STATUS=OK             16 CALLS         374 TOTAL
+                     EDM=7.7711e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99068e-01   5.49189e-04   1.91872e-06  -3.21705e-01
+   2  A            6.87147e-02   9.46598e-02   4.35149e-05  -2.31495e-02
+   3  #tau_{r}     3.40409e+00   2.46649e+00   1.11417e-03  -7.61314e-04
+ FCN=34.445 FROM HESSE     STATUS=OK             16 CALLS         270 TOTAL
+                     EDM=1.01034e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99865e-01   3.47988e-04   2.38386e-07  -3.44130e+00
+   2  A            3.05167e-02   9.63118e-03   1.70878e-06  -3.66092e-02
+   3  #tau_{r}     5.81785e+00   1.42065e+00   2.34812e-04   7.86100e-04
+ FCN=603.369 FROM HESSE     STATUS=OK             16 CALLS         246 TOTAL
+                     EDM=8.35443e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00006e+00   2.84654e-04   5.63834e-07  -2.91744e-01
+   2  A            2.66243e-02   5.96738e-03   5.55887e-06   1.56608e-02
+   3  #tau_{r}     6.31194e+00   1.09565e+00   9.51774e-04   2.07502e-04
+ FCN=572.156 FROM HESSE     STATUS=OK             16 CALLS         332 TOTAL
+                     EDM=2.54976e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00015e+00   2.65131e-04   5.44163e-07   8.24378e-01
+   2  A            3.28020e-02   2.27579e-02   1.31893e-05  -6.48489e-03
+   3  #tau_{r}     3.92417e+00   1.45994e+00   1.64453e-04  -7.37636e-05
+ FCN=34.4911 FROM HESSE     STATUS=OK             16 CALLS         303 TOTAL
+                     EDM=1.04141e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99809e-01   2.60965e-04   2.38373e-07   4.78957e-01
+   2  A            2.32062e-02   1.47123e-02   2.28371e-06  -3.16503e-02
+   3  #tau_{r}     4.49274e+00   1.74491e+00   2.61129e-04  -2.68815e-04
+ FCN=719.36 FROM HESSE     STATUS=OK             16 CALLS         361 TOTAL
+                     EDM=2.13368e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00481e+00   8.37645e-03   1.49105e-06  -6.12484e-01
+   2  A            7.88110e-03   7.43745e-03   2.13840e-06   8.78174e-01
+   3  #tau_{r}     1.10560e+02   2.03991e+02   1.58182e-02   2.38751e-06
+ FCN=5.26096e-20 FROM HESSE     STATUS=FAILED         15 CALLS         154 TOTAL
+                     EDM=2.1094e-19    STRATEGY= 1  ERROR MATRIX UNCERTAINTY 100.0 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00000e+00   4.08248e-01   1.99340e-04  -1.12367e-09
+   2  A            0.00000e+00   1.50223e+01   7.48331e-01   1.58311e-11
+   3  #tau_{r}    -7.47331e+03   4.24264e+00   4.24264e-02  -3.04372e-01
+ FCN=45.9281 FROM HESSE     STATUS=OK             16 CALLS         599 TOTAL
+                     EDM=5.98049e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.21118e+00   6.02256e-01   4.10004e-05  -1.94532e-03
+   2  A           -2.84433e+01   1.32281e+01   1.10768e-03  -2.52033e-05
+   3  #tau_{r}     4.53288e+01   6.38959e+00   1.49746e-03  -8.94155e-05
+ FCN=4067.55 FROM HESSE     STATUS=OK             16 CALLS         282 TOTAL
+                     EDM=2.15229e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00441e+00   3.45956e-03   1.10609e-05   2.65945e-01
+   2  A            1.58867e-02   1.39534e-02   3.43718e-05  -3.38632e-02
+   3  #tau_{r}     1.71595e+01   2.07510e+01   8.20666e-03  -2.64810e-05
+ FCN=815.353 FROM HESSE     STATUS=OK             16 CALLS         296 TOTAL
+                     EDM=1.99234e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99924e-01   3.79341e-04   8.70104e-07  -8.28941e-01
+   2  A            2.63520e-02   1.39799e-02   1.10640e-05  -7.13134e-02
+   3  #tau_{r}     5.24068e+00   1.88382e+00   1.41125e-03  -2.26964e-04
+ FCN=35.5367 FROM HESSE     STATUS=OK             16 CALLS         223 TOTAL
+                     EDM=7.30348e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00023e+00   2.72902e-04   2.38472e-07   3.32554e+00
+   2  A            2.07491e-02   4.99936e-03   1.02069e-06  -6.78404e-01
+   3  #tau_{r}     7.37604e+00   1.59077e+00   2.97976e-04  -2.36967e-03
+ FCN=36.0688 FROM HESSE     STATUS=OK             16 CALLS         238 TOTAL
+                     EDM=2.02865e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99958e-01   2.81346e-04   2.38408e-07   2.94232e+00
+   2  A            1.40874e-02   3.96530e-03   8.61962e-07  -3.00975e-01
+   3  #tau_{r}     8.93675e+00   2.43149e+00   4.63784e-04  -7.11145e-04
+ FCN=34.4911 FROM HESSE     STATUS=OK             16 CALLS         298 TOTAL
+                     EDM=1.31183e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99639e-01   2.25605e-04   2.38332e-07   6.22059e-01
+   2  A            1.45588e-02   8.23907e-03   1.40075e-06  -2.68901e-02
+   3  #tau_{r}     5.39196e+00   2.17346e+00   3.49737e-04  -7.38125e-05
+ FCN=60.4736 FROM HESSE     STATUS=OK             16 CALLS         349 TOTAL
+                     EDM=4.3996e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99674e-01   2.17364e-04   2.38341e-07  -2.46251e-01
+   2  A            2.07262e-02   1.98611e-02   3.26929e-06  -9.79159e-03
+   3  #tau_{r}     3.77039e+00   1.96024e+00   3.12574e-04  -5.84730e-05
+ FCN=3639.65 FROM MIGRAD    STATUS=CALL LIMIT   1346 CALLS        1347 TOTAL
+                     EDM=1.30964e-05    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   5.3 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00072e+00   6.00931e-04  -6.48880e-07  -8.08202e+00
+   2  A            8.12061e+02   6.62720e+03   1.54624e+01  -3.11419e-05
+   3  #tau_{r}     5.30565e-01   3.72122e-01  -8.39739e-04  -5.32769e-01
+ FCN=0.0506488 FROM HESSE     STATUS=OK             16 CALLS         253 TOTAL
+                     EDM=2.30929e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.22790e-01   8.88081e-01   3.49270e-05  -2.56230e-04
+   2  A           -4.55779e+00   7.24018e+00   3.25935e-04   8.60024e-05
+   3  #tau_{r}     9.38781e+00   1.50841e+01   6.33389e-04   1.19724e-05
+ FCN=531.846 FROM HESSE     STATUS=OK             16 CALLS         342 TOTAL
+                     EDM=1.51163e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99546e-01   5.74320e-03   1.65699e-05   9.40248e-02
+   2  A           -1.10623e+02   1.02724e+01   7.50103e-02  -1.60235e-05
+   3  #tau_{r}     9.38076e+00   3.79575e-01   1.01162e-03   1.77950e-03
+ FCN=2664.34 FROM HESSE     STATUS=OK             16 CALLS         318 TOTAL
+                     EDM=3.19161e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00321e+00   1.14777e-02   6.12278e-06   4.97666e-01
+   2  A            7.41345e-03   9.97287e-03   9.73060e-06  -1.95604e-01
+   3  #tau_{r}     9.17645e+01   2.73495e+02   5.20567e-02  -5.33451e-06
+ FCN=316.893 FROM HESSE     STATUS=OK             16 CALLS         251 TOTAL
+                     EDM=1.35461e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99283e-01   3.92465e-04   5.46625e-07   8.42823e-01
+   2  A            2.05023e-02   7.01403e-03   4.76856e-06  -1.88524e-01
+   3  #tau_{r}     6.84853e+00   1.93688e+00   1.22604e-03  -6.93646e-04
+ FCN=939.995 FROM HESSE     STATUS=OK             16 CALLS         299 TOTAL
+                     EDM=9.18488e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00024e+00   2.72256e-04   6.47319e-07  -8.42445e-01
+   2  A            2.19582e-02   8.64708e-03   7.11277e-06  -6.67517e-02
+   3  #tau_{r}     5.78809e+00   1.76567e+00   1.35384e-03  -4.13601e-04
+ FCN=44.9259 FROM HESSE     STATUS=OK             16 CALLS         239 TOTAL
+                     EDM=1.21101e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99967e-01   2.93752e-04   2.38411e-07   1.94978e-03
+   2  A            1.15193e-02   3.77956e-03   8.65718e-07  -1.90225e-02
+   3  #tau_{r}     9.11454e+00   3.15694e+00   6.28665e-04   2.74827e-05
+ FCN=42.3609 FROM HESSE     STATUS=OK             16 CALLS         259 TOTAL
+                     EDM=9.16025e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99531e-01   2.49374e-04   2.38307e-07   4.76251e-01
+   2  A            2.00387e-02   4.07728e-03   8.77660e-07   8.93480e-02
+   3  #tau_{r}     8.31852e+00   1.62313e+00   3.10911e-04  -6.53529e-05
+ FCN=29.4941 FROM HESSE     STATUS=OK             16 CALLS         263 TOTAL
+                     EDM=8.22429e-11    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00001e+00   2.30958e-04   4.92962e-07  -2.79873e-02
+   2  A            1.94088e-02   5.93108e-03   5.10259e-06  -2.21169e-03
+   3  #tau_{r}     6.37202e+00   1.54401e+00   1.22767e-03  -1.20346e-05
+ FCN=45.9418 FROM MIGRAD    STATUS=CALL LIMIT   1352 CALLS        1353 TOTAL
+                     EDM=3.77351e-05    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  13.5 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99240e-01   5.55243e-04  -2.65821e-08   6.30963e+00
+   2  A            2.79203e+02   3.41368e+03   1.44207e+01  -4.10712e-05
+   3  #tau_{r}     5.58515e-01   6.28643e-01  -2.66369e-03  -2.21834e-01
+ FCN=53.2871 FROM HESSE     STATUS=OK             16 CALLS         423 TOTAL
+                     EDM=3.51467e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.25918e-01   4.46469e-01   4.65703e-05  -1.31558e-03
+   2  A           -1.89475e+01   8.60587e+00   1.16783e-03   5.46361e-05
+   3  #tau_{r}     4.34571e+01   8.51941e+00   2.32656e-03   8.66454e-06
+ FCN=2766.68 FROM HESSE     STATUS=OK             16 CALLS         244 TOTAL
+                     EDM=1.39107e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00075e+00   4.48573e-03   1.06165e-05   1.07028e-02
+   2  A            1.62705e-02   9.97090e-03   3.22324e-05   2.74507e-02
+   3  #tau_{r}     2.66228e+01   2.56353e+01   1.19118e-02   1.93169e-05
+ FCN=1745.33 FROM HESSE     STATUS=OK             16 CALLS         243 TOTAL
+                     EDM=4.73059e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.98834e-01   7.46074e-04   2.01134e-06   1.19131e-01
+   2  A            2.02078e-02   9.69556e-03   1.32634e-05  -8.84460e-02
+   3  #tau_{r}     8.82641e+00   4.38054e+00   1.02894e-03  -1.87253e-04
+ FCN=398.921 FROM HESSE     STATUS=OK             16 CALLS         325 TOTAL
+                     EDM=2.41984e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99284e-01   3.49785e-04   5.71744e-07   1.89947e-01
+   2  A            2.89076e-02   2.34712e-02   1.02574e-05  -3.39658e-02
+   3  #tau_{r}     4.24823e+00   2.07505e+00   8.69387e-04  -3.25298e-04
+ FCN=48.2094 FROM HESSE     STATUS=OK             16 CALLS         233 TOTAL
+                     EDM=3.23898e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99952e-01   3.35415e-04   2.38407e-07  -2.40959e+00
+   2  A            1.78010e-02   5.85473e-03   1.41704e-06   5.91640e-03
+   3  #tau_{r}     8.25067e+00   2.37392e+00   5.09695e-04   1.17774e-05
+ FCN=719.778 FROM HESSE     STATUS=OK             16 CALLS         282 TOTAL
+                     EDM=8.76357e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00026e+00   5.31618e-04   5.90249e-07  -7.99613e-01
+   2  A            8.75029e-03   1.25838e-03   1.74070e-06   1.40702e-01
+   3  #tau_{r}     2.56004e+01   7.55276e+00   1.30852e-03   9.20037e-06
+ FCN=646.667 FROM HESSE     STATUS=OK             16 CALLS         241 TOTAL
+                     EDM=2.50398e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99742e-01   3.02492e-04   5.76621e-07   2.28194e+00
+   2  A            2.30725e-02   5.18447e-03   4.67686e-06  -3.05017e-01
+   3  #tau_{r}     7.99603e+00   1.65909e+00   1.35442e-03  -9.17393e-04
+ FCN=467.96 FROM MIGRAD    STATUS=CALL LIMIT   1346 CALLS        1347 TOTAL
+                     EDM=2.46862e-05    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  27.7 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00203e+00   6.10423e-04  -7.07203e-07   7.26615e+00
+   2  A            1.13694e+03   8.53244e+03   2.48796e+01  -2.02158e-05
+   3  #tau_{r}     5.14249e-01   3.29113e-01  -9.73876e-04  -5.18983e-01
+ FCN=2.63541e-19 FROM HESSE     STATUS=FAILED         15 CALLS         154 TOTAL
+                     EDM=1.09113e-18    STRATEGY= 1  ERROR MATRIX UNCERTAINTY 100.0 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00000e+00   5.00000e-01   2.44141e-04   2.05345e-09
+   2  A            0.00000e+00   4.31579e+00   6.32456e-01  -1.35947e-10
+   3  #tau_{r}    -6.31456e+03   4.24264e+00   4.24264e-02  -3.04372e-01
+ FCN=10.9485 FROM HESSE     STATUS=OK             16 CALLS         223 TOTAL
+                     EDM=1.83685e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.28967e+00   2.97152e-01   5.87960e-05   2.50020e-03
+   2  A           -4.07222e+00   2.38379e+00   4.55185e-04  -3.91512e-04
+   3  #tau_{r}     1.69671e+01   1.00236e+01   1.70874e-03   2.72752e-04
+ FCN=524.742 FROM HESSE     STATUS=OK             16 CALLS         311 TOTAL
+                     EDM=1.30482e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.01321e+00   2.46645e-03   4.20270e-06  -1.42221e-01
+   2  A           -7.68527e+01   1.03754e+01   7.18115e-03  -6.36469e-06
+   3  #tau_{r}     7.48368e+00   1.58258e-01   1.05770e-04   2.11888e-03
+ FCN=74.5931 FROM MIGRAD    STATUS=CALL LIMIT   1345 CALLS        1346 TOTAL
+                     EDM=0.00383962    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  31.5 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        6.46592e-02   2.47735e-02  -8.89521e-05  -5.92831e+00
+   2  A           -2.14448e+03   8.44171e+02  -5.93132e+00   2.53537e-04
+   3  #tau_{r}     6.71147e+01   1.80042e+00  -3.07213e-02  -3.07291e-02
+ FCN=2357.27 FROM HESSE     STATUS=OK             16 CALLS         591 TOTAL
+                     EDM=7.67987e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00380e+00   5.87141e-03   2.67062e-05   2.34089e-02
+   2  A           -8.17879e+04   2.93882e+04   2.00917e+01   5.29490e-08
+   3  #tau_{r}     1.01682e+00   5.60213e-02   1.11874e-05  -2.43193e-02
+ FCN=503.003 FROM MIGRAD    STATUS=FAILED        200 CALLS         201 TOTAL
+                     EDM=2147.01    STRATEGY= 1      ERR MATRIX APPROXIMATE
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.03844e+01   5.96293e-01   4.07647e-03  -2.58383e-05
+   2  A           -1.42134e+01   1.60348e+00   1.03972e-02   1.33247e-05
+   3  #tau_{r}     1.12669e+01   3.31516e+00   1.76264e-02  -1.97664e+01
+Stn 19
+ FCN=0.426173 FROM MIGRAD    STATUS=FAILED        260 CALLS         261 TOTAL
+                     EDM=0.0306777    STRATEGY= 1      ERR MATRIX APPROXIMATE
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.18506e+00   7.66269e-01   3.18876e-04   1.04156e-01
+   2  A            4.99725e-01   2.79125e+01   3.97219e-03  -6.61000e-03
+   3  #tau_{r}     6.90943e+00   1.27932e+02   1.97737e-02   6.59446e-04
+ FCN=22.567 FROM HESSE     STATUS=OK             16 CALLS         336 TOTAL
+                     EDM=1.41775e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        7.15064e-01   7.52320e-01   3.60465e-05  -1.65268e-03
+   2  A           -6.26550e+00   7.06603e+00   4.49811e-04  -3.07681e-05
+   3  #tau_{r}     7.19099e+01   4.14245e+01   5.69395e-03   6.13131e-06
+ FCN=1172.66 FROM HESSE     STATUS=OK             16 CALLS         212 TOTAL
+                     EDM=9.10778e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.74832e-01   1.01508e-03   3.38964e-06   1.23421e-01
+   2  A           -1.48816e+02   1.46909e+01   4.24448e-02   1.62047e-06
+   3  #tau_{r}     7.54685e+00   3.12872e-01   1.80563e-04   1.27505e-04
+ FCN=3127.36 FROM HESSE     STATUS=OK             16 CALLS         306 TOTAL
+                     EDM=9.21795e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.75712e-01   3.43293e-02   2.34256e-05  -2.18282e-01
+   2  A           -2.62788e-02   3.26033e-02   4.24433e-05   9.00085e-02
+   3  #tau_{r}     5.58411e+01   1.49549e+02   3.36606e-02  -2.71393e-05
+ FCN=3731.77 FROM MIGRAD    STATUS=CONVERGED      31 CALLS         265 TOTAL
+                     EDM=3.66475e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00212e+00   3.73995e-03   9.76542e-05  -7.66739e-04
+   2  A           -3.11428e-04   2.80354e-02   7.31653e-04   2.50226e-04
+   3  #tau_{r}     1.00091e+01   1.41550e+00   1.90210e-01  -6.04637e-04
+ FCN=3744.54 FROM MIGRAD    STATUS=CALL LIMIT   1348 CALLS        1349 TOTAL
+                     EDM=3.20213e-05    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  22.7 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.02478e+00   4.72347e-03  -9.41614e-06   4.02154e-02
+   2  A            1.02511e+04   7.11639e+04   2.68357e+02  -2.90835e-06
+   3  #tau_{r}     5.02486e-01   2.89720e-01  -1.09555e-03  -6.94204e-01
+ FCN=2.67449e-20 FROM HESSE     STATUS=FAILED         15 CALLS         154 TOTAL
+                     EDM=1.6767e-19    STRATEGY= 1  ERROR MATRIX UNCERTAINTY 100.0 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00000e+00   1.00000e+00   4.88281e-04   3.27077e-10
+   2  A            0.00000e+00   1.87761e+00   4.00000e-01  -1.74199e-10
+   3  #tau_{r}    -3.99000e+03   4.24264e+00   4.24264e-02  -3.04372e-01
+ FCN=32.9504 FROM HESSE     STATUS=OK             16 CALLS         446 TOTAL
+                     EDM=2.25146e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.11531e+00   5.45660e-01   4.13233e-05  -5.49773e-04
+   2  A           -2.00589e+01   9.31327e+00   9.02192e-04  -3.32630e-06
+   3  #tau_{r}     4.01081e+01   7.19726e+00   1.54406e-03  -4.47297e-05
+ FCN=3091.12 FROM HESSE     STATUS=OK             16 CALLS         238 TOTAL
+                     EDM=4.56513e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00219e+00   4.49965e-03   1.21825e-05   2.14968e-01
+   2  A            9.66355e-03   1.06875e-02   3.03433e-05  -4.09647e-02
+   3  #tau_{r}     2.00083e+01   2.44562e+01   1.47082e-02   7.41049e-06
+ FCN=2840.41 FROM HESSE     STATUS=OK             16 CALLS         406 TOTAL
+                     EDM=4.37302e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00021e+00   4.97876e-04   4.78761e-07   7.22412e-01
+   2  A            6.31658e-02   2.48881e-01   3.22910e-05  -2.56820e-02
+   3  #tau_{r}     2.16447e+00   2.89349e+00   7.54919e-05  -2.38215e-03
+ FCN=987.566 FROM HESSE     STATUS=OK             16 CALLS         266 TOTAL
+                     EDM=5.46616e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99626e-01   4.31417e-04   9.79618e-07  -2.79223e-01
+   2  A            7.59244e-03   5.87295e-03   6.95566e-06   1.59043e-02
+   3  #tau_{r}     8.17401e+00   6.03783e+00   1.27029e-03   3.33059e-05
+ FCN=1015.38 FROM HESSE     STATUS=OK             16 CALLS         252 TOTAL
+                     EDM=2.38641e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00013e+00   3.78333e-04   8.07345e-07   2.64936e+00
+   2  A            8.46113e-03   4.99676e-03   5.09457e-06  -1.85819e-01
+   3  #tau_{r}     8.74924e+00   5.21926e+00   4.67588e-03  -2.80861e-04
+ FCN=38.8039 FROM HESSE     STATUS=NOT POSDEF     16 CALLS        1599 TOTAL
+                     EDM=6.25574e-05    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.18616e+00   3.48175e-03   7.85694e-07  -4.13039e+01
+   2  A            1.58283e-01   2.47095e-03   5.62984e-07   5.75074e+01
+   3  #tau_{r}     8.64325e+03   1.97978e+03   3.66389e+00   8.65214e-06
+ FCN=1133.9 FROM HESSE     STATUS=OK             16 CALLS         448 TOTAL
+                     EDM=1.51715e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00025e+00   2.25471e-04   2.38479e-07   9.95918e-01
+   2  A            6.40614e-02   1.52346e-01   9.25738e-06  -3.80551e-02
+   3  #tau_{r}     2.18387e+00   1.78156e+00   1.08156e-04  -3.33821e-03
+ FCN=1806.78 FROM HESSE     STATUS=OK             16 CALLS         292 TOTAL
+                     EDM=3.92865e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00047e+00   6.77512e-04   2.40805e-06   6.59411e-02
+   2  A            7.53766e-03   1.26001e-02   2.37988e-05  -2.93033e-02
+   3  #tau_{r}     5.81445e+00   6.77471e+00   2.44850e-03  -1.62816e-05
+ FCN=5.90911e-05 FROM HESSE     STATUS=OK             16 CALLS        1567 TOTAL
+                     EDM=3.93141e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.98701e-01   3.79268e-01   5.88135e-06  -3.81522e-03
+   2  A           -2.07449e+04   6.67921e+05   1.03971e-01   7.70828e-08
+   3  #tau_{r}     7.12662e-01   2.59880e+00   1.05484e-06  -1.88812e-02
+ FCN=39.3151 FROM HESSE     STATUS=OK             16 CALLS         486 TOTAL
+                     EDM=8.30424e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.23472e+00   6.77657e-01   3.99668e-05  -1.99055e-02
+   2  A           -2.28325e+01   1.17752e+01   8.67132e-04   9.07374e-04
+   3  #tau_{r}     5.11016e+01   8.53552e+00   1.72588e-03  -3.89001e-04
+ FCN=3200.06 FROM MIGRAD    STATUS=CALL LIMIT   1352 CALLS        1353 TOTAL
+                     EDM=1.4537e-05    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   4.5 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00032e+00   1.62018e-03   5.38474e-07   1.11366e+00
+   2  A           -5.13320e+03   5.44424e+04  -4.72533e+01   2.21444e-06
+   3  #tau_{r}     5.24954e-01   4.82195e-01  -4.19218e-04  -2.33320e-01
+ FCN=1034.23 FROM HESSE     STATUS=OK             16 CALLS         309 TOTAL
+                     EDM=4.09766e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00028e+00   3.85260e-04   1.08986e-06   6.45864e-01
+   2  A            2.19136e-02   2.50432e-02   2.01497e-05  -1.28474e-01
+   3  #tau_{r}     3.72289e+00   2.36216e+00   1.87221e-03  -1.48974e-03
+ FCN=49.55 FROM HESSE     STATUS=OK             16 CALLS         275 TOTAL
+                     EDM=1.13357e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99920e-01   2.98330e-04   2.38399e-07  -1.84848e-02
+   2  A            1.14333e-02   5.41090e-03   1.38760e-06  -3.96727e-03
+   3  #tau_{r}     6.62675e+00   2.64773e+00   1.26315e-04   1.08871e-05
+ FCN=43.1216 FROM HESSE     STATUS=OK             16 CALLS         218 TOTAL
+                     EDM=4.49973e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00014e+00   2.46150e-04   2.38452e-07   1.39601e+00
+   2  A            4.55494e-03   2.02848e-03   7.70509e-07  -4.61957e-01
+   3  #tau_{r}     9.39206e+00   3.88968e+00   2.76821e-04  -9.73247e-06
+ FCN=39.8737 FROM HESSE     STATUS=OK             16 CALLS         237 TOTAL
+                     EDM=8.94623e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99934e-01   2.55166e-04   2.38403e-07  -3.92472e-01
+   2  A            7.11381e-03   2.77653e-03   6.99435e-07   9.30324e-02
+   3  #tau_{r}     9.43608e+00   3.94837e+00   8.76889e-04   9.14904e-05
+ FCN=38.8969 FROM HESSE     STATUS=OK             16 CALLS         269 TOTAL
+                     EDM=2.65385e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00029e+00   2.07848e-04   2.38489e-07  -1.23431e+00
+   2  A            1.01924e-02   7.23535e-03   1.54443e-06  -1.91971e-01
+   3  #tau_{r}     4.67581e+00   2.10843e+00   4.36806e-04  -4.25496e-04
+ FCN=573.791 FROM HESSE     STATUS=OK             16 CALLS         213 TOTAL
+                     EDM=8.87087e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00054e+00   6.75579e-04   1.21152e-06   5.96936e-01
+   2  A            9.46614e-03   5.39656e-03   6.75331e-06  -2.19194e-01
+   3  #tau_{r}     9.77018e+00   5.49155e+00   6.11503e-03  -4.11999e-04
+ FCN=0.389738 FROM HESSE     STATUS=OK             16 CALLS         311 TOTAL
+                     EDM=3.20438e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.23347e+00   7.46625e-01   6.61378e-05   1.72318e-04
+   2  A            6.26045e-01   4.96109e+00   2.76070e-04  -9.69632e-05
+   3  #tau_{r}     5.65128e+00   3.47100e+01   1.84699e-03  -1.48394e-05
+ FCN=36.401 FROM HESSE     STATUS=OK             16 CALLS         277 TOTAL
+                     EDM=1.71035e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.16110e-01   4.52146e-01   3.49568e-05  -3.50985e-03
+   2  A           -2.73785e+01   1.27836e+01   1.20544e-03   1.59638e-04
+   3  #tau_{r}     3.93229e+01   6.05940e+00   1.44821e-03  -2.78730e-04
+ FCN=3702.57 FROM HESSE     STATUS=OK             16 CALLS         449 TOTAL
+                     EDM=7.94541e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00577e+00   2.12129e-03   2.38838e-06  -1.29930e-01
+   2  A            2.39614e-01   2.22053e+00   1.36841e-04  -3.05005e-03
+   3  #tau_{r}     2.22027e+00   7.23911e+00   8.95047e-05  -1.08805e-03
+ FCN=1323.24 FROM HESSE     STATUS=OK             16 CALLS         251 TOTAL
+                     EDM=1.13008e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00013e+00   4.72303e-04   1.37127e-06  -2.55029e-01
+   2  A            8.17085e-03   7.37963e-03   1.11438e-05  -1.57160e-02
+   3  #tau_{r}     6.64064e+00   4.89955e+00   1.38301e-03  -1.85506e-05
+ FCN=760.54 FROM HESSE     STATUS=OK             16 CALLS         325 TOTAL
+                     EDM=1.29736e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99730e-01   2.96800e-04   6.64805e-07   6.42636e-01
+   2  A            1.04240e-02   1.28234e-02   9.04513e-06  -1.08910e-02
+   3  #tau_{r}     4.65954e+00   3.80646e+00   5.12761e-04  -5.75490e-05
+ FCN=35.2837 FROM HESSE     STATUS=OK             16 CALLS         258 TOTAL
+                     EDM=3.17449e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00020e+00   2.33609e-04   2.38466e-07  -1.74538e-01
+   2  A            4.20191e-03   3.35852e-03   9.72493e-07  -4.49778e-02
+   3  #tau_{r}     7.14159e+00   4.48657e+00   1.21770e-03   2.60408e-05
+ FCN=44.7011 FROM HESSE     STATUS=OK             16 CALLS         242 TOTAL
+                     EDM=1.55902e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00028e+00   2.53501e-04   2.38485e-07  -1.51102e+00
+   2  A            5.11987e-03   2.82983e-03   6.91214e-07   2.78793e-01
+   3  #tau_{r}     9.96438e+00   6.03169e+00   1.27284e-03   7.92643e-05
+ FCN=36.2993 FROM HESSE     STATUS=OK             16 CALLS         245 TOTAL
+                     EDM=3.08698e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.99857e-01   2.48405e-04   2.38385e-07  -3.49988e-01
+   2  A            1.14303e-02   4.04267e-03   8.11324e-07  -4.59981e-02
+   3  #tau_{r}     7.59664e+00   2.51029e+00   4.50032e-04   3.63917e-05
+ FCN=2176.69 FROM HESSE     STATUS=OK             16 CALLS         231 TOTAL
+                     EDM=1.73534e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00108e+00   6.50851e-04   2.35632e-06   1.06026e+00
+   2  A            1.16667e-02   7.38885e-03   1.59576e-05  -1.30763e-01
+   3  #tau_{r}     8.35923e+00   4.71906e+00   1.88027e-03  -2.21273e-04
+ FCN=1388.35 FROM HESSE     STATUS=OK             16 CALLS         234 TOTAL
+                     EDM=2.01819e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.94252e-01   6.48375e-03   1.71767e-05   1.23070e-02
+   2  A            3.20752e-02   4.63604e-02   9.40273e-05  -1.82195e-03
+   3  #tau_{r}     1.01921e+01   1.13858e+01   4.43464e-03  -5.56278e-06
+ FCN=2838.24 FROM MIGRAD    STATUS=CALL LIMIT   1345 CALLS        1346 TOTAL
+                     EDM=3.5907e-06    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   0.2 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.94163e-01   3.13643e-03  -4.87931e-07   4.31930e+00
+   2  A            3.32431e+02   2.61252e+03   2.73337e+00  -7.84179e-05
+   3  #tau_{r}     5.89551e-01   4.44179e-01  -4.67948e-04  -4.52893e-01
+ FCN=3545.92 FROM MIGRAD    STATUS=CALL LIMIT   1347 CALLS        1348 TOTAL
+                     EDM=0.000124347    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        6.87150e-01   1.39253e-01  -4.50554e-04  -2.25265e+01
+   2  A           -4.55599e-01   2.94202e-01  -9.51007e-04   1.07247e+01
+   3  #tau_{r}     9.96726e+03   5.30294e+03   1.39492e+01   8.47396e-07
+ FCN=2321.58 FROM HESSE     STATUS=OK             16 CALLS         524 TOTAL
+                     EDM=1.86339e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00043e+00   3.82166e-04   3.21592e-07  -7.76425e-01
+   2  A            9.51354e-02   3.96395e-01   2.51817e-05  -1.65799e-02
+   3  #tau_{r}     2.06185e+00   2.79772e+00   3.53654e-05  -2.29962e-03
+ FCN=443.604 FROM MIGRAD    STATUS=CALL LIMIT   1350 CALLS        1351 TOTAL
+                     EDM=9.9992e-05    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  11.6 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00098e+00   2.88855e-04  -8.46744e-07   1.89927e+00
+   2  A            1.92971e+02   1.47403e+03   1.31890e+01  -1.36112e-04
+   3  #tau_{r}     5.65119e-01   4.07739e-01  -3.62409e-03  -4.93514e-01
+ FCN=1100.9 FROM HESSE     STATUS=OK             16 CALLS         233 TOTAL
+                     EDM=6.23109e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00033e+00   3.20501e-04   7.54735e-07   6.42044e-01
+   2  A            7.52185e-03   2.27388e-03   3.81539e-06  -2.11919e-01
+   3  #tau_{r}     1.14491e+01   4.04386e+00   1.17614e-03  -1.81581e-04
+ FCN=523.582 FROM HESSE     STATUS=OK             16 CALLS         283 TOTAL
+                     EDM=7.36587e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00089e+00   1.67316e-03   5.97499e-07   2.41326e+00
+   2  A            3.33260e-03   1.41779e-03   1.04968e-06  -7.89000e-01
+   3  #tau_{r}     6.79084e+01   7.93766e+01   8.28813e-03  -2.68238e-05
+ FCN=2162.61 FROM HESSE     STATUS=OK             16 CALLS         326 TOTAL
+                     EDM=2.65578e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00123e+00   5.83231e-04   2.36320e-06  -2.35857e-01
+   2  A            3.17311e-02   4.00639e-02   5.24135e-05  -1.14069e-02
+   3  #tau_{r}     3.45651e+00   2.17386e+00   5.56258e-04  -1.66921e-04
+ FCN=2.63541e-19 FROM HESSE     STATUS=FAILED         15 CALLS         154 TOTAL
+                     EDM=1.07898e-18    STRATEGY= 1  ERROR MATRIX UNCERTAINTY 100.0 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.00000e+00   5.00000e-01   2.44141e-04   2.05345e-09
+   2  A            0.00000e+00   6.07720e+00   6.32456e-01  -1.11395e-10
+   3  #tau_{r}    -6.31456e+03   4.24264e+00   4.24264e-02  -3.04372e-01
+ FCN=7.41957 FROM MIGRAD    STATUS=CONVERGED     356 CALLS         606 TOTAL
+                     EDM=9.59775e-06    STRATEGY= 1  ERROR MATRIX UNCERTAINTY   2.2 per cent
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        4.66198e-01   2.80225e+00  -1.14385e-02  -7.71763e-02
+   2  A           -2.22645e+00   1.89875e+01  -7.76797e-02   1.14231e-02
+   3  #tau_{r}     1.05331e+03   5.43836e+03   2.11772e+00  -1.72857e-06
+ FCN=235.627 FROM HESSE     STATUS=OK             16 CALLS         209 TOTAL
+                     EDM=6.46165e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.54366e-01   7.74942e-03   1.09299e-05   4.72107e-02
+   2  A           -6.59443e+01   9.25148e+00   1.15600e-02   4.99326e-06
+   3  #tau_{r}     8.62738e+00   5.14701e-01   1.22565e-04   2.53908e-04
+ FCN=809.802 FROM MIGRAD    STATUS=CALL LIMIT   1353 CALLS        1354 TOTAL
+                     EDM=0.00068047    STRATEGY= 1  ERROR MATRIX UNCERTAINTY  15.4 per cent
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        1.17443e+01   5.03703e-01   3.02675e-03   1.45181e-02
+   2  A            4.45552e+00   7.44377e-01  -6.82612e-03   7.55578e-01
+   3  #tau_{r}     6.63010e+00   6.99737e-01   6.74565e-03   7.44930e-01
+ FCN=2349.21 FROM HESSE     STATUS=OK             16 CALLS         329 TOTAL
+                     EDM=3.06597e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.65871e-01   1.48831e-03   7.03521e-06  -1.52621e-01
+   2  A           -1.28346e+03   1.05469e+02   3.44601e-01   1.71091e-08
+   3  #tau_{r}     3.53821e+00   8.23933e-02   5.38154e-05  -1.32021e-03
+ FCN=621.14 FROM HESSE     STATUS=OK             16 CALLS         210 TOTAL
+                     EDM=1.18145e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  G_{0}        9.59633e-01   3.70887e-03   7.09404e-06   3.54316e-01
+   2  A           -1.68007e+02   1.26643e+01   2.61895e-02   7.02949e-05
+   3  #tau_{r}     9.65112e+00   2.59934e-01   4.40494e-04   2.73179e-03

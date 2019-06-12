@@ -1,5 +1,4 @@
-
-
+// Plotting code for gain par per xtal scatter plots 
 // Sam Grant - May 2019
 // samuel.grant.18@ucl.ac.uk
 
@@ -15,7 +14,7 @@
 
 using namespace std;
 
-
+// Function for drawing the plots
 void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
 
   TCanvas *c = new TCanvas();
@@ -37,57 +36,28 @@ void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
 }
 
 int main() {
-  
+  // Get inputs  
   TFile *laser = TFile::Open("inFillGainParams_laser_xtal_errors_Q.root");
-  TFile *sam = TFile::Open("inFillGainParams_sam_xtal_errors_Q.root");
-
+  TFile *Ep = TFile::Open("inFillGainParams_sam_xtal_errors_Q.root");
+  // Define input hist names, output titles, and output file names
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   string title[4] = {"Calo 13 | Recovery Times;Crystal Number;#tau [#mus]","Calo 19 | Recovery Times;Crystal Number;#tau [#mus]","Calo 13 | Amplitudes;Crystal Number;A","Calo 19 | Amplitudes;Crystal Number;A"};
   string fname[4] = {"tau13_scat_hiQ.png","tau19_scat_hiQ.png","amp13_scat_hiQ.png","amp19_scat_hiQ.png"};
-
-  // TH1D *laser_hist;
-  //TH1D *sam_hist;
-   cout << "test" << endl;
-   // laser_hist->SetName("Laser");
-   //sam_hist->SetName("E/p Ratio");
-
-   const double factor = 100000;
-
-   // Loop over hists
-   double value;
-   double error;
-   
-   for (int i = 0; i < 4; i++) {
-     TH1D *laser_hist = (TH1D*)laser->Get(h[i].c_str());
-     TH1D *sam_hist = (TH1D*)sam->Get(h[i].c_str());
-     for(int xtal = 0; xtal < 54; xtal++) {
-       value = laser_hist->GetBinContent(xtal+1);
-       error= laser_hist->GetBinError(xtal+1);
-       /* if(error>factor*value) {
-	  laser_hist->SetBinContent(xtal+1,-1000);
-	  laser_hist->SetBinError(xtal+1,0);
-	  }*/
-     }
-     for(int xtal = 0; xtal < 54; xtal++) {
-
-       if((i==1 && xtal==15) || (i==3 && xtal == 15) ) continue;
-       value = sam_hist->GetBinContent(xtal+1);
-       error= sam_hist->GetBinError(xtal+1);
-       /* if(error>factor*value) {
-	  sam_hist->SetBinContent(xtal+1,-1000);
-	  sam_hist->SetBinError(xtal+1,0);
-	  }*/
-     }
-	
-      
-     laser_hist->SetTitle("Laser");
-     sam_hist->SetTitle("E/p Ratio");
-     draw(laser_hist,sam_hist,title[i],fname[i]);	       
-   }
-
-  
-
-
-   return 0;
-
+  // Book parameters
+  double valEp, errEp, valLaser, errLaser;
+  // Get parameters 
+  for (int ihist(0); ihist < 4; ihist++) {
+    TH1D *laser_hist = (TH1D*)laser->Get(h[ihist].c_str());
+    TH1D *Ep_hist = (TH1D*)Ep->Get(h[ihist].c_str());
+    // for(int xtal = 0; xtal < 54; xtal++) {
+    //   valLaser = laser_hist->GetBinContent(xtal+1);
+    //   errLaser = laser_hist->GetBinError(xtal+1);
+    //   valEp = Ep_hist->GetBinContent(xtal+1);
+    //   errEp = Ep_hist->GetBinContent(xtal+1);
+    // }
+    laser_hist->SetTitle("Laser");
+    Ep_hist->SetTitle("E/p Ratio");
+    draw(laser_hist,Ep_hist,title[ihist],fname[ihist]);	       
+  }
+  return 0;
 }

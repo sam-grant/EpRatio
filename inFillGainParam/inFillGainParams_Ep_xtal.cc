@@ -1,3 +1,8 @@
+// Code to read fit parameters per xtal and put them in a ROOT file
+// May 2019
+// Sam Grant
+// samuel.grant.18@ucl.ac.uk
+
 #include <iostream>
 #include "TF1.h"
 #include "TH1D.h"
@@ -9,54 +14,43 @@
 using namespace std;
 
 int main() {
-  // The "2" means 1 crystal hit per cluster 
-  string input_name = "taus_time_normalised_xtal.root";
+  // Set input and output
+  string input_name = "taus_time_normalised_xtal_Q.root";
   string output_name = "inFillGainParams_sam_xtal_errors_Q.root";
-  
   TFile *input = TFile::Open(input_name.c_str());
   TFile *output = new TFile(output_name.c_str(),"RECREATE");
- 
-  // book historgrams 
+  // Book historgrams 
   TH1D *tau13 = new TH1D("tau_13","tau_13",54,-0.5,53.5);
+  tau13->SetTitle("Calo 13 | Recovery Times;xtal;#tau");
   TH1D *tau19 = new TH1D("tau_19","tau_19",54,-0.5,53.5);
+  tau19->SetTitle("Calo 19 | Recovery Times;xtal;#tau");
   TH1D *amp13 = new TH1D("amp_13","amp_13",54,-0.5,53.5);
+  amp13->SetTitle("Calo 13 | Amplitudes;xtal;A");
   TH1D *amp19 = new TH1D("amp_19","amp_19",54,-0.5,53.5);
-
+  amp19->SetTitle("Calo 19 | Amplitudes;xtal;#tau");
+  // Book parameters
   double amp;
   double amp_err;
   double tau;
   double tau_err;
-    // Station loop
+  // Station loop
   for (int stn = 13; stn < 20; stn = stn + 6) {
     cout <<"********************\nStation " << stn <<"\n********************" << endl;
     for (int xtal = 0; xtal < 54; xtal++ ) {
-      
-    
+      // Get input histogram
       string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(xtal);
       TH1D *hist = (TH1D*)input->Get(h.c_str());
-       if (hist == 0) continue;
- 
-
+      // Chuck empty ones
+      if (hist == 0) continue;
+      // Get fit
       TF1 *fit = (TF1*)hist->GetFunction("f1");
-     
-       // Better quality cuts
-      double N = hist->GetEntries();
-      double chiSq = fit->GetChisquare();
-      if (N < 1000 || chiSq > 100) continue; 
-
-      // Clumsy quality cuts 
-      //  if(amp <= 0 || tau <=0) continue;
-      // if(amp > 0.1 || tau > 16) continue;
-
-        amp = fit->GetParameter(1);
+      // Get parameters
+      amp = fit->GetParameter(1);
       amp_err = fit->GetParError(1);
       tau = fit->GetParameter(2);
       tau_err = fit->GetParError(2);
-
-
-   
+      // Print
       cout<<"----------\nxtal = "<<xtal<<"\namp = "<<amp<<"+/-"<<amp_err<<"\ntau =  "<<tau<<"+/-"<<tau_err<<endl;
-      
       //Fill histograms
       if (stn == 13) {
 	tau13->SetBinContent(xtal+1,tau);
@@ -70,13 +64,9 @@ int main() {
 	amp19->SetBinContent(xtal+1,amp);
 	amp19->SetBinError(xtal+1,amp_err);
       }
-      
-      
     }
   }
- 
   // Draw
-
   amp13->Draw();
   tau13->Draw();
   amp19->Draw();
