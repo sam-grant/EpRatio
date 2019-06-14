@@ -15,9 +15,9 @@
 using namespace std;
 
 // Define pull 
-double pull(double sam_content,double laser_content, double sam_error, double laser_error) {
-  double sigma = sqrt(sam_error*sam_error + laser_error*laser_error);
-  double result = (sam_content - laser_content) / sigma;
+double pull(double Ep_content,double laser_content, double Ep_error, double laser_error) {
+  double sigma = sqrt(Ep_error*Ep_error + laser_error*laser_error);
+  double result = (Ep_content - laser_content) / sigma;
   return result; 
 }
 // Drawing function
@@ -48,12 +48,24 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 
 int main() {
   // Get inputs
-  string input_Ep_name = "inFillGainParams_sam_xtal_errors_Q.root";
-  string input_laser_name = "inFillGainParams_laser_xtal_errors_Q.root";
+  bool quality = true;//false;
+  string input_Ep_name, input_laser_name, output_name, label;
+  if(quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors_Q.root";
+    output_name = "stat_pull_1D_Q.root";
+    label = "_Q.png";
+  }
+  else if(!quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors_noQ.root";
+      output_name = "stat_pull_1D_noQ.root";
+      label = "_noQ.png";
+  }
   TFile *input_Ep = TFile::Open(input_Ep_name.c_str());
   TFile *input_laser = TFile::Open(input_laser_name.c_str());
   // Set output
-  TFile *output = new TFile("stat_1D_err_Q.root","RECREATE");
+  TFile *output = new TFile(output_name.c_str(),"RECREATE");
   // Book historgrams 
   TH1D *pull_tau13 = new TH1D("1D_tau_13","1D_tau_13",50,-3.5,3.5);//-4,2.6);//28
   TH1D *pull_tau19 = new TH1D("1D_tau_19","1D_tau_19",50,-3.5,3.5);//-4,2.6);//28
@@ -162,10 +174,10 @@ int main() {
   // pull_amp13->Add(pull_amp19);
   pull_amp19->SetName("A");
     
-  draw(pull_tau13,output,"stdev_tau13.png","Calo 13 | Recovery Time Pull;Pull [#sigma];Entries");
-   draw(pull_tau19,output,"stdev_tau19.png","Calo 19 | Recovery Time Pull;Standard Deviations;Entries");
-  draw(pull_amp13,output,"stdev_amp13.png","Calo 13 | Amplitude Pull;Pull [#sigma];Entries");
-  draw(pull_amp19,output,"stdev_amp19.png","Calo 19 | Amplitude Pull;Pull [#sigma];Entries");
+  draw(pull_tau13,output,("stdev_tau13"+label).c_str(),"Calo 13 | Recovery Time Pull;Pull [#sigma];Entries");
+  draw(pull_tau19,output,("stdev_tau19"+label).c_str(),"Calo 19 | Recovery Time Pull;Pull [#sigma];Entries");
+   draw(pull_amp13,output,("stdev_amp13"+label).c_str(),"Calo 13 | Amplitude Pull;Pull [#sigma];Entries");
+   draw(pull_amp19,output,("stdev_amp19"+label).c_str(),"Calo 19 | Amplitude Pull;Pull [#sigma];Entries");
 
 
   ///////////////////////////////////////////////////////////////

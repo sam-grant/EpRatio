@@ -15,7 +15,7 @@ using namespace std;
 
 int main() {
   // Set input and output
-  bool quality = false;
+  bool quality = true;//false;
   string input_name, output_name;
   if(quality) {
     input_name = "taus_time_normalised_xtal_Q.root";
@@ -101,6 +101,6 @@ int main() {
   chi19->SetDirectory(output);
   output->Write();
   output->Close();
-  cout<<"Created "<<output_name<<endl;
+     
   return 0;
 }

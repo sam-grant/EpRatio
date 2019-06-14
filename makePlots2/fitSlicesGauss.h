@@ -1,13 +1,12 @@
-/*
-fitSlicesGauss
----------------
-Function to slice a 2D histogram along the x-axis bin by bin, project those slices in y, fit gaussians to each project, and output a 1D histogram of the gaussian means centred on the x bin centres of the original histogram. 
-
-Arguments: input 2D histogram, output histogram title, output histogram filename, output filename for the gaussians, name of output ROOT file, and an option to save output to .png (always gets written to ROOT file). 
-
-- Sam Grant, April 2019 
-- samuel.grant.18@ucl.ac.uk
-*/
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// fitSlicesGauss.h
+// -----------------
+// Function to slice a 2D histogram along the x-axis bin by bin, project those slices in y, fit gaussians to each projection
+// Output a 1D histogram of the gaussian means centred on the x bin centres of the original histogram. 
+// Arguments: input 2D histogram, output histogram title, output histogram filename, output filename for the gaussians, name of output ROOT file, and an option to save output to .png (always gets written to ROOT file). 
+// Sam Grant, April 2019 
+// samuel.grant.18@ucl.ac.uk
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef fitSlicesGauss_h
 #define fitSlicesGauss_h
@@ -106,7 +105,6 @@ void fitSlicesGauss(TH2D *hist, string title, string fname, string g_fname, TFil
   //  projX->GetYaxis()->SetRangeUser(.71,1.25);
   gPad->SetGridy();
   projX->DrawCopy();
-
   if (save) {
     c2->SaveAs((fname+".png").c_str());
   }

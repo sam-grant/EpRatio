@@ -17,7 +17,11 @@ using namespace std;
 void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
 
   TCanvas *c = new TCanvas();
-  hist1->SetTitle(title.c_str());
+  hist1->SetTitle("Laser");
+  hist2->SetTitle("E/p Ratio");
+  hist1->SetStats(0);
+  //  hist1->SetOptStat(11111);
+  // hist1->SetTitle(title.c_str());
   hist1->SetLineColor(kRed);
   hist2->SetLineColor(kGreen-3);
   hist1->SetLineWidth(2);
@@ -39,8 +43,8 @@ int main() {
   string in;
   
    // output_fname = "taus_normalised_xtals_boards2.root";
-  string input_sam = "inFillGainParams_sam_xtal2.root";
-  string input_laser = "inFillGainParams_laser_xtal.root";
+  string input_sam = "inFillGainParams_Ep_xtal_errors_noQ.root";
+  string input_laser = "inFillGainParams_laser_xtal_errors_Q.root";
 
   TFile *sam = TFile::Open(input_sam.c_str());
   TFile *laser = TFile::Open(input_laser.c_str());
@@ -50,15 +54,15 @@ int main() {
 
   
   // Book histograms
-  TH1D *sam_tau13 = new TH1D("tau_13","Calo 13",64,0,16);
-  TH1D *sam_tau19 = new TH1D("tau_19","Calo 19",64,0,16);
-  TH1D *sam_amp13 = new TH1D("amp_13","Calo 13",50,0,0.05);
-  TH1D *sam_amp19 = new TH1D("amp_19","Calo 19",50,0,0.05);
+  TH1D *sam_tau13 = new TH1D("tau_13_ep","Calo 13",64,0,16);
+  TH1D *sam_tau19 = new TH1D("tau_19_ep","Calo 19",64,0,16);
+  TH1D *sam_amp13 = new TH1D("amp_13_ep","Calo 13",50,0,0.05);
+  TH1D *sam_amp19 = new TH1D("amp_19_ep","Calo 19",50,0,0.05);
 
-  TH1D *laser_tau13 = new TH1D("tau_13","Calo 13",64,0,16);
-  TH1D *laser_tau19 = new TH1D("tau_19","Calo 19",64,0,16);
-  TH1D *laser_amp13 = new TH1D("amp_13","Calo 13",50,0,0.05);
-  TH1D *laser_amp19 = new TH1D("amp_19","Calo 19",50,0,0.05);
+  TH1D *laser_tau13 = new TH1D("tau_13_l","Calo 13",64,0,16);
+  TH1D *laser_tau19 = new TH1D("tau_19_l","Calo 19",64,0,16);
+  TH1D *laser_amp13 = new TH1D("amp_13_l","Calo 13",50,0,0.05);
+  TH1D *laser_amp19 = new TH1D("amp_19_l","Calo 19",50,0,0.05);
 
   TH1D *sam1 = (TH1D*)sam->Get("tau_13");
   TH1D *sam2 = (TH1D*)sam->Get("tau_19");

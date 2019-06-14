@@ -22,7 +22,7 @@ using namespace std;
 
 int main() {
  
-  string output_fname = "inFillGainParams_laser_xtal_errors_Q.root";
+  string output_fname = "inFillGainParams_laser_xtal_errors_noQ.root";
   TFile *output = new TFile(output_fname.c_str(), "recreate");
   
   // string line_t;

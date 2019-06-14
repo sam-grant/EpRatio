@@ -41,32 +41,32 @@ double fluc_err(TH1D *laser_hist, TH1D *ep_hist, int iter) {
  
 }
 
-// double shift(TH1D *laser_hist, TH1D *ep_hist, int iter) {
-//   double laser_value = laser_hist->GetBinContent(iter+1);
-//   double ep_value = ep_hist->GetBinContent(iter+1);
-//   // Fractional shift
-//   double diff = (laser_value - ep_value);
-//   if(diff == laser_value) return 1000;
-//   double laser_error = laser_hist->GetBinError(iter+1);
-//   double ep_error = ep_hist->GetBinError(iter+1);
-//   // Calcuate the uncertainty
-//   double diff_err = sqrt(laser_error*laser_error+ep_error*ep_error);
-//   double result = diff / fabs(diff_err);
-//   return result;
-// }
+double shift(TH1D *laser_hist, TH1D *ep_hist, int iter) {
+  double laser_value = laser_hist->GetBinContent(iter+1);
+  double ep_value = ep_hist->GetBinContent(iter+1);
+  // Fractional shift
+  double diff = (laser_value - ep_value);
+  if(diff == laser_value) return 1000;
+  double laser_error = laser_hist->GetBinError(iter+1);
+  double ep_error = ep_hist->GetBinError(iter+1);
+  // Calcuate the uncertainty
+  double diff_err = sqrt(laser_error*laser_error+ep_error*ep_error);
+  double result = diff / fabs(diff_err);
+  return result;
+}
 
 
 void draw(TH1D *hist, string name) {
   TH1D *hist_clone = (TH1D*)hist->Clone("hist_clone");
   // hist_clone->Fill(value);  
   TCanvas *c = new TCanvas();
-  //  gStyle->SetOptStat(112211);
-  hist_clone->SetStats(0);//111111);
+   gStyle->SetOptStat(111111);
+   //  hist_clone->SetStats(0);//111111);
   hist_clone->SetLineWidth(2);
   hist_clone->SetLineColor(kBlack);
   //hist_clone->SetTitle(title.c_str());
   hist_clone->Draw();
-  gPad->SetGrid();
+  gPad->SetGridx();
   //  gPad->SetGrid();
   c->SaveAs(name.c_str());
   //  hist_clone->SetDirectory(output);
@@ -78,19 +78,19 @@ int main() {
   TFile *laser_input = TFile::Open("inFillGainParams_laser_xtal_errors_Q.root");
   TFile *Ep_input = TFile::Open("inFillGainParams_Ep_xtal_errors_Q.root");
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
-  string name[2] = {"fluc_tau.png","fluc_amp.png"};//{"fluc_tau1D_13.png","fluc_tau1D_19.png","fluc_amp1D_13.png","fluc_amp1D_19.png"};
-  //  string title[2] = {"Recovery Time: Fractional Shift per Crystal;Fractional Shift;Entries","Amplitude Fractional Shift per Crystal;Fractional Shift;Entries"};//{"Calo 13 | Recovery Time Fluctuation;Fluctuation;Entries","Calo 19 | Recovery Time Fluctuation;Fluctuation;Entries","Calo 13 | Amplitude Fluctuation;Fluctuation;Entries","Calo 19 | Amplitude Fluctuation;Fluctuation;Entries"};
-  string title[4] = {"Calo 13 | Recovery Time: Fractional Shift per Crystal;Crystal Number;Fractional Shift","Calo 19 | Recovery Time: Fractional Shift per Crystal;Crystal Number;Fractional Shift","Calo 13 | Amplitude: Fractional Shift per Crystal;Crystal Number;Fractional Shift","Calo 19 | Amplitude: Fractional Shift per Crystal;Crystal Number;Fractional Shift"};
+  string name[2] = {"fluc_tau_1D_Q.png","fluc_amp_1D_Q.png"};//{"fluc_tau1D_13.png","fluc_tau1D_19.png","fluc_amp1D_13.png","fluc_amp1D_19.png"};
+  string title[2] = {"Combined | Recovery Time: Fractional Shift per Crystal;Fractional Shift;Entries","Combined | Amplitude: Fractional Shift per Crystal;Fractional Shift;Entries"};//{"Calo 13 | Recovery Time Fluctuation;Fluctuation;Entries","Calo 19 | Recovery Time Fluctuation;Fluctuation;Entries","Calo 13 | Amplitude Fluctuation;Fluctuation;Entries","Calo 19 | Amplitude Fluctuation;Fluctuation;Entries"};
+  //  string title[4] = {"Calo 13 | Recovery Time: Fractional Shift per Crystal;Crystal Number;Fractional Shift","Calo 19 | Recovery Time: Fractional Shift per Crystal;Crystal Number;Fractional Shift","Calo 13 | Amplitude: Fractional Shift per Crystal;Crystal Number;Fractional Shift","Calo 19 | Amplitude: Fractional Shift per Crystal;Crystal Number;Fractional Shift"};
 
   // book historgrams
   // TH1D *fluc = new TH1D("fluc","fluc",54,-0.5,53.5);
 
-  //  TH1D *tau_fluc = new TH1D("tau_fluc","tau_fluc",40,-5,3);//54,-0.5,53.5);
-  //  TH1D *amp_fluc = new TH1D("amp_fluc","amp_fluc",15,-3,3);//54,-0.5,53.5);
-  TH1D *tau13_fluc = new TH1D("tau13_fluc","tau13_fluc",54,-0.5,53.5);
-  TH1D *amp13_fluc = new TH1D("amp13_fluc","amp13_fluc",54,-0.5,53.5);
-  TH1D *tau19_fluc = new TH1D("tau19_fluc","tau19_fluc",54,-0.5,53.5);
-  TH1D *amp19_fluc = new TH1D("amp19_fluc","amp19_fluc",54,-0.5,53.5);
+  TH1D *tau_fluc = new TH1D("tau_fluc","tau_fluc",30,-1.5,1.5);//54,-0.5,53.5);
+    TH1D *amp_fluc = new TH1D("amp_fluc","amp_fluc",30,-1.5,1.5);//54,-0.5,53.5);
+  // TH1D *tau13_fluc = new TH1D("tau13_fluc","tau13_fluc",54,-0.5,53.5);
+  // TH1D *amp13_fluc = new TH1D("amp13_fluc","amp13_fluc",54,-0.5,53.5);
+  // TH1D *tau19_fluc = new TH1D("tau19_fluc","tau19_fluc",54,-0.5,53.5);
+  // TH1D *amp19_fluc = new TH1D("amp19_fluc","amp19_fluc",54,-0.5,53.5);
   TH1D *laser_hist;
   TH1D *Ep_hist;
   double value;
@@ -106,34 +106,36 @@ int main() {
 
       //  value = fluc_val(laser_hist,Ep_hist,xtal);
       // Cut out station 19
-      if(i==0 && xtal == 23) continue;
+      //      if(i == 1 || i == 3) continue;
       error = fluc_err(laser_hist,Ep_hist,xtal);
       value = fluc_val(laser_hist,Ep_hist,xtal);
       if (value == 1) continue; // AKA, the Ep value is zero
-      if( fabs(error) > 2 )continue;
+      if( fabs(error) > 2.0 ) continue;
       cout << xtal << " " << value << "+/-" << error << " " << (error/value) * 100 <<endl;
 
 
-      if(i==0) {
-	tau13_fluc->SetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
-	tau13_fluc->SetBinError(xtal+1,error);//,xtal+1);
-	tau13_fluc->SetTitle(title[i].c_str());
+      if(i==0 || i==1) {
+	if(i==1 && xtal == 23) continue;
+	tau_fluc->Fill(value);//xSetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
+	//tau13_fluc->SetBinError(xtal+1,error);//,xtal+1);
+      	tau_fluc->SetTitle(title[0].c_str());
       }
-      if(i==1){
-	tau19_fluc->SetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
-	tau19_fluc->SetBinError(xtal+1,error);//,xtal+1);
-		tau19_fluc->SetTitle(title[i].c_str());
+      if(i==2 || i == 3){
+	//		if(i==1 && xtal == 23) continue;
+	amp_fluc->Fill(value);//SetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
+	//	tau19_fluc->SetBinError(xtal+1,error);//,xtal+1);
+		amp_fluc->SetTitle(title[1].c_str());
       }
-       if(i==2) {
-	amp13_fluc->SetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
-	amp13_fluc->SetBinError(xtal+1,error);//,xtal+1);
-	amp13_fluc->SetTitle(title[i].c_str());
-      }
-       if(i==3) {
-	amp19_fluc->SetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
-	amp19_fluc->SetBinError(xtal+1,error);//,xtal+1);
-       	amp19_fluc->SetTitle(title[i].c_str());
-      }	
+      //  if(i==2) {
+      // 	amp13_fluc->SetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
+      // 	amp13_fluc->SetBinError(xtal+1,error);//,xtal+1);
+      // 	amp13_fluc->SetTitle(title[i].c_str());
+      // }
+      //  if(i==3) {
+      // 	amp19_fluc->SetBinContent(xtal+1,value);//,xtal+1);//*(1/fabs(error)));
+      // 	amp19_fluc->SetBinError(xtal+1,error);//,xtal+1);
+      //  	amp19_fluc->SetTitle(title[i].c_str());
+      // }	
  
       //      fluc->SetBinWidth(error);
     }
@@ -142,11 +144,11 @@ int main() {
 
 
   
-  draw(tau13_fluc,"tau13_fluc_xtal.png");
-  draw(amp13_fluc,"amp13_fluc_xtal.png");
+  draw(tau_fluc,"tau13_fluc_1D_Q.png");
+  draw(amp_fluc,"amp13_fluc_1D_Q.png");
 
-  draw(tau19_fluc,"tau19_fluc_xtal.png");
-  draw(amp19_fluc,"amp19_fluc_xtal.png");
+  //  draw(tau19_fluc,"tau19_fluc_xtal.png");
+  //draw(amp19_fluc,"amp19_fluc_xtal.png");
   // for(int i(2); i<4; i++) {
 
 //   laser_hist = (TH1D*)laser_input->Get(h[i].c_str());
