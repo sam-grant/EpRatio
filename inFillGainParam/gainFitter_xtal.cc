@@ -32,7 +32,7 @@ int main() {
   // To save plots to png then save = true  
   bool save = false;//true;//false;//true;
   // Apply quality cuts
-  bool quality = false;
+  bool quality = true;
   // Open input ROOT file
   string input_fname = "../makePlots2/fits_time_normalised_xtal.root";
   TFile *input = TFile::Open(input_fname.c_str());
@@ -103,13 +103,14 @@ int main() {
 
       /////////////////////////////////////////////////////
       //QUALITY CUTS
+      /////////////////////////////////////////////////////
       if (quality) {
 	// Require high stats
 	if (N < 100000) continue;
-	// Allow +/- 25% from unity
+	// Require a reasonable reduced chi square
 	if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
 	// Require low error
-	//	if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
+	if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
 	// Cut unphysical params as last resort
 	if( tau > 25 || A > 0.1) continue;
       }
@@ -137,7 +138,7 @@ int main() {
     }
   }
   // Print out the number of xtals that pass quality cuts
-  cout << "\nSurviving xtals: " <<counter << endl;
+  cout << "\nSurviving xtals: " << counter << endl;
   // Delete the canvas
   delete c1;
   // Write and close input/output

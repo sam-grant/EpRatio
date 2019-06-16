@@ -51,24 +51,7 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 
 int main() {
   // Get inputs
-  bool full = false;
-  string all;
-  if(full) all = "_full_";
-  else if(!full) all = "_";
-  bool quality = true;//false;
-  string input_Ep_name, input_laser_name, output_name, label;
-  if(quality) {
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
-    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "stat_pull_1D_Q.root";
-    label = all+"Q.png";
-  }
-  else if(!quality) {
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
-    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "stat_pull_1D_noQ.root";
-    label = all+"noQ.png";
-  }
+
   TFile *input_Ep = TFile::Open(input_Ep_name.c_str());
   TFile *input_laser = TFile::Open(input_laser_name.c_str());
   // Set output
@@ -125,7 +108,7 @@ int main() {
   //  pull_amp19->SetName("A")
   pull_tau13->Add(pull_amp13);
     
-  draw(pull_tau13,output,("pull_1D"+label).c_str(),"Calos 13 & 19 | Statistical Pull (All Parameters);Pull [#sigma];Entries");
+  draw(pull_tau13,output,("pull_1D"+all+label).c_str(),"Calos 13 & 19 | Statistical Pull (All Parameters);Pull [#sigma];Entries");
   //  draw(pull_tau13,output,("stdev_tau13"+label).c_str(),"Calo 13 | Recovery Time Pull;Pull [#sigma];Entries");
   //draw(pull_tau19,output,("stdev_tau19"+label).c_str(),"Calo 19 | Recovery Time Pull;Pull [#sigma];Entries");
   //   draw(pull_amp13,output,("pull_amp_1D"+label).c_str(),"Calos 13 & 19 | Amplitude Pull;Pull [#sigma];Entries");

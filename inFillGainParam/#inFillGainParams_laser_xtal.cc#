@@ -22,13 +22,13 @@ using namespace std;
 
 int main() {
  
-  string output_fname = "inFillGainParams_laser_xtal_errors_Q.root";
+  string output_fname = "inFillGainParams_laser_xtal_errors_full_Q.root";
   TFile *output = new TFile(output_fname.c_str(), "recreate");
   
   // string line_t;
   // string line_a;
-  ifstream laserFileTau("laser_tau_errors.csv");
-  ifstream laserFileA("laser_A_errors.csv");
+  ifstream laserFileTau("laser_tau_errors_full.csv");
+  ifstream laserFileA("laser_A_errors_full.csv");
 
   
   if (!laserFileTau.is_open() || !laserFileA.is_open()){
@@ -77,8 +77,9 @@ int main() {
     double damp = atof(laserA[j+1].c_str());
     double dtau = atof(laserTau[j+1].c_str());
     cout<<i-55<<" "<<amp<<" "<<damp<<" "<<tau<<" "<<dtau<<endl;
-    // Convert to clock ticks
     tau = tau * 1.25;
+    //    if(amp <= 0 || tau <=0) continue;
+    //    if(amp > 0.1 || tau > 16) continue;
 
     amp13->SetBinContent(i,amp);
     amp13->SetBinError(i,damp);
@@ -93,8 +94,9 @@ int main() {
     double damp = atof(laserA[j+1].c_str());
     double dtau = atof(laserTau[j+1].c_str());
     cout<<i-55<<" "<<amp<<" "<<damp<<" "<<tau<<" "<<dtau<<endl;
-    // Convert to clock ticks
     tau = tau * 1.25;
+    //   if(amp <= 0 || tau <=0) continue;
+    // if(amp > 0.1 || tau > 16) continue;
  
     amp19->SetBinContent(i-54,amp);
     amp19->SetBinError(i-54,damp);

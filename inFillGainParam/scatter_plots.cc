@@ -36,27 +36,32 @@ void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
 }
 
 int main() {
+
+  bool full = true;
+  string all;
+  if(full) all = "_full_";
+  else if(!full) all = "_";
   bool quality = true;//false;
   // Get inputs
   string laser_input;
   string Ep_input;
   string label;
   if(quality) {
-    laser_input = "inFillGainParams_laser_xtal_errors_Q.root";
+    laser_input = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
     Ep_input = "inFillGainParams_Ep_xtal_errors_Q.root";
-    label = "_Q.png";
+    label = "Q.png";
   }
   else if(!quality) {
-    laser_input = "inFillGainParams_laser_xtal_errors_noQ.root";
+    laser_input = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
     Ep_input = "inFillGainParams_Ep_xtal_errors_noQ.root";
-    label = "_noQ.png";
+    label = "noQ.png";
   }    
   TFile *laser = TFile::Open(laser_input.c_str());
   TFile *Ep = TFile::Open(Ep_input.c_str());
   // Define input hist names, output titles, and output file names
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   string title[4] = {"Calo 13 | Recovery Times;Crystal Number;#tau [#mus]","Calo 19 | Recovery Times;Crystal Number;#tau [#mus]","Calo 13 | Amplitudes;Crystal Number;A","Calo 19 | Amplitudes;Crystal Number;A"};
-  string fname[4] = {"tau13_scat"+label,"tau19_scat"+label,"amp13_scat"+label,"amp19_scat"+label};
+  string fname[4] = {"tau13_scat"+all+label,"tau19_scat"+all+label,"amp13_scat"+all+label,"amp19_scat"+all+label};
   // Book parameters
   double valEp, errEp, valLaser, errLaser;
   // Get parameters 

@@ -15,7 +15,7 @@ using namespace std;
 
 int main() {
   // Set input and output
-  bool quality = false;
+  bool quality = true;
   string input_name, output_name;
   if(quality) {
     input_name = "taus_time_normalised_xtal_Q.root";

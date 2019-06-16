@@ -38,20 +38,24 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 int main() {
 
 
-  // Get inputs                                                                                                                                     
-  bool quality = true;                                                                                                                             
+  // Get input
+  bool full = false;
+  string all;
+  if(full) all = "_full_";
+  else if(!full) all = "_";
+  bool quality = true;                                                                                               
   string input_Ep_name, input_laser_name, output_name, label;                                                                                       
-  if(quality) {                                                                                                                                     
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";                                                                                      
-    input_laser_name = "inFillGainParams_laser_xtal_errors_Q.root";                                                                                 
-    output_name = "stat_pull_1D_Q.root";                                                                                                            
-    label = "_Q.png";                                                                                                                               
+  if(quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+    output_name = "stat_pull_1D"+all+"Q.root";
+    label = all+"Q.png";
   }                                                                                                                                                 
-  else if(!quality) {                                                                                                                               
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";                                                                                    
-    input_laser_name = "inFillGainParams_laser_xtal_errors_noQ.root";                                                                               
-    output_name = "stat_pull_1D_noQ.root";                                                                                                        
-    label = "_noQ.png";                                                                                                                           
+  else if(!quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+    output_name = "stat_pull_1D"+all+"noQ.root";
+    label = all+"noQ.png";
   }  
 
   TFile *input_Ep = TFile::Open(input_Ep_name.c_str());
@@ -80,13 +84,13 @@ int main() {
     // Start xtal loop
     for(int xtal(0); xtal < 54; xtal++) {                                                                                 
       // Get histograms
-      Ep = (TH1D*)input_Ep->Get(h[ihist].c_str());                                                                        
+      Ep = (TH1D*)input_Ep->Get(h[ihist].c_str());
       laser = (TH1D*)input_laser->Get(h[ihist].c_str());                                                                  
-      // Get values and errors                                                                                                                    
-      Ep_content = Ep->GetBinContent(xtal+1);                                                                             
-      Ep_error = Ep->GetBinError(xtal+1);                                                                               
-      if (Ep_content == 0) continue;                                                                                            
-      laser_content = laser->GetBinContent(xtal+1);                                                                     
+      // Get values and errors
+      Ep_content = Ep->GetBinContent(xtal+1);
+      Ep_error = Ep->GetBinError(xtal+1);
+      if (Ep_content == 0) continue;
+      laser_content = laser->GetBinContent(xtal+1);
       laser_error = laser->GetBinError(xtal+1);                                                                         
       if(laser_content == 0) continue;                                                              
       // Calculate pull

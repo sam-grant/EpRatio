@@ -37,8 +37,7 @@ double fluc_err(TH1D *laser_hist, TH1D *ep_hist, int iter) {
   double term1 = (sqrt(laser_error*laser_error+ep_error*ep_error))/(laser_value-ep_value); // Checked
   double term2 = (laser_error/laser_value); // Checked
   double result_error = result * sqrt(term1*term1+term2*term2); // Checked
-  return result_error;
- 
+  return result_error; 
 }
 
 // double shift(TH1D *laser_hist, TH1D *ep_hist, int iter) {
@@ -56,18 +55,23 @@ double fluc_err(TH1D *laser_hist, TH1D *ep_hist, int iter) {
 // }
 
 
-void drawNfit(TH1D *hist, string name) {
+void drawNfit(TH1D *hist, string name, string title) {
   TH1D *hist_clone = (TH1D*)hist->Clone("hist_clone");
-   // Define the gaussian function                                                                                                                                                                        
+  // Define the gaussian function                                                                                                                                                                        
   TF1 *gFunc = new TF1("gFunc", "gaus");
-    // "Q" : supress printing "M" use minuit to improve fit result, "R" fit over range                                                                                                                      
-  hist_clone->Fit(gFunc);//,"",fitMin,fitMax);
-  TCanvas *c = new TCanvas();
-  //  hist_clone->SetStats(0);
+  gFunc->SetLineWidth(2);
+  hist_clone->Fit(gFunc);
 
-  hist_clone->SetStats(0);
-  gStyle->SetOptStat(110010);
-  //  gStyle->SetOptFit(11111);
+  TCanvas *c = new TCanvas();
+  gStyle->SetOptFit(11);
+  // Set x-position (fraction of pad size)
+  gStyle->SetStatW(0.15);                
+  // Set width of stat-box (fraction of pad size)
+  //gStyle->SetStatH(0.2); 
+  //gStyle->SetStatX(0.40);
+  // gStyle->SetStatY(0.89);
+  hist_clone->SetName("Combined");
+  hist_clone->SetTitle(title.c_str());
   hist_clone->SetLineWidth(2);
   hist_clone->SetLineColor(kBlack);
   hist_clone->Draw();
@@ -77,15 +81,36 @@ void drawNfit(TH1D *hist, string name) {
 }
 
 int main() {
-
-  TFile *laser_input = TFile::Open("inFillGainParams_laser_xtal_errors_Q.root");
-  TFile *Ep_input = TFile::Open("inFillGainParams_Ep_xtal_errors_Q.root");
+  // Get input                                                                                                                                               
+  bool full = false;//true;
+  string all;
+  if(full) all = "_full_";
+  else if(!full) all = "_";
+  bool quality = true;
+  string input_Ep_name, input_laser_name, output_name, label;
+  if(quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+    output_name = "shift_1D"+all+"Q.png";//root";
+    label = all+"Q.png";
+  }
+  else if(!quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+    output_name = "shift_1D"+all+"noQ.png";//root";
+    label = all+"noQ.png";
+  }
+  
+  TFile *laser_input = TFile::Open(input_laser_name.c_str());
+  TFile *Ep_input = TFile::Open(input_Ep_name.c_str());
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
-  string name[2] = {"fluc_tau_1D_Q.png","fluc_amp_1D_Q.png"};//{"fluc_tau1D_13.png","fluc_tau1D_19.png","fluc_amp1D_13.png","fluc_amp1D_19.png"};
-  string title[2] = {"Calos 13 & 19 | Recovery Time: Fractional Shift;Fractional Shift;Entries","Calos 13 & 19 | Amplitude: Fractional Shift;Fractional Shift;Entries"};
+  //  string name[2] = {"fluc_tau_1D_Q.png","fluc_amp_1D_Q.png"};//{"fluc_tau1D_13.png","fluc_tau1D_19.png","fluc_amp1D_13.png","fluc_amp1D_19.png"};
+  //  string title[2] = {"Calos 13 & 19 | Recovery Time: Fractional Shift;Fractional Shift;Entries","Calos 13 & 19 | Amplitude: Fractional Shift;Fractional Shift;Entries"};
   // book historgrams
-  TH1D *tau_fluc = new TH1D("tau_fluc","tau_fluc",12,-1.5,1.5);//54,-0.5,53.5);
-  TH1D *amp_fluc = new TH1D("amp_fluc","amp_fluc",12,-1.5,1.5);//54,-0.5,53.5);
+  
+  int Nbins = 12;
+  TH1D *tau_fluc = new TH1D("tau_fluc","tau_fluc",Nbins,-3,3);//54,-0.5,53.5);
+  TH1D *amp_fluc = new TH1D("amp_fluc","amp_fluc",Nbins,-3,3);//54,-0.5,53.5);
 
   TH1D *laser_hist;
   TH1D *Ep_hist;
@@ -98,26 +123,17 @@ int main() {
     Ep_hist = (TH1D*)Ep_input->Get(h[i].c_str());
     // Start crystal loop
     for (int xtal(0); xtal<54; xtal++) {
-      // Get values
+      // Get values and errors
       value = fluc_val(laser_hist,Ep_hist,xtal);
+      error = fluc_err(laser_hist,Ep_hist,xtal);
       if (value == 1) continue; // AKA, the Ep value is zero
-      if( fabs(error) > 2.0 ) continue;
-      if(i==0 && xtal==23) continue;
-      cout << xtal << " " << value << "+/-" << error << " " << (error/value) * 100 <<endl;
-      if(i<2) {
-	if(i==1 && xtal == 23) continue;
+	cout << i << " "  <<xtal << " " << value << "+/-" << error << " " << (error/value) * 100 <<endl;
 	tau_fluc->Fill(value);
-      	tau_fluc->SetTitle(title[0].c_str());
-      }
-      else if(i>1) {
-	amp_fluc->Fill(value);
-	amp_fluc->SetTitle(title[1].c_str());
-      }
     }
   }	  
 
-  drawNfit(tau_fluc,"tau13_fluc_1D_Q.png");
-  drawNfit(amp_fluc,"amp13_fluc_1D_Q.png");
+  drawNfit(tau_fluc,output_name,"Calos 13 & 19 | Combined Fractional Shift (All Parameters);Fractional Shift;Entries");
+  //  drawNfit(amp_fluc,("amp_fluc_1D"+label).c_str());
 
   laser_input->Close();
   Ep_input->Close();

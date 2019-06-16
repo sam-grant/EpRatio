@@ -74,9 +74,29 @@ void draw(TH1D *hist, string name) {
 }
 
 int main() {
+  // Get input                                                                                                                                                                                              
+  bool full = true;
+  string all;
+  if(full) all = "_full_";
+  else if(!full) all = "_";
+  bool quality = true;
+  string input_Ep_name, input_laser_name, output_name, label;
+  if(quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+    output_name = "stat_pull_1D"+all+"Q.root";
+    label = all+"Q.png";
+  }
+  else if(!quality) {
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
+    input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+    output_name = "stat_pull_1D"+all+"noQ.root";
+    label = all+"noQ.png";
+  }
 
-  TFile *laser_input = TFile::Open("inFillGainParams_laser_xtal_errors_Q.root");
-  TFile *Ep_input = TFile::Open("inFillGainParams_Ep_xtal_errors_Q.root");
+  
+  TFile *laser_input = TFile::Open(input_laser_name.c_str());
+  TFile *Ep_input = TFile::Open(input_Ep_name.c_str());
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   string name[2] = {"fluc_tau.png","fluc_amp.png"};//{"fluc_tau1D_13.png","fluc_tau1D_19.png","fluc_amp1D_13.png","fluc_amp1D_19.png"};
   //  string title[2] = {"Recovery Time: Fractional Shift per Crystal;Fractional Shift;Entries","Amplitude Fractional Shift per Crystal;Fractional Shift;Entries"};//{"Calo 13 | Recovery Time Fluctuation;Fluctuation;Entries","Calo 19 | Recovery Time Fluctuation;Fluctuation;Entries","Calo 13 | Amplitude Fluctuation;Fluctuation;Entries","Calo 19 | Amplitude Fluctuation;Fluctuation;Entries"};
@@ -106,12 +126,12 @@ int main() {
 
       //  value = fluc_val(laser_hist,Ep_hist,xtal);
       // Cut out station 19
-      if(i==0 && xtal == 23) continue;
+      //      if((i==0 || i==1)&& xtal == 23) continue;
       error = fluc_err(laser_hist,Ep_hist,xtal);
       value = fluc_val(laser_hist,Ep_hist,xtal);
       if (value == 1) continue; // AKA, the Ep value is zero
-      if( fabs(error) > 2 )continue;
-      cout << xtal << " " << value << "+/-" << error << " " << (error/value) * 100 <<endl;
+      //      if( fabs(error) > fabs(value))continue;
+      cout << i << " " << xtal << " " << value << "+/-" << error << " " << (error/value) * 100 <<endl;
 
 
       if(i==0) {
@@ -141,12 +161,12 @@ int main() {
   }	  
 
 
-  
-  draw(tau13_fluc,"tau13_fluc_xtal.png");
-  draw(amp13_fluc,"amp13_fluc_xtal.png");
+  // overlay
+  draw(tau13_fluc,"tau13_fluc_xtal"+label);
+  draw(amp13_fluc,"amp13_fluc_xtal"+label);
 
-  draw(tau19_fluc,"tau19_fluc_xtal.png");
-  draw(amp19_fluc,"amp19_fluc_xtal.png");
+  draw(tau19_fluc,"tau19_fluc_xtal"+label);
+  draw(amp19_fluc,"amp19_fluc_xtal"+label);
   // for(int i(2); i<4; i++) {
 
 //   laser_hist = (TH1D*)laser_input->Get(h[i].c_str());
