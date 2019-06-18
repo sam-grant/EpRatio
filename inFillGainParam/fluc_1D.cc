@@ -82,14 +82,14 @@ void drawNfit(TH1D *hist, string name, string title) {
 
 int main() {
   // Get input                                                                                                                                               
-  bool full = false;//true;
+  bool full = true;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
   bool quality = true;
   string input_Ep_name, input_laser_name, output_name, label;
   if(quality) {
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_statCut.root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
     output_name = "shift_1D"+all+"Q.png";//root";
     label = all+"Q.png";
@@ -108,7 +108,7 @@ int main() {
   //  string title[2] = {"Calos 13 & 19 | Recovery Time: Fractional Shift;Fractional Shift;Entries","Calos 13 & 19 | Amplitude: Fractional Shift;Fractional Shift;Entries"};
   // book historgrams
   
-  int Nbins = 12;
+  int Nbins = 24;
   TH1D *tau_fluc = new TH1D("tau_fluc","tau_fluc",Nbins,-3,3);//54,-0.5,53.5);
   TH1D *amp_fluc = new TH1D("amp_fluc","amp_fluc",Nbins,-3,3);//54,-0.5,53.5);
 
@@ -124,6 +124,7 @@ int main() {
     // Start crystal loop
     for (int xtal(0); xtal<54; xtal++) {
       // Get values and errors
+      //      if(xtal==23
       value = fluc_val(laser_hist,Ep_hist,xtal);
       error = fluc_err(laser_hist,Ep_hist,xtal);
       if (value == 1) continue; // AKA, the Ep value is zero

@@ -1,4 +1,4 @@
-//Simple code to make plots from the Europa OmegaA ntuples
+// Simple code to make plots from the Europa OmegaA ntuples
 // gavin.hesketh@ucl.ac.uk
 
 #ifndef Plotter_h

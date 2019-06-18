@@ -69,8 +69,7 @@ void fitSlicesGauss(TH2D *hist, string title, string fname, string g_fname, TFil
     // Fill a histogram with the fit results
     double value = gFunc->GetParameter(1);
     double error = gFunc->GetParError(1);
-    if(error>0.05*value) continue;
-    
+    //    if(error>0.05*value) continue;    
     projX -> SetBinContent(i+1, value);//gFunc->GetParameter(1));
     projX -> SetBinError(i+1, error);//gFunc->GetParError(1));
     TCanvas *c1 = new TCanvas();

@@ -1,9 +1,15 @@
-Target = gainFitter_xtal.exe inFillGainParams_laser_xtal.exe inFillGainParams_Ep_xtal.exe MIP_plotter.exe params_vs_xtal.exe 2D_plots.exe stat_pull.exe 2D_plots_pull.exe stat_pull_1D.exe 1D_plots.exe scatter_plots.exe fluc.exe fluc_tgraph.exe fluc_1D.exe
+Target = gainFitter_xtal.exe inFillGainParams_laser_xtal.exe inFillGainParams_Ep_xtal.exe MIP_plotter.exe params_vs_xtal.exe 2D_plots.exe stat_pull.exe 2D_plots_pull.exe stat_pull_1D.exe 1D_plots.exe scatter_plots.exe fluc.exe xtal_map.exe fluc_1D.exe frac_shift.exe versus_shift.exe
 
 ROOTFLAGS = $(shell root-config --cflags)
 ROOTLIBS = $(shell root-config --libs)
 
 all:$(Target)
+
+versus_shift.exe: versus_shift.cc
+	g++ -o $@ versus_shift.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)
+
+frac_shift.exe: frac_shift.cc
+	g++ -o $@ frac_shift.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)
 
 fluc_1D.exe: fluc_1D.cc
 	g++ -o $@ fluc_1D.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)
@@ -11,8 +17,8 @@ fluc_1D.exe: fluc_1D.cc
 inFillGainParams_laser_xtal.exe: inFillGainParams_laser_xtal.cc
 	g++ -o $@ inFillGainParams_laser_xtal.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)
 
-fluc_tgraph.exe: fluc_tgraph.cc
-	g++ -o $@ fluc_tgraph.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)
+xtal_map.exe: xtal_map.cc
+	g++ -o $@ xtal_map.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)
 
 inFillGainParams_Ep_xtal.exe: inFillGainParams_Ep_xtal.cc
 	g++ -o $@ inFillGainParams_Ep_xtal.cc $(Objects) $(ROOTFLAGS) $(ROOTLIBS)

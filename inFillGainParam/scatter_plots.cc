@@ -37,7 +37,7 @@ void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
 
 int main() {
 
-  bool full = true;
+  bool full = false;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";

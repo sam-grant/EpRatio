@@ -25,7 +25,7 @@ double gain_sag(double *x, double *par) {
 }
 
 int main() {
-  // Define number of g-2 cycles 
+  // Define number of g-2 cycles to use 
   const int cycles = 50;
   // Counter for crystals 
   int counter = 0;
@@ -40,7 +40,7 @@ int main() {
   // Book output ROOT file
   string output_fname;
   if(quality) {
-    output_fname = "taus_time_normalised_xtal_Q.root";
+    output_fname = "taus_time_normalised_xtal_statCut.root";
   }
   else if(!quality) {
     output_fname = "taus_time_normalised_xtal_noQ.root";
@@ -106,13 +106,13 @@ int main() {
       /////////////////////////////////////////////////////
       if (quality) {
 	// Require high stats
-	if (N < 100000) continue;
+		if (N < 150000) continue;
 	// Require a reasonable reduced chi square
-	if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
+		//      		if( chiSqrNDF < 0.75 || chiSqrNDF > 1.25) continue;
 	// Require low error
-	if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
+	//		if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
 	// Cut unphysical params as last resort
-	if( tau > 25 || A > 0.1) continue;
+	//	if( tau > 25 || A > 0.1) continue;
       }
       ////////////////////////////////////////////////////
 

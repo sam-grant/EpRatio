@@ -1,0 +1,89 @@
+// Sam Grant - April 2019
+// samuel.grant.18@ucl.ac.uk
+// Draw pulls per xtal on a map of the calo face
+// Y axis needed reversing 
+
+#include <iostream>
+#include "TF1.h"
+#include "TH1D.h"
+#include "TH2D.h"
+#include "TCanvas.h"
+#include "TFile.h"
+#include "TStyle.h"
+#include "TLegend.h"
+
+using namespace std;
+
+int main() {
+  
+  string input_fname;
+  string fname;
+  string name;
+  bool quality = false;
+  bool full = true;
+  string all;
+
+  if(full) all = "_full_";
+  else if(!full) all = "_";
+
+  string cut[4] = {"Q","statCut","errCut","chiCut"};
+  string par[2] = {"chi","N"};
+  string parName[2] = {"#chi^{2} / NDF","Entries"};
+  string statName[2] = {" Pull"," Fractional Shift"};
+  double value;
+  string stat[2] = {"chi","N"};
+
+  TH2D *chi = new TH2D("","",500,0,100,250,0,250e+3);
+  TH2D *N = new TH2D("","",500,0,100,250,0,250e+3);
+  
+  for(int istat(0); istat < 2; istat++){
+    
+    for (int icut(0); icut < 4; icut++) {
+
+      cout << stat[istat] << endl;
+    
+      int counter = 0;
+
+      if(quality) input_fname = stat[istat]+all+cut[icut]+".root";  
+      else if (!quality) input_fname = stat[istat]+all+"noQ.root";
+    
+      TFile *input = TFile::Open(input_fname.c_str());
+  
+      for (int stn(13); stn < 20; stn = stn + 6) {
+    
+	for (int ipar(0); ipar < 2; ipar++) {
+
+	  name = par[ipar]+"_"+to_string(stn);
+	  //cout<<name<<endl;
+	  // Change input if need be
+	  TH1D *hist = (TH1D*)input->Get(name.c_str());
+	  if(hist==0) continue;
+
+	  TCanvas *c1  = new TCanvas("c1","c1",1500,1000);    
+
+	  //	c1->cd(xtal+1);
+	  //cout << xtal << endl;
+	  value = fabs(hist->GetBinContent(xtal+1));
+	  map->Fill(entries,value);
+	  if(value != 0) counter++;
+	  
+	 
+	  cout<<"Number of xtals "<<counter<<endl;
+	  counter=0;
+
+	  gStyle->SetPalette(55);
+	  map->SetTitle(("Calo "+to_string(stn)+" | "+parName[ipar]+statName[istat]+";Crystal Index X;Crystal Index Y").c_str());
+	  map->SetStats(0);
+	  map->Draw("COLZ");
+	  map->Draw("text same");      
+	  fname = "St"+to_string(stn)+"_"+par[ipar]+"_map_"+stat[istat]+all+cut[icut]+".png";
+	  c1->SaveAs(fname.c_str());
+	  delete c1;
+	  delete hist;
+	}
+      }
+    }
+  }
+
+  return 0;
+}

@@ -26,20 +26,20 @@ double fluc_val(TH1D *laser_hist, TH1D *ep_hist, int iter) {
     return result;
 }
 
-double fluc_err(TH1D *laser_hist, TH1D *ep_hist, int iter) {
-  double laser_value = laser_hist->GetBinContent(iter+1);
-  double ep_value = ep_hist->GetBinContent(iter+1);
-  // Fractional shift
-  double result = (laser_value - ep_value) / laser_value;
-  double laser_error = laser_hist->GetBinError(iter+1);
-  double ep_error = ep_hist->GetBinError(iter+1);
-  // Calcuate the uncertainty
-  double term1 = (sqrt(laser_error*laser_error+ep_error*ep_error))/(laser_value-ep_value); // Checked
-  double term2 = (laser_error/laser_value); // Checked
-  double result_error = result * sqrt(term1*term1+term2*term2); // Checked
-  return result_error;
+// double fluc_err(TH1D *laser_hist, TH1D *ep_hist, int iter) {
+//   double laser_value = laser_hist->GetBinContent(iter+1);
+//   double ep_value = ep_hist->GetBinContent(iter+1);
+//   // Fractional shift
+//   double result = (laser_value - ep_value) / laser_value;
+//   double laser_error = laser_hist->GetBinError(iter+1);
+//   double ep_error = ep_hist->GetBinError(iter+1);
+//   // Calcuate the uncertainty
+//   double term1 = (sqrt(laser_error*laser_error+ep_error*ep_error))/(laser_value-ep_value); // Checked
+//   double term2 = (laser_error/laser_value); // Checked
+//   double result_error = result * sqrt(term1*term1+term2*term2); // Checked
+//   return result_error;
  
-}
+// }
 
 // double shift(TH1D *laser_hist, TH1D *ep_hist, int iter) {
 //   double laser_value = laser_hist->GetBinContent(iter+1);
@@ -56,44 +56,52 @@ double fluc_err(TH1D *laser_hist, TH1D *ep_hist, int iter) {
 // }
 
 
-void draw(TH1D *hist, string name) {
-  TH1D *hist_clone = (TH1D*)hist->Clone("hist_clone");
+void draw(TH1D *hist, string name, TFile *output) {
+  //  TH1D *hist_clone = (TH1D*)hist->Clone("hist_clone");
   // hist_clone->Fill(value);  
   TCanvas *c = new TCanvas();
   //  gStyle->SetOptStat(112211);
-  hist_clone->SetStats(0);//111111);
-  hist_clone->SetLineWidth(2);
-  hist_clone->SetLineColor(kBlack);
+  hist->SetStats(0);//111111);
+  hist->SetLineWidth(2);
+  hist->SetLineColor(kBlack);
   //hist_clone->SetTitle(title.c_str());
-  hist_clone->Draw();
+  hist->Draw();
   gPad->SetGrid();
+  hist->SetDirectory(output);
   //  gPad->SetGrid();
   c->SaveAs(name.c_str());
-  //  hist_clone->SetDirectory(output);
+  //  delete hist_clone;
   delete c;
+  return;
 }
 
 int main() {
-  // Get input                                                                                                                                                                                              
-  bool full = true;
+
+  string cut[4] = {"Q","statCut","errCut","chiCut"};
+  for (int icut(0); icut < 4; icut++) {
+    
+    bool full = true;
+    
+  bool quality = true;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
-  bool quality = true;
   string input_Ep_name, input_laser_name, output_name, label;
+
   if(quality) {
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "stat_pull_1D"+all+"Q.root";
-    label = all+"Q.png";
+    output_name = "fluc"+all+cut[icut]+".root";
+    label = all+cut[icut]+".png";
   }
   else if(!quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "stat_pull_1D"+all+"noQ.root";
+    output_name = "fluc"+all+"noQ.root";
     label = all+"noQ.png";
   }
-
+  // Set output                                                                                    
+  TFile *output = new TFile(output_name.c_str(),"RECREATE");
   
   TFile *laser_input = TFile::Open(input_laser_name.c_str());
   TFile *Ep_input = TFile::Open(input_Ep_name.c_str());
@@ -127,11 +135,11 @@ int main() {
       //  value = fluc_val(laser_hist,Ep_hist,xtal);
       // Cut out station 19
       //      if((i==0 || i==1)&& xtal == 23) continue;
-      error = fluc_err(laser_hist,Ep_hist,xtal);
+      //      error = fluc_err(laser_hist,Ep_hist,xtal);
       value = fluc_val(laser_hist,Ep_hist,xtal);
       if (value == 1) continue; // AKA, the Ep value is zero
       //      if( fabs(error) > fabs(value))continue;
-      cout << i << " " << xtal << " " << value << "+/-" << error << " " << (error/value) * 100 <<endl;
+      cout << i << " " << xtal << " " << value << endl;//"+/-" << error << " " << (error/value) * 100 <<endl;
 
 
       if(i==0) {
@@ -162,11 +170,11 @@ int main() {
 
 
   // overlay
-  draw(tau13_fluc,"tau13_fluc_xtal"+label);
-  draw(amp13_fluc,"amp13_fluc_xtal"+label);
+  draw(tau13_fluc,"tau13_fluc_xtal"+label,output);
+  draw(amp13_fluc,"amp13_fluc_xtal"+label,output);
 
-  draw(tau19_fluc,"tau19_fluc_xtal"+label);
-  draw(amp19_fluc,"amp19_fluc_xtal"+label);
+  draw(tau19_fluc,"tau19_fluc_xtal"+label,output);
+  draw(amp19_fluc,"amp19_fluc_xtal"+label,output);
   // for(int i(2); i<4; i++) {
 
 //   laser_hist = (TH1D*)laser_input->Get(h[i].c_str());
@@ -178,23 +186,13 @@ int main() {
 
 // fluctuation(fluc,laser_amp13,Ep_amp13,title[1],name[1]);
 
+  laser_input->Close();
 
+  Ep_input->Close();
 
-
-
-
-laser_input->Close();
-
-Ep_input->Close();
-
-
-
-
-
+ cout << "\n-----------------\nCreated : "<<output_name<<endl;
+  }
 return 0;
-
-
-
 }
 
   

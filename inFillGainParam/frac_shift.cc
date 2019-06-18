@@ -13,12 +13,18 @@
 #include "TDirectory.h"
 
 using namespace std;
-// Define pull
-double pull(double Ep_content,double laser_content, double Ep_error, double laser_error) {
-  double sigma = sqrt(Ep_error*Ep_error + laser_error*laser_error);
-  double result = (Ep_content - laser_content) / sigma;
-  return result; 
+// Fluctation is basically the fractional error                                                                                                                                                          
+double frac_shift(double Ep_value, double laser_value) {//TH1D *laser_hist, TH1D *ep_hist) {
+    double result = (laser_value - Ep_value) / laser_value;
+    return result;
 }
+
+// // Define pull
+// double pull(double Ep_content,double laser_content, double Ep_error, double laser_error) {
+//   double sigma = sqrt(Ep_error*Ep_error + laser_error*laser_error);
+//   double result = (Ep_content - laser_content) / sigma;
+//   return result; 
+// }
 // Drawing function
 void draw(TH1D *hist, TFile *output, string name, string title) {
   TCanvas *c = new TCanvas();
@@ -40,7 +46,7 @@ int main() {
   for (int icut(0); icut < 4; icut++) {
 
   // Get input
-  bool full = true;
+    bool full = true;//xtrue;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
@@ -50,14 +56,14 @@ int main() {
   if(quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "pull_shift"+all+""+cut[icut]+".root";
+    output_name = "frac_shift"+all+""+cut[icut]+".root";
     label = all+cut[icut]+".png";
   }
   
   else if(!quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "pull_shift"+all+"noQ.root";
+    output_name = "frac_shift"+all+"noQ.root";
     label = all+"noQ.png";
   }  
 
@@ -76,7 +82,7 @@ int main() {
 
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   
-  double pullValue;
+  double fracValue;
   double Ep_content;
   double Ep_error;
   double laser_content;
@@ -92,7 +98,7 @@ int main() {
       Ep = (TH1D*)input_Ep->Get(h[ihist].c_str());
       laser = (TH1D*)input_laser->Get(h[ihist].c_str());
       
-      // Get pullValues and errors
+      // Get values and errors
       Ep_content = Ep->GetBinContent(xtal+1);
       Ep_error = Ep->GetBinError(xtal+1);
       if (Ep_content == 0) continue;
@@ -102,33 +108,33 @@ int main() {
       if(laser_content == 0) continue;
       
       // Calculate pull
-      pullValue=pull(Ep_content,laser_content,Ep_error,laser_error);
+      fracValue=frac_shift(Ep_content,laser_content);//,Ep_error,laser_error);
       
       // Print
       
-      cout<<"xtal: "<<xtal<<"; pull: "<<pullValue<<endl;
+      cout<<"xtal: "<<xtal<<"; frac shift: "<<fracValue<<endl;
       
       // Fill
    
-      if(ihist==0) tau13->SetBinContent(xtal+1,pullValue);
+      if(ihist==0) tau13->SetBinContent(xtal+1,fracValue);
       
-      if(ihist==1) tau19->SetBinContent(xtal+1,pullValue);
+      if(ihist==1) tau19->SetBinContent(xtal+1,fracValue);
       
-      if(ihist==2) amp13->SetBinContent(xtal+1,pullValue);
+      if(ihist==2) amp13->SetBinContent(xtal+1,fracValue);
       
-      if(ihist==3) amp19->SetBinContent(xtal+1,pullValue);
+      if(ihist==3) amp19->SetBinContent(xtal+1,fracValue);
       
     }
     
   }
   
-  draw(tau13,output,("pull_tau13_err"+label).c_str(),"Calo 13 | Recovery Time Pull;Crystal Number;Pull [#sigma]");
+  draw(tau13,output,("frac_tau13_err"+label).c_str(),"Calo 13 | Recovery Time Fractional Shift;Crystal Number;Fractional Shift");
   
-  draw(tau19,output,("pull_tau19_err"+label).c_str(),"Calo 19 | Recovery Time Pull ;Crystal Number;Pull [#sigma]");
+  draw(tau19,output,("frac_tau19_err"+label).c_str(),"Calo 19 | Recovery Time Fractional Shift ;Crystal Number;Fractional Shift");
   
-  draw(amp13,output,("pull_amp13_err"+label).c_str(),"Calo 13 | Amplitude Pull;Crystal Number;Pull [#sigma]");
+  draw(amp13,output,("frac_amp13_err"+label).c_str(),"Calo 13 | Amplitude Fractional Shift;Crystal Number;Fractional Shift");
   
-  draw(amp19,output,("pull_amp19_err"+label).c_str(),"Calo 19 | Amplitude Pull;Crystal Number;Pull [#sigma]");
+  draw(amp19,output,("frac_amp19_err"+label).c_str(),"Calo 19 | Amplitude Fractional Shift;Crystal Number;Fractional Shift");
   
   cout<<"\n--------------------\n"<<output_name<<" created"<<endl;
   output->Write();
