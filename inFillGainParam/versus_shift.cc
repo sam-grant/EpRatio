@@ -1,5 +1,6 @@
 // Sam Grant - April 2019
 // samuel.grant.18@ucl.ac.uk
+// WORK IN PROGRESS
 
 #include <iostream>
 #include "TF1.h"
@@ -9,19 +10,23 @@
 #include "TFile.h"
 #include "TStyle.h"
 #include "TLegend.h"
+#include "TAttMarker.h"
 
 using namespace std;
 
-void draw(TH2D *hist, string title, string fname) {
+void draw(TH1D *hist, string fname, string title) {
 
-  TCanvas *c = new TCanvas();
+  TCanvas *c = new TCanvas("c","c",1500,1000);
   ///  hist->SetStats(0);
   hist->SetLineColor(kBlack);
   hist->SetLineWidth(2);
-  hist->Draw("COLZ");
-  //  c->BuildLegend(0.79,0.79,0.89,0.89);
+  hist->SetMarkerStyle(kStar);
   hist->SetTitle(title.c_str());
-  // gPad->SetGridx();
+  hist->Draw("P");
+  //  c->BuildLegend(0.79,0.79,0.89,0.89);
+  //
+  c->SetLogy();
+  gPad->SetGrid();
   c->SaveAs(fname.c_str());
   delete c;
 
@@ -31,100 +36,48 @@ void draw(TH2D *hist, string title, string fname) {
 
 int main() {
 
-  bool quality = false;
-  bool full = true;
-  
-  string input_fname1, input_fname2;
-  string fname;
-  string name1, name2;
-  string all;
-  string title;
-  string cut[4] = {"Q","statCut","errCut","chiCut"};
-  string par1[2] = {"chi","N"};
-  string par2[2] = {"tau","amp"};
-
-  string parName[2] = {"#chi^{2} / NDF","Entries"};
-  string statName[2] = {" Pull"," Fractional Shift"};
+  string xParName = "#chi^{2} / NDF";//
+  string xPar = "chi";
+  string statName[2] = {"Pull [#sigma]","Fractional Shift"};
   string stat[2] = {"pull_shift","frac_shift"};
-  double shiftVal, otherVal;//, NVal, chiVal;
-
-  TH2D *result = new TH2D("","",50,0,50,50,0,50);
-  //  TH2D *N = new TH2D("","",500,0,100,250,0,250e+3);
-
-  if(full) all = "_full_";
-  else if(!full) all = "_";
+  string par[2] = {"tau","amp"};
+  string histName, fileName;
+  string name[2];
+  double NVal, shiftVal;//, NVal, chiVal;
+  
+  TH1D *result = new TH1D("result","result",100,0,4);
 
   for(int istat(0); istat < 2; istat++){
-    
-    //    for (int icut(0); icut < 4; icut++) {
 
-      //      cout << stat[istat] << endl;
-    
-      int counter = 0;
+    TFile *shiftFile = TFile::Open((stat[istat]+"_full_noQ.root").c_str());
+    TFile *entryFile = TFile::Open("inFillGainParams_Ep_xtal_errors_noQ.root");
 
-      if(quality) {
-	//1: stat root fill, 2: par root file
-	//	input_fname1 = stat[istat]+all+cut[icut]+".root";
-	input_fname2 = "inFillGainParams_Ep_xtal_errors_"+stat[istat]+".root";
-      }
-      else if (!quality) {
-	input_fname1 = stat[istat]+all+"noQ.root";
-    	input_fname2 = "inFillGainParams_Ep_xtal_errors_noQ.root";
-      }
+    for (int stn(13); stn < 20; stn = stn + 6) {
+      for(int ipar(0); ipar < 2; ipar++) {
 
-      TFile *input1 = TFile::Open(input_fname1.c_str());
-      TFile *input2 = TFile::Open(input_fname2.c_str());
-       cout << "input1 " <<input_fname1<<endl;
-      // cout << "input2 " <<input_fname2<<endl;
-  
-      for (int stn(13); stn < 20; stn = stn + 6) {
-    
-	for (int ipar(0); ipar < 2; ipar++) {
-	  // FIX THIS SAM
-	  name2 = par1[ipar]+"_"+to_string(stn);
-	  name1 = par2[ipar]+"_"+to_string(stn);
-	  
-	  cout << name1 << endl;
-	  // cout << name2 << endl;
-	  TH1D *hist1 = (TH1D*)input1->Get(name1.c_str());
-     	  if(hist1!=0) cout << "success" << endl;
-	    //continue;
-	  TH1D *hist2 = (TH1D*)input2->Get(name2.c_str());
-	  if(hist2!=0) cout << "success" << endl;//continue;
+	histName = par[ipar]+"_"+to_string(stn);
+	cout << histName << endl;
+	TH1D *hist1 = (TH1D*)shiftFile->Get(histName.c_str());//(stat[istat]+"_"+to_string(stn)).c_str());
 
-	  for (int xtal(0); xtal < 54; xtal++) {
-	    // From shift root file  
+	histName = xPar+"_"+to_string(stn);
+	cout << histName << endl;
+	TH1D *hist2 = (TH1D*)entryFile->Get(histName.c_str());
 
-	    shiftVal = fabs(hist1->GetBinContent(xtal+1));
-	  // from inFill root file
+	for (int xtal(0); xtal < 54; xtal++) {
 
-	  otherVal = fabs(hist2->GetBinContent(xtal+1));
+	  shiftVal = fabs(hist1->GetBinContent(xtal+1));
+	  NVal = fabs(hist2->GetBinContent(xtal+1));
 
+	  cout <<shiftVal<<endl;
+	  result->SetBinContent(NVal,shiftVal);
 
-	  result->Fill(otherVal,shiftVal);
-	  //	  chi->Fill(chiVal,shiftVal);
+	  string fname = "St"+to_string(stn)+"_"+stat[istat]+"_versus_"+xPar+".png";
+	  string title = "Calo "+to_string(stn)+" | "+statName[istat]+" vs. "+xParName+";"+xParName+" per fit;"+statName[istat];
+	  draw(result,fname,title);
 
-	  if(shiftVal != 0) counter++;
-
-	  }
-	  cout<<"Number of xtals "<<counter<<endl;
-	  counter=0;
-
-	  //	  map->SetTitle(("Calo "+to_string(stn)+" | "+parName[ipar]+statName[istat]+";Crystal Index X;Crystal Index Y").c_str());
-	  //map->SetStats(0);
-	 
-	  // map->Draw("text same");
-	  title = "St"+to_string(stn)+"_"+par1[ipar]+"_vs_"+par2[ipar];
-	  fname = "St"+to_string(stn)+"_"+par1[ipar]+"_vs_"+par2[ipar]+"_"+stat[istat]+all+".png";
-	  //	  fname = "St"+to_string(stn)+"_"+par1[ipar]+"_vs_"+par2[ipar]+stat[istat]+all+cut[icut]+".png";
-	  draw(result,title,fname);//"COLZ");
-	  //	  draw(N,titleN,fnameN);
-	  //x delete hist1;
-	  //	  delete hist2;
-	  //	}
+	}
       }
     }
-  }
 
-  return 0;
-}
+    return 0;
+  }

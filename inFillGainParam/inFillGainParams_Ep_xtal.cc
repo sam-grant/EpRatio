@@ -17,7 +17,7 @@ int main() {
   string cut[4] = {"Q","statCut","errCut","chiCut"};
   for (int icut(0); icut < 4; icut++) {
   // Set input and output
-  bool quality = false;
+    bool quality = true;
   string input_name, output_name;
   if(quality) {
     input_name = "taus_time_normalised_xtal_"+cut[icut]+".root";

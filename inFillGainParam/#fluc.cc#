@@ -82,7 +82,7 @@ int main() {
     
     bool full = true;
     
-    bool quality = false;//true;
+  bool quality = true;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";

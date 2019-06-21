@@ -40,7 +40,7 @@ int main() {
   // Book output ROOT file
   string output_fname;
   if(quality) {
-    output_fname = "taus_time_normalised_xtal_statCut.root";
+    output_fname = "taus_time_normalised_xtal_Q.root";
   }
   else if(!quality) {
     output_fname = "taus_time_normalised_xtal_noQ.root";
@@ -105,17 +105,16 @@ int main() {
       //QUALITY CUTS
       /////////////////////////////////////////////////////
       if (quality) {
-	// Require high stats
-		if (N < 150000) continue;
+	// Avoid high stats
+		if (N < 50000) continue;
 	// Require a reasonable reduced chi square
-		//      		if( chiSqrNDF < 0.75 || chiSqrNDF > 1.25) continue;
+      		if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
 	// Require low error
-	//		if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
+			if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
 	// Cut unphysical params as last resort
 	//	if( tau > 25 || A > 0.1) continue;
       }
       ////////////////////////////////////////////////////
-
       // Add up surviving crystals
       counter++;
       // Draw, format, and save

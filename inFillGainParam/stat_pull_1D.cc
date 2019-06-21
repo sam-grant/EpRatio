@@ -30,7 +30,7 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
   g->SetLineWidth(2);
   hist_clone->Fit(g);
    
-  TCanvas *c = new TCanvas();
+  TCanvas *c = new TCanvas("c","c",1500,1000);
  
   gStyle->SetOptStat(0);
   gStyle->SetOptFit(11);
@@ -51,7 +51,7 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 
 int main() {
   // Get inputs
-  bool full = false;
+  bool full = true;//false;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
@@ -73,11 +73,12 @@ int main() {
   TFile *input_laser = TFile::Open(input_laser_name.c_str());
   // Set output
   TFile *output = new TFile(output_name.c_str(),"RECREATE");
-  // Book historgrams 
-  TH1D *pull_tau13 = new TH1D("1D_tau_13","1D_tau_13",14,-3.5,3.5);//-4,2.6);//28
-  TH1D *pull_tau19 = new TH1D("1D_tau_19","1D_tau_19",14,-3.5,3.5);//-4,2.6);//28
-  TH1D *pull_amp13 = new TH1D("1D_amp_13","1D_amp_13",14,-3.5,3.5);//-4,2.6);//20
-  TH1D *pull_amp19 = new TH1D("1D_amp_19","1D_amp_19",14,-3.5,3.5);//-4,2.6);//20
+  // Book historgrams
+  int nBins = 24;
+  TH1D *pull_tau13 = new TH1D("1D_tau_13","1D_tau_13",nBins,-3,3);//-4,2.6);//28
+  TH1D *pull_tau19 = new TH1D("1D_tau_19","1D_tau_19",nBins,-3,3);//-4,2.6);//28
+  TH1D *pull_amp13 = new TH1D("1D_amp_13","1D_amp_13",nBins,-3,3);//-4,2.6);//20
+  TH1D *pull_amp19 = new TH1D("1D_amp_19","1D_amp_19",nBins,-3,3);//-4,2.6);//20
   // Hist name
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   // Book output hists

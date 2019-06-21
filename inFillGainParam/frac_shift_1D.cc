@@ -16,7 +16,7 @@
 using namespace std;
 
 // Fluctation is basically the fractional error
-double fluc_val(TH1D *laser_hist, TH1D *ep_hist, int iter) {
+double frac_val(TH1D *laser_hist, TH1D *ep_hist, int iter) {
     double laser_value = laser_hist->GetBinContent(iter+1);
     double ep_value = ep_hist->GetBinContent(iter+1);
     double laser_error = laser_hist->GetBinError(iter+1);
@@ -25,36 +25,6 @@ double fluc_val(TH1D *laser_hist, TH1D *ep_hist, int iter) {
     double result = (laser_value - ep_value) / laser_value;
     return result;
 }
-
-// double fluc_err(TH1D *laser_hist, TH1D *ep_hist, int iter) {
-//   double laser_value = laser_hist->GetBinContent(iter+1);
-//   double ep_value = ep_hist->GetBinContent(iter+1);
-//   // Fractional shift
-//   double result = (laser_value - ep_value) / laser_value;
-//   double laser_error = laser_hist->GetBinError(iter+1);
-//   double ep_error = ep_hist->GetBinError(iter+1);
-//   // Calcuate the uncertainty
-//   double term1 = (sqrt(laser_error*laser_error+ep_error*ep_error))/(laser_value-ep_value); // Checked
-//   double term2 = (laser_error/laser_value); // Checked
-//   double result_error = result * sqrt(term1*term1+term2*term2); // Checked
-//   return result_error;
- 
-// }
-
-// double shift(TH1D *laser_hist, TH1D *ep_hist, int iter) {
-//   double laser_value = laser_hist->GetBinContent(iter+1);
-//   double ep_value = ep_hist->GetBinContent(iter+1);
-//   // Fractional shift
-//   double diff = (laser_value - ep_value);
-//   if(diff == laser_value) return 1000;
-//   double laser_error = laser_hist->GetBinError(iter+1);
-//   double ep_error = ep_hist->GetBinError(iter+1);
-//   // Calcuate the uncertainty
-//   double diff_err = sqrt(laser_error*laser_error+ep_error*ep_error);
-//   double result = diff / fabs(diff_err);
-//   return result;
-// }
-
 
 void draw(TH1D *hist, string name, TFile *output) {
   //  TH1D *hist_clone = (TH1D*)hist->Clone("hist_clone");
@@ -82,7 +52,7 @@ int main() {
     
     bool full = true;
     
-    bool quality = false;//true;
+  bool quality = true;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
@@ -136,7 +106,7 @@ int main() {
       // Cut out station 19
       //      if((i==0 || i==1)&& xtal == 23) continue;
       //      error = fluc_err(laser_hist,Ep_hist,xtal);
-      value = fluc_val(laser_hist,Ep_hist,xtal);
+      value = frac_val(laser_hist,Ep_hist,xtal);
       if (value == 1) continue; // AKA, the Ep value is zero
       //      if( fabs(error) > fabs(value))continue;
       cout << i << " " << xtal << " " << value << endl;//"+/-" << error << " " << (error/value) * 100 <<endl;
@@ -170,11 +140,11 @@ int main() {
 
 
   // overlay
-  draw(tau13_fluc,"tau13_fluc_xtal"+label,output);
-  draw(amp13_fluc,"amp13_fluc_xtal"+label,output);
+  draw(tau13_fluc,"tau13_frac_xtal"+label,output);
+  draw(amp13_fluc,"amp13_frac_xtal"+label,output);
 
-  draw(tau19_fluc,"tau19_fluc_xtal"+label,output);
-  draw(amp19_fluc,"amp19_fluc_xtal"+label,output);
+  draw(tau19_fluc,"tau19_frac_xtal"+label,output);
+  draw(amp19_fluc,"amp19_frac_xtal"+label,output);
   // for(int i(2); i<4; i++) {
 
 //   laser_hist = (TH1D*)laser_input->Get(h[i].c_str());
@@ -194,53 +164,4 @@ int main() {
   }
 return 0;
 }
-
-  
-  // Combine calos
-  // TH1D *laser_tau13 = (TH1D*)laser_input->Get(h[0].c_str());
-  // TH1D *laser_tau19 = (TH1D*)laser_input->Get(h[1].c_str());
-  // TH1D *laser_amp13 = (TH1D*)laser_input->Get(h[2].c_str());
-  // TH1D *laser_amp19 = (TH1D*)laser_input->Get(h[3].c_str());
-  // TH1D *Ep_tau13 = (TH1D*)Ep_input->Get(h[0].c_str());
-  // TH1D *Ep_tau19 = (TH1D*)Ep_input->Get(h[1].c_str());
-  // TH1D *Ep_amp13 = (TH1D*)Ep_input->Get(h[2].c_str());
-  // TH1D *Ep_amp19 = (TH1D*)Ep_input->Get(h[3].c_str());
-
-  // laser_tau13->Add(laser_tau19,1);
-  // laser_amp13->Add(laser_amp19,1);
-  // Ep_tau13->Add(Ep_tau19,1);
-  // Ep_amp13->Add(Ep_amp19,1);
-  
-  
-  // for(int calo(0); calo < 2; calo++) {
-  //   laser_hist1 = (TH1D*)laser_input->Get(hTau[i].c_str());
-  //   laser_hist2 = (TH1D*)laser_input->Get(hTau[i+1].c_str());
-  //   Ep_hist1 = (TH1D*)Ep_input->Get(hTau
-
-
-    
-  // 				    }
-  
-
-
-
-
-
-    
-  //     for (int i(0); i<4; i++) {
-  // 				if (i < 2) {
-  // 					    laser_hist1 = (TH1D*)laser_input->Get(h[i].c_str());
-  // 					    Ep_hist1 = (TH1D*)Ep_input->Get(h[i].c_str());
-  // 				}
-  // 				else if(i => 2) {
-  // 						 laser_hist2 = (TH1D*)laser_input->Get(h[i+1].c_str());
-  // 						 Ep_hist2 = (TH1D*)Ep_input->Get(h[i+1].c_str());
-  // 				}
-  //     }
-  
-   
-  //   fluctuation(fluc,laser_hist,ep_hist,title[i],name[i],i);
-  // }
-  
-    
  

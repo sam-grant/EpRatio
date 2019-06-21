@@ -82,11 +82,11 @@ void drawNfit(TH1D *hist, string name, string title) {
 
 int main() {
   // Get input                                                                                                                                               
-  bool full = true;
+  bool full = false;//xtrue;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
-  bool quality = true;
+  bool quality = true;//false;
   string input_Ep_name, input_laser_name, output_name, label;
   if(quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_statCut.root";
@@ -108,7 +108,7 @@ int main() {
   //  string title[2] = {"Calos 13 & 19 | Recovery Time: Fractional Shift;Fractional Shift;Entries","Calos 13 & 19 | Amplitude: Fractional Shift;Fractional Shift;Entries"};
   // book historgrams
   
-  int Nbins = 24;
+  int Nbins = 12;
   TH1D *tau_fluc = new TH1D("tau_fluc","tau_fluc",Nbins,-3,3);//54,-0.5,53.5);
   TH1D *amp_fluc = new TH1D("amp_fluc","amp_fluc",Nbins,-3,3);//54,-0.5,53.5);
 
