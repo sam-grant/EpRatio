@@ -116,17 +116,8 @@ int main() {
   N19->SetDirectory(output);
   output->Write();
   output->Close();
-
-  // delete amp13;
-  // delete tau13;
-  // delete amp19;
-  // delete tau19;
-  // delete chi13;
-  // delete chi19;
-  // delete N13;
-  // delete N19;
  
-  cout<<"Created "<<output_name<<endl;
+  cout<<"\nCreated "<<output_name<<endl;
   }
   return 0;
 }

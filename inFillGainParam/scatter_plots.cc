@@ -17,7 +17,7 @@ using namespace std;
 // Function for drawing the plots
 void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
 
-  TCanvas *c = new TCanvas();
+  TCanvas *c = new TCanvas("c","c",1500,1000);
   hist1->SetStats(0);
   hist1->SetMinimum(0);
   hist1->SetLineColor(kRed);
@@ -46,37 +46,43 @@ int main() {
   string laser_input;
   string Ep_input;
   string label;
-  if(quality) {
-    laser_input = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    Ep_input = "inFillGainParams_Ep_xtal_errors_Q.root";
-    label = "Q.png";
-  }
-  else if(!quality) {
-    laser_input = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    Ep_input = "inFillGainParams_Ep_xtal_errors_noQ.root";
-    label = "noQ.png";
-  }    
-  TFile *laser = TFile::Open(laser_input.c_str());
-  TFile *Ep = TFile::Open(Ep_input.c_str());
   // Define input hist names, output titles, and output file names
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   string title[4] = {"Calo 13 | Recovery Times;Crystal Number;#tau [#mus]","Calo 19 | Recovery Times;Crystal Number;#tau [#mus]","Calo 13 | Amplitudes;Crystal Number;A","Calo 19 | Amplitudes;Crystal Number;A"};
-  string fname[4] = {"tau13_scat"+all+label,"tau19_scat"+all+label,"amp13_scat"+all+label,"amp19_scat"+all+label};
   // Book parameters
   double valEp, errEp, valLaser, errLaser;
-  // Get parameters 
-  for (int ihist(0); ihist < 4; ihist++) {
-    TH1D *laser_hist = (TH1D*)laser->Get(h[ihist].c_str());
-    TH1D *Ep_hist = (TH1D*)Ep->Get(h[ihist].c_str());
-    // for(int xtal = 0; xtal < 54; xtal++) {
-    //   valLaser = laser_hist->GetBinContent(xtal+1);
-    //   errLaser = laser_hist->GetBinError(xtal+1);
-    //   valEp = Ep_hist->GetBinContent(xtal+1);
-    //   errEp = Ep_hist->GetBinContent(xtal+1);
-    // }
-    laser_hist->SetTitle("Laser");
-    Ep_hist->SetTitle("E/p Ratio");
-    draw(laser_hist,Ep_hist,title[ihist],fname[ihist]);	       
+  string cut[4] = {"Q","statCut","errCut","chiCut"};
+  
+  for(int icut(0); icut < 4; icut++) {
+    
+    if(quality) {
+      laser_input = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+      Ep_input = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
+      label = cut[icut]+".png";
+    }
+    else if(!quality) {
+      laser_input = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
+      Ep_input = "inFillGainParams_Ep_xtal_errors_noQ.root";
+      label = "noQ.png";
+    }
+  
+    string fname[4] = {"tau13_scat"+all+label,"tau19_scat"+all+label,"amp13_scat"+all+label,"amp19_scat"+all+label};
+    TFile *laser = TFile::Open(laser_input.c_str());
+    TFile *Ep = TFile::Open(Ep_input.c_str());
+    // Get parameters 
+    for (int ihist(0); ihist < 4; ihist++) {
+      TH1D *laser_hist = (TH1D*)laser->Get(h[ihist].c_str());
+      TH1D *Ep_hist = (TH1D*)Ep->Get(h[ihist].c_str());
+      // for(int xtal = 0; xtal < 54; xtal++) {
+      //   valLaser = laser_hist->GetBinContent(xtal+1);
+      //   errLaser = laser_hist->GetBinError(xtal+1);
+      //   valEp = Ep_hist->GetBinContent(xtal+1);
+      //   errEp = Ep_hist->GetBinContent(xtal+1);
+      // }
+      laser_hist->SetTitle("Laser");
+      Ep_hist->SetTitle("E/p Ratio");
+      draw(laser_hist,Ep_hist,title[ihist],fname[ihist]);	       
+    }
   }
   return 0;
 }

@@ -60,17 +60,17 @@ void drawNfit(TH1D *hist, string name, string title) {
   // Define the gaussian function                                                                                                                                                                        
   TF1 *gFunc = new TF1("gFunc", "gaus");
   gFunc->SetLineWidth(2);
-  hist_clone->Fit(gFunc);
+  //  hist_clone->Fit(gFunc);
 
-  TCanvas *c = new TCanvas();
-  gStyle->SetOptFit(11);
+  TCanvas *c = new TCanvas("c","c",1500,1000);
+  // gStyle->SetOptFit(11);
   // Set x-position (fraction of pad size)
   gStyle->SetStatW(0.15);                
   // Set width of stat-box (fraction of pad size)
   //gStyle->SetStatH(0.2); 
   //gStyle->SetStatX(0.40);
   // gStyle->SetStatY(0.89);
-  hist_clone->SetName("Combined");
+  hist_clone->SetName("Fractional Uncertainty");
   hist_clone->SetTitle(title.c_str());
   hist_clone->SetLineWidth(2);
   hist_clone->SetLineColor(kBlack);
@@ -82,14 +82,15 @@ void drawNfit(TH1D *hist, string name, string title) {
 
 int main() {
   // Get input                                                                                                                                               
-  bool full = false;//xtrue;
+  bool full = true;//xtrue;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
   bool quality = true;//false;
   string input_Ep_name, input_laser_name, output_name, label;
+
   if(quality) {
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_statCut.root";
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_Q.root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
     output_name = "shift_1D"+all+"Q.png";//root";
     label = all+"Q.png";
@@ -108,7 +109,7 @@ int main() {
   //  string title[2] = {"Calos 13 & 19 | Recovery Time: Fractional Shift;Fractional Shift;Entries","Calos 13 & 19 | Amplitude: Fractional Shift;Fractional Shift;Entries"};
   // book historgrams
   
-  int Nbins = 12;
+  int Nbins = 24;
   TH1D *tau_fluc = new TH1D("tau_fluc","tau_fluc",Nbins,-3,3);//54,-0.5,53.5);
   TH1D *amp_fluc = new TH1D("amp_fluc","amp_fluc",Nbins,-3,3);//54,-0.5,53.5);
 
@@ -133,7 +134,7 @@ int main() {
     }
   }	  
 
-  drawNfit(tau_fluc,output_name,"Calos 13 & 19 | Combined Fractional Shift (All Parameters);Fractional Shift;Entries");
+  drawNfit(tau_fluc,output_name,"Calos 13 & 19 | Fractional Uncertainty (All Parameters);Fractional Uncertainty;Entries");
   //  drawNfit(amp_fluc,("amp_fluc_1D"+label).c_str());
 
   laser_input->Close();

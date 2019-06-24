@@ -40,7 +40,7 @@ int main() {
   // Book output ROOT file
   string output_fname;
   if(quality) {
-    output_fname = "taus_time_normalised_xtal_Q.root";
+    output_fname = "taus_time_normalised_xtal_statCut.root";
   }
   else if(!quality) {
     output_fname = "taus_time_normalised_xtal_noQ.root";
@@ -105,18 +105,18 @@ int main() {
       //QUALITY CUTS
       /////////////////////////////////////////////////////
       if (quality) {
-	// Avoid high stats
-		if (N < 50000) continue;
+	// Avoid low stats
+	if (N < 50000) continue;
 	// Require a reasonable reduced chi square
-      		if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
+	//	if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
 	// Require low error
-			if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
-	// Cut unphysical params as last resort
-	//	if( tau > 25 || A > 0.1) continue;
+	//if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
       }
+      cout << N << endl;
       ////////////////////////////////////////////////////
       // Add up surviving crystals
       counter++;
+      cout<<counter<<endl;
       // Draw, format, and save
       t_early->SetStats(1);
       gStyle->SetOptStat(11);
@@ -135,9 +135,11 @@ int main() {
       // Make some print outs
       cout<<xtal<<", "<<N<<", "<<chiSqrNDF<<", "<<tau<<"+-"<<tau_err<<", "<<A<<"+-"<<A_err<<endl;
     }
+    //      cout << "\nSurviving xtals: " << counter << endl;
+      //      counter = 0;
   }
   // Print out the number of xtals that pass quality cuts
-  cout << "\nSurviving xtals: " << counter << endl;
+ cout << "\nSurviving xtals: " << counter << endl;
   // Delete the canvas
   delete c1;
   // Write and close input/output

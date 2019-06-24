@@ -11,6 +11,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TDirectory.h"
+#include "TAttMarker.h"
 
 using namespace std;
 // Define pull
@@ -27,6 +28,8 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
   hist->SetLineWidth(2);
   hist->SetLineColor(kBlack);
   hist->SetTitle(title.c_str());
+  hist->SetMarkerStyle(kStar);
+  hist->SetMarkerSize(3);
   hist->Draw();
   gPad->SetGrid();
   c->SaveAs(name.c_str());
@@ -44,7 +47,7 @@ int main() {
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
-  bool quality = false;
+  bool quality = true;//false;
   string input_Ep_name, input_laser_name, output_name, label;
   
   if(quality) {
@@ -76,11 +79,7 @@ int main() {
 
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   
-  double pullValue;
-  double Ep_content;
-  double Ep_error;
-  double laser_content;
-  double laser_error;
+  double pullValue, Ep_content, Ep_error, laser_content, laser_error;
   // Start hist loop
   for (int ihist(0); ihist < 4; ihist++) {
     

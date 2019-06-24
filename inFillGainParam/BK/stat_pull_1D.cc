@@ -1,4 +1,4 @@
-// Plot the statistical pull per xtal
+// Plot the fractional uncertainty in 1D
 // Sam Grant
 // samuel.grant.18@ucl.ac.uk
 // May-June 2019
@@ -11,19 +11,20 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TDirectory.h"
+#include "TAttMarker.h"
 
 using namespace std;
 // Define pull
-double pull(double Ep_content,double laser_content, double Ep_error, double laser_error) {
+double pull(double Ep_content,double laser_content, double Ep_error, double las\
+er_error) {
   double sigma = sqrt(Ep_error*Ep_error + laser_error*laser_error);
   double result = (Ep_content - laser_content) / sigma;
-  return result; 
+  return result;
 }
 // Drawing function
 void draw(TH1D *hist, TFile *output, string name, string title) {
-  TCanvas *c = new TCanvas();
-  hist->GetXaxis()->SetNdivisions(27);
-  hist->SetStats(0);
+  TCanvas *c = new TCanvas("c","c",1500,1000);
+  hist->SetName("Pull");
   hist->SetLineWidth(2);
   hist->SetLineColor(kBlack);
   hist->SetTitle(title.c_str());
@@ -44,20 +45,20 @@ int main() {
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
-  bool quality = false;
+  bool quality = true;//false;
   string input_Ep_name, input_laser_name, output_name, label;
   
   if(quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "pull_shift"+all+""+cut[icut]+".root";
+    output_name = "pull_shift_1D"+all+""+cut[icut]+".root";
     label = all+cut[icut]+".png";
   }
   
   else if(!quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "pull_shift"+all+"noQ.root";
+    output_name = "pull_shift_1D"+all+"noQ.root";
     label = all+"noQ.png";
   }  
 
@@ -68,19 +69,13 @@ int main() {
   TH1D *laser;
   // Set output
   TFile *output = new TFile(output_name.c_str(),"RECREATE");
-  // Book histograms 
-  TH1D *tau13 = new TH1D("tau_13","tau_13",54,-0.5,53.5);
-  TH1D *tau19 = new TH1D("tau_19","tau_19",54,-0.5,53.5);
-  TH1D *amp13 = new TH1D("amp_13","amp_13",54,-0.5,53.5);
-  TH1D *amp19 = new TH1D("amp_19","amp_19",54,-0.5,53.5);
-
+  // Book histograms
+  int nBins = 12;
+  TH1D *hist = new TH1D("hist","hist",nBins,-3,3);
+ 
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   
-  double pullValue;
-  double Ep_content;
-  double Ep_error;
-  double laser_content;
-  double laser_error;
+  double pullValue, Ep_content, laser_content, Ep_error, laser_error;
   // Start hist loop
   for (int ihist(0); ihist < 4; ihist++) {
     
@@ -98,7 +93,6 @@ int main() {
       if (Ep_content == 0) continue;
       laser_content = laser->GetBinContent(xtal+1);
       laser_error = laser->GetBinError(xtal+1);
-      
       if(laser_content == 0) continue;
       
       // Calculate pull
@@ -110,29 +104,20 @@ int main() {
       
       // Fill
    
-      if(ihist==0) tau13->SetBinContent(xtal+1,pullValue);
-      
-      if(ihist==1) tau19->SetBinContent(xtal+1,pullValue);
-      
-      if(ihist==2) amp13->SetBinContent(xtal+1,pullValue);
-      
-      if(ihist==3) amp19->SetBinContent(xtal+1,pullValue);
+      hist->Fill(pullValue);
       
     }
     
   }
   
-  draw(tau13,output,("pull_tau13_err"+label).c_str(),"Calo 13 | Recovery Time Pull;Crystal Number;Pull [#sigma]");
-  
-  draw(tau19,output,("pull_tau19_err"+label).c_str(),"Calo 19 | Recovery Time Pull ;Crystal Number;Pull [#sigma]");
-  
-  draw(amp13,output,("pull_amp13_err"+label).c_str(),"Calo 13 | Amplitude Pull;Crystal Number;Pull [#sigma]");
-  
-  draw(amp19,output,("pull_amp19_err"+label).c_str(),"Calo 19 | Amplitude Pull;Crystal Number;Pull [#sigma]");
+ 
+    draw(hist,output,("pull_shift_1D"+label).c_str(),"Calos 13 & 19 | Pull (All Parameters);Fractional Uncertainty;Entries");
   
   cout<<"\n--------------------\n"<<output_name<<" created"<<endl;
   output->Write();
   output->Close();
+
   }
+
   return 0;
 }

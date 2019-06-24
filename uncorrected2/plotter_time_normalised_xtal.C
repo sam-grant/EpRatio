@@ -5,11 +5,6 @@
 //to use a particular branch, make sure it is uncommented in Reader.C
 //branch variables are listed in Reader.h
 
-
-//Just going with one region
-
-
-
 #define Plotter_C
 #include "Plotter.h"
 #include "TMath.h"
@@ -36,18 +31,10 @@ void Plotter::InitHistos() {
   const double ymax = 1.5;
  
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    //    for (int cut = 0; cut < 4; cut++) {
-    //  for (int brd = 1; brd < 3; brd++) {
       for(int xtal = 0; xtal < 54; xtal++) {
-   
 	plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(xtal),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
-	//	plot2D("St"+std::to_string(stn)+"_xy_calo_"+std::to_string(cut)+"_"+std::to_string(brd)+"_"+std::to_string(xtal),500,-150,150,500,-120,120,"Calo Decay Vertex X [mm]", "Calo Decay Vertex Y [mm]");
-	//  plot1D("St"+std::to_string(stn)+"_efrac_"+std::to_string(cut)+"_"+std::to_string(brd)+"_"+std::to_string(xtal),101,-0.005,1.005,"Cluster Energy in Crystal / Cluster Energy","N");  
-	//   }
     }
-    // }
   }
-
 }
 
 //=========================================================
@@ -64,8 +51,7 @@ void Plotter::Run() {
 
     //loop over the matches in this event:
     for(int i=0; i<am->nmatches; i++) {
-      //  cout<<i<<endl;
-      // require quality cut pass
+      // Require quality cut pass
       if(am->trkPassTrackQuality[i] == false) continue;
       
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
@@ -88,10 +74,11 @@ void Plotter::Run() {
       const double caloX_raw = am->cluX[i];
       const double caloY_raw = am->cluY[i];
       const int xtal = CaloNum(caloX_raw, caloY_raw);
-      //Convert to mm from calo number I believe
+    
       const double caloX = 112.5 - 25*(caloX_raw);
       const double caloY = SetCaloY(caloSt, caloY_raw);
-      // Tracker decay vertices
+
+      // Forward extrapolated track position
       double trX = am->vX[i];
       double trY = am->vY[i];
 
@@ -119,6 +106,7 @@ void Plotter::Run() {
       // Select high flux positrons
       if(!region[2]) continue;
 
+      
       ////////////////////////////////////////////
       //Energy Fraction Cut
 

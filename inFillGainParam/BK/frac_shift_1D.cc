@@ -1,4 +1,4 @@
-// Plot the fractional uncertainty per xtal
+// Plot the fractional uncertainty in 1D
 // Sam Grant
 // samuel.grant.18@ucl.ac.uk
 // May-June 2019
@@ -23,13 +23,12 @@ double frac_shift(double laser_value, double Ep_value) {
 // Drawing function
 void draw(TH1D *hist, TFile *output, string name, string title) {
   TCanvas *c = new TCanvas("c","c",1500,1000);
-  hist->GetXaxis()->SetNdivisions(27);
-  hist->SetStats(0);
+  // hist->GetXaxis()->SetNdivisions(27);
+  // hist->SetStats(0);
+  hist->SetName("Fractional Uncertainty");
   hist->SetLineWidth(2);
   hist->SetLineColor(kBlack);
   hist->SetTitle(title.c_str());
-  hist->SetMarkerStyle(kStar);
-  hist->SetMarkerSize(3);
   hist->Draw();
   gPad->SetGrid();
   c->SaveAs(name.c_str());
@@ -53,14 +52,14 @@ int main() {
   if(quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "frac_shift"+all+""+cut[icut]+".root";
+    output_name = "frac_shift_1D"+all+""+cut[icut]+".root";
     label = all+cut[icut]+".png";
   }
   
   else if(!quality) {
     input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "frac_shift"+all+"noQ.root";
+    output_name = "frac_shift_1D"+all+"noQ.root";
     label = all+"noQ.png";
   }  
 
@@ -71,12 +70,10 @@ int main() {
   TH1D *laser;
   // Set output
   TFile *output = new TFile(output_name.c_str(),"RECREATE");
-  // Book histograms 
-  TH1D *tau13 = new TH1D("tau_13","tau_13",54,-0.5,53.5);
-  TH1D *tau19 = new TH1D("tau_19","tau_19",54,-0.5,53.5);
-  TH1D *amp13 = new TH1D("amp_13","amp_13",54,-0.5,53.5);
-  TH1D *amp19 = new TH1D("amp_19","amp_19",54,-0.5,53.5);
-
+  // Book histograms
+  int nBins = 12;
+  TH1D *hist = new TH1D("hist","hist",nBins,-3,3);
+ 
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   
   double fracValue, Ep_content, laser_content;
@@ -106,25 +103,13 @@ int main() {
       
       // Fill
    
-      if(ihist==0) tau13->SetBinContent(xtal+1,fracValue);
-      
-      if(ihist==1) tau19->SetBinContent(xtal+1,fracValue);
-      
-      if(ihist==2) amp13->SetBinContent(xtal+1,fracValue);
-      
-      if(ihist==3) amp19->SetBinContent(xtal+1,fracValue);
+      hist->Fill(fracValue);
       
     }
     
   }
   
-  draw(tau13,output,("frac_tau13_err"+label).c_str(),"Calo 13 | Recovery Time Fractional Uncertainty;Crystal Number;Fractional Uncertainty");
-  
-  draw(tau19,output,("frac_tau19_err"+label).c_str(),"Calo 19 | Recovery Time Fractional Uncertainty ;Crystal Number;Fractional Uncertainty");
-  
-  draw(amp13,output,("frac_amp13_err"+label).c_str(),"Calo 13 | Amplitude Fractional Uncertainty;Crystal Number;Fractional Uncertainty");
-  
-  draw(amp19,output,("frac_amp19_err"+label).c_str(),"Calo 19 | Amplitude Fractional Uncertainty;Crystal Number;Fractional Uncertainty");
+  draw(hist,output,("frac_shift_1D"+label).c_str(),"Calos 13 & 19 | Fractional Uncertainty (All Parameters);Fractional Uncertainty;Entries");
   
   cout<<"\n--------------------\n"<<output_name<<" created"<<endl;
   output->Write();

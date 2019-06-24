@@ -4,4 +4,5 @@ make
 ./stat_pull.exe
 ./frac_shift.exe
 ./xtal_map.exe
-./fluc_1D.exe
+./frac_shift_1D.exe
+./stat_pull_1D.exe

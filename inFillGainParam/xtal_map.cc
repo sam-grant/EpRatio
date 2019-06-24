@@ -19,7 +19,7 @@ int main() {
   string input_fname;
   string fname;
   string name;
-  bool quality = true;//false;//false;
+  bool quality = true;//false;
   bool full = true;
   string all;
   if(full) all = "_full_";
@@ -28,14 +28,14 @@ int main() {
   string cut[4] = {"Q","statCut","errCut","chiCut"};
   string par[2] = {"tau","amp"};
   string parName[2] = {"Recovery Time","Amplitude"};
-  string statName[2] = {" Pull"," Fractional Shift"};
+  string statName[2] = {" Pull"," Fractional Uncertainty"};
   double value;
   TH2D *map = new TH2D("","",9,0,9,6,0,6);      
-  string stat[2] = {"stat_pull","frac_shift"};  	
+  string stat[2] = {"pull_shift","frac_shift"};  	
   for(int istat(0); istat < 2; istat++){
     
     for (int icut(0); icut < 4; icut++) {
-  
+      //      if(icut!=1)continue;
       for (int stn(13); stn < 20; stn = stn + 6) {
     
 	for (int ipar(0); ipar < 2; ipar++) {
@@ -50,14 +50,14 @@ int main() {
 	    input_fname = stat[istat]+all+"noQ.root";
 	    fname = "St"+to_string(stn)+"_"+par[ipar]+"_map_"+stat[istat]+all+"noQ.png";
 	  }
-    
+	  cout << input_fname << endl;
 	  TFile *input = TFile::Open(input_fname.c_str());
 
 	  name = par[ipar]+"_"+to_string(stn);
-	  //cout<<name<<endl;
+	  cout<<name<<endl;
 	  // Change input if need be
 	  TH1D *hist = (TH1D*)input->Get(name.c_str());
-	  if(hist==0) continue;
+	  //	  if(hist==0) continue;
 
 	  TCanvas *c1  = new TCanvas("c1","c1",1500,1000);    
 
