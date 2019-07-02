@@ -32,7 +32,10 @@ void Plotter::InitHistos() {
  
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
       for(int xtal = 0; xtal < 54; xtal++) {
-	plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(xtal),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
+	//	plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(xtal),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
+	plot1D("St"+std::to_string(stn)+"_p_"+std::to_string(xtal),6,1200,2400,"Track Momentum [MeV]","Entries");
+	plot1D("St"+std::to_string(stn)+"_E_"+std::to_string(xtal),6,1200,2400,"Cluster Energy [MeV]","Entries");
+
     }
   }
 }
@@ -74,17 +77,20 @@ void Plotter::Run() {
       const double caloX_raw = am->cluX[i];
       const double caloY_raw = am->cluY[i];
       const int xtal = CaloNum(caloX_raw, caloY_raw);
-    
       const double caloX = 112.5 - 25*(caloX_raw);
       const double caloY = SetCaloY(caloSt, caloY_raw);
+      const double caloY_test = -(75.0 - 25*(caloY_raw));
 
+      cout << caloY << " " << caloY_test << endl;
       // Forward extrapolated track position
       double trX = am->vX[i];
       double trY = am->vY[i];
-
+  
       const double dX = caloX - trX;
       const double dY = caloY - trY;
       const double dR = sqrt(dX*dX + dY*dY);
+
+      //      cout<<caloX<<" "<<trX<<" "<<caloY<<" "<<trY<<" "<<dR<<endl;
       
       if(dR>30) continue;
 
@@ -128,29 +134,10 @@ void Plotter::Run() {
        
       double Ep1 = Ep * (1 / sf1 );
       
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(xtal),t,Ep1);
-      // Fill2D("St"+std::to_string(caloSt)+"_xy_calo_0_"+std::to_string(brd)+"_"+std::to_string(xtal),trX,trY);
-      //  Fill1D("St"+std::to_string(caloSt)+"_efrac_0_"+std::to_string(brd)+"_"+std::to_string(xtal),efrac);
-	
-      /*   if (efrac > .605) {
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_1_"+std::to_string(brd)+"_"+std::to_string(xtal),t,Ep1);
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_1_"+std::to_string(brd)+"_"+std::to_string(xtal),trX,trY);
-	//	Fill1D("St"+std::to_string(caloSt)+"_efrac_1_"+std::to_string(brd)+"_"+std::to_string(xtal),efrac);
-      }
-
-      if (efrac > .755) {
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_2_"+std::to_string(brd)+"_"+std::to_string(xtal),t,Ep1);
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_2_"+std::to_string(brd)+"_"+std::to_string(xtal),trX,trY);
-	//	Fill1D("St"+std::to_string(caloSt)+"_efrac_2_"+std::to_string(brd)+"_"+std::to_string(xtal),efrac);
-      }
-
-      if (efrac > .995) {
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_3_"+std::to_string(brd)+"_"+std::to_string(xtal),t,Ep1);
-	Fill2D("St"+std::to_string(caloSt)+"_xy_calo_3_"+std::to_string(brd)+"_"+std::to_string(xtal),trX,trY);
-	//	Fill1D("St"+std::to_string(caloSt)+"_efrac_3_"+std::to_string(brd)+"_"+std::to_string(xtal),efrac);
-      }
-
-      */
+      // Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(xtal),t,Ep1);
+      Fill1D("St"+std::to_string(caloSt)+"_E_"+std::to_string(xtal),E);
+      Fill1D("St"+std::to_string(caloSt)+"_p_"+std::to_string(xtal),p);
+      
     }
     
  }

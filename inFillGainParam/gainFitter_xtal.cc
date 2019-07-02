@@ -30,7 +30,7 @@ int main() {
   // Counter for crystals 
   int counter = 0;
   // To save plots to png then save = true  
-  bool save = false;//true;//false;//true;
+  bool save = true;//true;//false;//true;
   // Apply quality cuts
   bool quality = true;
   // Open input ROOT file
