@@ -11,10 +11,11 @@
 #include "TFile.h"
 
 
-/* void setCutBit(int nCut, long long &qualityStatus, bool failCut){ */
-/*   if(failCut){ */
+/* int setCutBit(int nCut, long long &qualityStatus, bool failCut){ */
+/*   if(failCut){ // |= is a bitwise "Or", ULL is an unsigned long long */
+/*     // << shifts left and adds zeros at the right end. */
 /*     qualityStatus |= (1ULL << nCut); */
-/*   } else { */
+/*   } else { // &= is a bitwise "and"  */
 /*     qualityStatus &= ~(1ULL << nCut); */
 /*   } */
 /*   return; */
@@ -58,6 +59,8 @@ void Plotter::InitHistos() {
 
 void Plotter::Run() {
 
+
+  bool failCut = false;
   // TFile *input1 = TFile::Open("../makePlots2/time_xtal.root");  
      
   //loop over the clusterTracker/tracker tree:
@@ -65,9 +68,39 @@ void Plotter::Run() {
  while( NextallmuonsEvent() ) {
 
     //loop over the matches in this event:
-    for(int i=0; i<am->nmatches; i++) {
-      // Require quality cut pass
-      if(am->trkPositronVertexQualityStatus[i] != 0) continue;
+   for(int i=0; i<1; i++) { //am->nmatches; i++) {
+      // Require quality cut pas
+      vector<int> failedCut_;
+          for(int nCut(0); nCut<64; nCut++) {
+	failedCut_.push_back(am->trkPositronVertexQualityStatus[i] >> nCut & 1U);
+	//cout<<failedCut_.at(nCut)<<endl;
+	}
+	  //cout<<failedCut_.size()<<endl;
+	  //	  cout<<failedCut_<<endl;
+      //am->trkPositronQualityStatus >> nCut & 1U;
+    //      if(am->trkPositronVertexQualityStatus[i] != 0) continue;
+      // Did cut fail?
+      // 1 << n = 2^n
+/* void gm2strawtracker::TrackQuality::setCutBit(int nCut, long long &qualityStatus, bool\ */
+/*  failCut){ */
+/*   if(failCut){ */
+/*     qualityStatus |= (1ULL << nCut); */
+/*   } else { */
+/*     qualityStatus &= ~(1ULL << nCut); */
+/*   } */
+/* } */
+
+/* bool gm2strawtracker::TrackQuality::didCutFail(int nCut, long long qualityStatus){ */
+/*   return (qualityStatus >> nCut) & 1U; */
+/* } */
+
+/* bool gm2strawtracker::TrackQuality::didCutPass(int nCut, long long qualityStatus){ */
+/*   return !didCutFail(nCut, qualityStatus); */
+/* } */
+ /* I want to scan accross the long long, find which ones failed, and count them up  */
+
+      
+///      setCutBit(
       //      cout<<am->trkPositronVertexQualityStatus[i]<<endl;
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
       
