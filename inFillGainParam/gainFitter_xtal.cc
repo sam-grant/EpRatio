@@ -30,30 +30,30 @@ int main() {
   // Counter for crystals 
   int counter = 0;
   // To save plots to png then save = true  
-  bool save = true;//true;//false;//true;
+  bool save = false;//true;//true;//false;//true;
   // Apply quality cuts
   bool quality = true;
   // Open input ROOT file
-  string input_fname = "../makePlots2/fits_time_normalised_xtal.root";
+  string input_fname = "../makePlots2/fits_time_xtal_newE.root";
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
   // Book output ROOT file
   string output_fname;
   if(quality) {
-    output_fname = "taus_time_normalised_xtal_statCut.root";
+    output_fname = "taus_time_xtal_newE_Q.root";
   }
   else if(!quality) {
-    output_fname = "taus_time_normalised_xtal_noQ.root";
+    output_fname = "taus_time_xtal_newE_noQ.root";
   }
   TFile *output = new TFile(output_fname.c_str(), "recreate");
   // Book canvas, make it high def
-  TCanvas *c1 = new TCanvas("c1","c1",2000,1000);
+  TCanvas *c1 = new TCanvas("c1","c1",1500,1000);
   
   // Station loop
   for (int stn(13); stn < 20; stn = stn + 6) {
     // if (stn == 13) continue;
-    cout<<"Station "<<stn<<endl;
-    cout<<"xtal, Entries, chiSqr/NDF, tau, A "<<endl;
+    //cout<<"Station "<<stn<<endl;
+    // cout<<"xtal, Entries, chiSqr/NDF, tau, A "<<endl;
     
     // Crystal loop
     for (int xtal(0); xtal < 54; xtal++) {
@@ -71,7 +71,7 @@ int main() {
       	if (binValue > 25.0) t_early->SetBinError(ibin,binValue);
       }
       // Book the gain sag function
-      TF1 *f1 = new TF1("f1", gain_sag, 0, maxTime, 3);
+      TF1 *f1 = new TF1("f1", gain_sag, 4.2, 4.2*50, 3);
       f1->SetNpx(10000);
       // Set a starting time constant, expectation from laser is ~5 us  
       f1->SetParameter(2,5);
@@ -80,7 +80,8 @@ int main() {
       f1->SetParName(2,"#tau_{r}");
       // Perform fit, over range "R", suppress output "Q", use minuit "M"
       t_early->Fit(f1,"QMR");
-
+      t_early->Scale(1/f1->GetParameter(0));
+      t_early->Fit(f1,"QMR");
       // // Calculate your own chi squared as a cross check
       // double chi = 0.0;
       // for (int ibin(0); ibin < t_early->GetXaxis()->GetNbins(); ibin++){
@@ -106,24 +107,24 @@ int main() {
       /////////////////////////////////////////////////////
       if (quality) {
 	// Avoid low stats
-	if (N < 50000) continue;
+	if (N < 500000) continue;
 	// Require a reasonable reduced chi square
-	//	if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
+       	if( chiSqrNDF < 0.5 || chiSqrNDF > 1.5) continue;
 	// Require low error
-	//if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
+	if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
       }
-      cout << N << endl;
+      // cout << N << endl;
       ////////////////////////////////////////////////////
       // Add up surviving crystals
       counter++;
-      cout<<counter<<endl;
+      // cout<<counter<<endl;
       // Draw, format, and save
       t_early->SetStats(1);
-      gStyle->SetOptStat(11);
-      gStyle->SetOptFit();
+      //      gStyle->SetOptStat(11);
+      gStyle->SetOptFit(11111);
       t_early->SetLineWidth(2);
-      gStyle->SetStatX(0.49);
-      gStyle->SetStatY(0.89);
+      //      gStyle->SetStatX(0.49);
+      //  gStyle->SetStatY(0.89);
       t_early->GetXaxis()->SetTitle("In Fill Time [#mus]");
       t_early->GetYaxis()->SetRangeUser(0.99,1.01);
       t_early->GetXaxis()->SetRangeUser(0,maxTime);

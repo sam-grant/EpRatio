@@ -27,11 +27,13 @@ double frac_shift(double laser_value, double Ep_value) {
   return result;
 }
 // Drawing function
-void draw(TH1D *hist, TFile *output, string name, string title) {
-  // Define the gaussian function
-  // TF1 *gFunc = new TF1("gFunc", "gaus",-2,2);
-  // hist->Fit(gFunc,"R");
-  // gStyle->SetOptFit(11);
+void draw(TH1D *hist, TFile *output, string name, string title, bool fit) {
+  if(fit) {
+    // Define the gaussian function
+    TF1 *gFunc = new TF1("gFunc", "gaus");
+    hist->Fit(gFunc);
+    gStyle->SetOptFit(11);
+  }
   TCanvas *c = new TCanvas("c","c",1500,1000);
   hist->SetName("Combined");
   hist->SetLineWidth(2);
@@ -48,10 +50,10 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 int main() {
 
   bool quality = true;//false;
-  bool full = true;
+  bool full = true;//false;//true;
  
   string cut[4] = {"Q","statCut","errCut","chiCut"};
-  string cutName[4] = {" | All Cuts"," | Stat Cut"," | Error Cut"," | #chi^{2} / NDF Cut"};
+  string cutName[4] = {""," | Stat Cut"," | Error Cut"," | #chi^{2} / NDF Cut"};
   string all, input_Ep_name, input_laser_name, output_name, label;
   double pullValue, fracValue, Ep_content, laser_content, Ep_error, laser_error;
 
@@ -60,34 +62,34 @@ int main() {
 
   // Book input histograms
   TH1D *Ep, *laser;
-  const int nBins = 12*2;
+  const int nBins = 12;
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
 
   if(quality) {
-    output_name = "combined_shift_1D"+all+"Q.root";//"+cut[icut]+".root";
+    output_name = "combined_shift_1D"+all+"newE_Q.root";//"+cut[icut]+".root";
   }
   
   else if(!quality) {
-    output_name = "combined_shift_1D"+all+"noQ.root";
+    output_name = "combined_shift_1D"+all+"newE_noQ.root";
   }  
 
   // Set output
   TFile *output = new TFile(output_name.c_str(),"RECREATE");
 
   
-  for (int icut(0); icut < 4; icut++) {
+  for (int icut(0); icut < 1; icut++) {
 
   
     if(quality) {
-      input_Ep_name = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
+      input_Ep_name = "inFillGainParams_Ep_xtal_errors_newE_"+cut[icut]+".root";
       input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-      label = all+cut[icut]+".png";
+      label = all+cut[icut]+"_newE.png";
     }
   
     else if(!quality) {
-      input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
+      input_Ep_name = "inFillGainParams_Ep_xtal_errors_newE_noQ.root";
       input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-      label = all+"noQ.png";
+      label = all+"newE_noQ.png";
     }  
 
     TFile *input_Ep = TFile::Open(input_Ep_name.c_str());
@@ -133,8 +135,8 @@ int main() {
     }
     cout << label << " xtals : " << counter << endl;
     counter = 0;
-    draw(pullHist,output,("pull_shift_1D"+label).c_str(),"Calos 13 & 19 | Pull (All Parameters)"+cutName[icut]+";Pull [#sigma];Entries");
-    draw(fracHist,output,("frac_shift_1D"+label).c_str(),"Calos 13 & 19 | Fractional Uncertainty (All Parameters)"+cutName[icut]+";Fractional Uncertainty;Entries");
+    draw(pullHist,output,("pull_shift_1D"+label).c_str(),"Calos 13 & 19 | Pull (All Parameters)"+cutName[icut]+";Pull [#sigma];Entries",false);
+    draw(fracHist,output,("frac_shift_1D"+label).c_str(),"Calos 13 & 19 | Fractional Uncertainty (All Parameters)"+cutName[icut]+";Fractional Uncertainty;Entries",true);
   
     output->Write(); 
     delete pullHist;

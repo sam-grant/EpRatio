@@ -206,7 +206,8 @@ void allmuonsReader::Init() {
   // LoadBranch("bunchNum", bunchNum, b_bunchNum);
    // number of coincidences
   // LoadBranch("trkPassCandidateQuality",trkPassCandidateQuality,b_trkPassCandidateQuality);
-   LoadBranchVector("trkPassTrackQuality",trkPassTrackQuality,b_trkPassTrackQuality);
+  //   LoadBranchVector("trkPassTrackQuality",trkPassTrackQuality,b_trkPassTrackQuality);
+     LoadBranchVector("trkPositronVertexQualityStatus",trkPositronVertexQualityStatus,b_trkPositronVertexQualityStatus);
   // LoadBranch("trkPassVertexQuality",trkPassVertexQuality,b_trkPassVertexQuality);
   LoadBranch("ncoin", ncoin, b_ncoin);
    LoadBranchVector("firstclu", firstclu, b_firstclu);

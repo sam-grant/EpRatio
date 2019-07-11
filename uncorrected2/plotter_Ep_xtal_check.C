@@ -21,13 +21,13 @@ void Plotter::InitTrees(TString input_file) {
 
 void Plotter::InitHistos() {
 
-  const double ymin = 0.71;
-  const double ymax = 1.25;
+  const double ymin = 0.5;
+  const double ymax = 1.5;
   
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    for (int fidXtal = 0; fidXtal < 2; fidXtal++) {
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal_"+std::to_string(fidXtal),54,-0.5,53.5,200,ymin,ymax,"Crystal Number","E/p");
-    }
+    //    for (int fidXtal = 0; fidXtal < 2; fidXtal++) {
+      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,500,ymin,ymax,"Crystal Number","E/p");
+      // }
   }
 }
 
@@ -37,7 +37,7 @@ void Plotter::InitHistos() {
 
 void Plotter::Run() {
 
-   TFile *input1 = TFile::Open("../makePlots2/fitted_Ep_xtal.root");  
+   TFile *input1 = TFile::Open("../makePlots2/fitted_Ep_xtal_newE.root");  
 
 
   //loop over the clusterTracker/tracker tree:
@@ -95,44 +95,23 @@ void Plotter::Run() {
       // Positrons 
       if(logEop>-0.3 && logEop<0.2) region[0]=true;
       // High Flux - Energy - All Tracsk
-      if (1200 < E && E < 2400) region[1]=true;
+      if (500 < E) region[1]=true;
       // High Flux - Energy - Positrons
       if(region[0]==true && region[1]==true) region[2]=true;   
       // Select high flux positrons
       if(!region[2]) continue;
 
-      ////////////////////////////////////////////
-       /////////////////////////
+
       //Normalisation
-      std::string h1 = "St"+std::to_string(caloSt)+"_fit_Ep_vs_xtal_0";
-      std::string h2 = "St"+std::to_string(caloSt)+"_fit_Ep_vs_xtal_1";
-       
+     std::string h1 = "St"+std::to_string(caloSt)+"_fit_Ep_vs_xtal";
       TH1D *scale1 = (TH1D*)input1->Get(h1.c_str());
       if(scale1 == 0) continue;
-      TH1D *scale2 = (TH1D*)input1->Get(h2.c_str());
-      if(scale2 == 0) continue;
-
       double sf1 = scale1->GetBinContent(xtal+1);
-      // cout << "\n" << endl;
-      // cout << caloSt << endl;
-      //      cout << 
-      //  cout << xtal <<"  "<<sf1<<endl;
-      double sf2 = scale2->GetBinContent(xtal+1);
-       
       double Ep1 = Ep * (1 / sf1 );
-      double Ep2 = Ep * (1 / sf2 );
-      //  cout << "Ep" <<"  "<<Ep<<endl;
-      // cout << "Ep1" <<"  "<<Ep1<<endl;
-      //cout << "Ep2" <<"  "<<Ep2<<endl;
-
       ////////////////////////////////////////////
     
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_0",xtal,Ep1);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal",xtal,Ep1);
        
-      if (FiducialXtal(trX, trY)) { 
-	Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal_1",xtal,Ep2);
-      }
-
      
     }
     

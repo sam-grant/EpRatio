@@ -37,7 +37,7 @@ int main() {
   string xParName[2] = {"#chi^{2} / NDF","Entries / Crystal"};//
   string xPar[2] = {"chi","N"};
   string yParName[2] = {"Pull [#sigma]","Fractional Shift"};
-  string yPar[2] = {"pull_shift","frac_shift"};
+  string yPar[2] = {"stat_pull","frac_shift"};
   string par[2] = {"tau","amp"};
   string histName, fileName;
   string name[2];
@@ -49,8 +49,8 @@ int main() {
   
   for(int iyPar(0); iyPar < 2; iyPar++){
 
-    TFile *shiftFile = TFile::Open((yPar[iyPar]+"_full_noQ.root").c_str());
-    TFile *entryFile = TFile::Open("inFillGainParams_Ep_xtal_errors_noQ.root");
+    TFile *shiftFile = TFile::Open((yPar[iyPar]+"_full_veryEarly_noQ.root").c_str());
+    TFile *entryFile = TFile::Open("inFillGainParams_Ep_xtal_errors_veryEarly_noQ.root");
 
     for (int stn(13); stn < 20; stn = stn + 6){
 

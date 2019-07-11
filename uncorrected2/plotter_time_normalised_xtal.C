@@ -32,9 +32,9 @@ void Plotter::InitHistos() {
  
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
       for(int xtal = 0; xtal < 54; xtal++) {
-	//	plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(xtal),50,0,4200*50,200,ymin,ymax,"In Fill Time [ns]", "E/p");
-	plot1D("St"+std::to_string(stn)+"_p_"+std::to_string(xtal),6,1200,2400,"Track Momentum [MeV]","Entries");
-	plot1D("St"+std::to_string(stn)+"_E_"+std::to_string(xtal),6,1200,2400,"Cluster Energy [MeV]","Entries");
+       	plot2D("St"+std::to_string(stn)+"_Ep_vs_t_early_"+std::to_string(xtal),50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
+	//	plot1D("St"+std::to_string(stn)+"_p_"+std::to_string(xtal),6,1200,2400,"Track Momentum [MeV]","Entries");
+	//plot1D("St"+std::to_string(stn)+"_E_"+std::to_string(xtal),6,1200,2400,"Cluster Energy [MeV]","Entries");
 
     }
   }
@@ -46,7 +46,7 @@ void Plotter::InitHistos() {
 
 void Plotter::Run() {
 
- TFile *input1 = TFile::Open("../makePlots2/fitted_Ep_xtal.root");  
+ TFile *input1 = TFile::Open("../makePlots2/fitted_Ep_xtal_newE.root");  
      
   //loop over the clusterTracker/tracker tree:
 
@@ -55,7 +55,7 @@ void Plotter::Run() {
     //loop over the matches in this event:
     for(int i=0; i<am->nmatches; i++) {
       // Require quality cut pass
-      if(am->trkPassTrackQuality[i] == false) continue;
+      //      if(am->trkPassTrackQuality[i] == false) continue;
       
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
       
@@ -81,7 +81,7 @@ void Plotter::Run() {
       const double caloY = SetCaloY(caloSt, caloY_raw);
       const double caloY_test = -(75.0 - 25*(caloY_raw));
 
-      cout << caloY << " " << caloY_test << endl;
+      //  cout << caloY << " " << caloY_test << endl;
       // Forward extrapolated track position
       double trX = am->vX[i];
       double trY = am->vY[i];
@@ -106,7 +106,7 @@ void Plotter::Run() {
       // Positrons 
       if(logEop>-0.3 && logEop<0.2 ) region[0]=true;
       // High Flux - Energy - All Tracsk
-      if (1200 < E && E < 2400) region[1]=true;
+      if (1000 < E && E < 2800) region[1]=true;
       // High Flux - Energy - Positrons
       if(region[0]==true && region[1]==true) region[2]=true;   
       // Select high flux positrons
@@ -122,6 +122,7 @@ void Plotter::Run() {
       const double hits = am->nhits[i];
       if(hits != 1) continue;
 
+
       
       /////////////////////////
       //Normalisation
@@ -134,9 +135,9 @@ void Plotter::Run() {
        
       double Ep1 = Ep * (1 / sf1 );
       
-      // Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(xtal),t,Ep1);
-      Fill1D("St"+std::to_string(caloSt)+"_E_"+std::to_string(xtal),E);
-      Fill1D("St"+std::to_string(caloSt)+"_p_"+std::to_string(xtal),p);
+       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_early_"+std::to_string(xtal),t,Ep);
+      //      Fill1D("St"+std::to_string(caloSt)+"_E_"+std::to_string(xtal),E);
+      //Fill1D("St"+std::to_string(caloSt)+"_p_"+std::to_string(xtal),p);
       
     }
     

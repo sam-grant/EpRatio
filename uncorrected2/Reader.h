@@ -96,7 +96,6 @@ class clusterTrackerTrackReader : public Reader {
    Bool_t          hitVolume;
    Double_t        trackPValue;
    Int_t           station;
-
    
  private:
 
@@ -497,8 +496,9 @@ class allmuonsReader : public Reader {
    Float_t         decayTime[110];   //[nmatches]
    Bool_t          decayHitVolume[110];   //[nmatches]
    UInt_t          nMatchedClusters[221];   //[nvertices]
+   ULong64_t       trkPositronVertexQualityStatus[110]; //[nmatches]
 
- private:
+private:
    // List of branches
    TBranch        *b_midasSerialNum;   //!
    TBranch        *b_runNum;   //!
@@ -555,7 +555,7 @@ class allmuonsReader : public Reader {
    TBranch        *b_decayTime;   //!
    TBranch        *b_decayHitVolume;   //!
    TBranch        *b_nMatchedClusters;   //!
-
+   TBranch        *b_trkPositronVertexQualityStatus;
       void Init();
 
 };

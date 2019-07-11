@@ -8,8 +8,6 @@
 
 //Just going with one region
 
-
-
 #define Plotter_C
 #include "Plotter.h"
 #include "TMath.h"
@@ -32,12 +30,12 @@ void Plotter::InitTrees(TString input_file) {
 
 void Plotter::InitHistos() {
 
-  const double ymin = 0.71;
-  const double ymax = 1.25;
+  const double ymin = 0.5;
+  const double ymax = 1.5;
   
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
  
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,200,ymin,ymax,"Crystal Number","E/p");
+      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,500,ymin,ymax,"Crystal Number","E/p");
  
   }
 }
@@ -109,7 +107,7 @@ void Plotter::Run() {
       // Positrons 
       if(logEop>-0.3 && logEop<0.2) region[0]=true;
       // High Flux - Energy - All Tracsk
-      if (1200 < E && E < 2400) region[1]=true;
+      if (500 < E) region[1]=true;
       // High Flux - Energy - Positrons
       if(region[0]==true && region[1]==true) region[2]=true;   
       // Select high flux positrons

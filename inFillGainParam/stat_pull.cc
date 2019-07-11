@@ -40,27 +40,27 @@ void draw(TH1D *hist, TFile *output, string name, string title) {
 
 int main() {
   string cut[4] = {"Q","statCut","errCut","chiCut"};
-  for (int icut(0); icut < 4; icut++) {
+  for (int icut(0); icut < 1; icut++) {
 
   // Get input
   bool full = true;
   string all;
   if(full) all = "_full_";
   else if(!full) all = "_";
-  bool quality = true;//false;
+  bool quality = false;
   string input_Ep_name, input_laser_name, output_name, label;
   
   if(quality) {
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_veryEarly"+cut[icut]+".root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "pull_shift"+all+""+cut[icut]+".root";
+    output_name = "stat_pull"+all+"veryEarly_"+cut[icut]+".root";
     label = all+cut[icut]+".png";
   }
   
   else if(!quality) {
-    input_Ep_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
+    input_Ep_name = "inFillGainParams_Ep_xtal_errors_veryEarly_noQ.root";
     input_laser_name = "inFillGainParams_laser_xtal_errors"+all+"Q.root";
-    output_name = "pull_shift"+all+"noQ.root";
+    output_name = "stat_pull"+all+"veryEarly_noQ.root";
     label = all+"noQ.png";
   }  
 

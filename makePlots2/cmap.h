@@ -1,13 +1,11 @@
-/*
-cmap
----------------
-Function to make colourise 2D histograms, make them look nice, and set sensible ranges. It will also wrtie the results to ROOT file and/or .png
+// cmap
+// ---------------
+// Function to make colourise 2D histograms, make them look nice, and set sensible ranges. It will also wrtie the results to ROOT file and/or .png
 
-Arguments: input 2D histogram, output histogram title, output histogram filename, name of output ROOT file, and an option to save output to .png (always gets written to ROOT file). 
+// Arguments: input 2D histogram, output histogram title, output histogram filename, name of output ROOT file, and an option to save output to .png (always gets written to ROOT file). 
 
-- Sam Grant, April 2019 
-- samuel.grant.18@ucl.ac.uk
-*/
+// - Sam Grant, April 2019 
+// - samuel.grant.18@ucl.ac.uk
 
 #ifndef cmap_h
 #define cmap_h
@@ -34,7 +32,7 @@ void cmap(TH2D *hist, string title, string fname, TFile *output, bool save) {
   // Set name...
   hist_clone->SetName(fname.c_str());
   // Draw it
-  TCanvas *c = new TCanvas("c", "c", 2000, 1000);
+  TCanvas *c = new TCanvas("c", "c", 1500, 1000);
   hist_clone->SetStats(0);
   hist_clone->SetTitle(title.c_str());
   c->SetRightMargin(0.13);

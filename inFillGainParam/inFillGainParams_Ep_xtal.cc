@@ -15,17 +15,22 @@ using namespace std;
 
 int main() {
   string cut[4] = {"Q","statCut","errCut","chiCut"};
-  for (int icut(0); icut < 4; icut++) {
+  for (int icut(0); icut < 1; icut++) {
   // Set input and output
     bool quality = true;
   string input_name, output_name;
   if(quality) {
-    input_name = "taus_time_normalised_xtal_"+cut[icut]+".root";
-    output_name = "inFillGainParams_Ep_xtal_errors_"+cut[icut]+".root";
+    //    input_name = "taus_time_normalised_xtal_veryEarly_"+cut[icut]+".root";
+    // output_name = "inFillGainParams_Ep_xtal_errors_veryEarly_Q.root";//+cut[icut]+".root";
+        input_name = "taus_time_xtal_newE_"+cut[icut]+".root";
+    output_name = "inFillGainParams_Ep_xtal_errors_newE_Q.root";//+cut[icut]+".root";
+
   }
   else if(!quality) {
-    input_name = "taus_time_normalised_xtal_noQ.root";
-    output_name = "inFillGainParams_Ep_xtal_errors_noQ.root";
+    // input_name = "taus_time_normalised_xtal_veryEarly_noQ.root";
+    // output_name = "inFillGainParams_Ep_xtal_errors_veryEarly_noQ.root";
+        input_name = "taus_time_xtal_newE_noQ.root";
+    output_name = "inFillGainParams_Ep_xtal_errors_newE_noQ.root";
   }
     
   TFile *input = TFile::Open(input_name.c_str());
@@ -60,9 +65,12 @@ int main() {
     for (int xtal = 0; xtal < 54; xtal++ ) {
       // Get input histogram
       string h = "St"+to_string(stn)+"_fit_Ep_vs_t_early_"+to_string(xtal);
+      cout<<"test1"<<endl;
       TH1D *hist = (TH1D*)input->Get(h.c_str());
+      cout<<"test2"<<endl;
       // Chuck empty ones
       if (hist == 0) continue;
+      cout<<"test3"<<endl;
       // Get fit
       TF1 *fit = (TF1*)hist->GetFunction("f1");
       // Get parameters
@@ -72,6 +80,7 @@ int main() {
       tau_err = fit->GetParError(2);
       chiSq = fit -> GetChisquare() / fit->GetNDF();
       N = hist->GetEntries();
+      cout<<"test4"<<endl;
       // Print
       cout<<"----------\nxtal = "<<xtal<<" chi "<<chiSq<<endl;///"\namp = "<<amp<<"+/-"<<amp_err<<"\ntau =  "<<tau<<"+/-"<<tau_err<<endl;
       //Fill histograms
