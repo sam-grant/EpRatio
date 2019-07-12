@@ -9,17 +9,7 @@
 #include "Plotter.h"
 #include "TMath.h"
 #include "TFile.h"
-//#include <bitset>
 #include "TH1.h"
-/* int setCutBit(int nCut, long long &qualityStatus, bool failCut){ */
-/*   if(failCut){ // |= is a bitwise "Or", ULL is an unsigned long long */
-/*     // << shifts left and adds zeros at the right end. */
-/*     qualityStatus |= (1ULL << nCut); */
-/*   } else { // &= is a bitwise "and"  */
-/*     qualityStatus &= ~(1ULL << nCut); */
-/*   } */
-/*   return; */
-/* } */
 
 int CaloNum(int caloX, int caloY) {
   return caloX+9*caloY;
@@ -36,20 +26,20 @@ void Plotter::InitTrees(TString input_file) {
 }
 
 void Plotter::InitHistos() {
-      plot1D("cuts",64,0,63,"Cut Index","Entries");
+
+  plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
+
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    for(int xtal = 0; xtal < 1; xtal++) {
-
-      plot1D("St"+std::to_string(stn)+"_logEop_"+std::to_string(xtal),200,-3.5,1,"Log(E/p)","Entries");
-      plot1D("St"+std::to_string(stn)+"_dR_"+std::to_string(xtal),200,0,70,"dR [mm]","Entries");
-      plot1D("St"+std::to_string(stn)+"_dt_"+std::to_string(xtal),200,-15,15,"dt [ns]","Entries");
+    
+    plot1D("St"+std::to_string(stn)+"_logEop",200,-3.5,1,"Log(E/p)","Entries");
+    plot1D("St"+std::to_string(stn)+"_dR",200,0,70,"dR [mm]","Entries");
+    plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
+    plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
+    plot2D("St"+std::to_string(stn)+"_Ep_vs_t",50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
+    for( int xtal(0); xtal<54; xtal++) {
       plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(xtal),50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
-      plot2D("St"+std::to_string(stn)+"_E_vs_p_"+std::to_string(xtal),200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
-      
-      //plot1D("St"+std::to_string(stn)+"_p_"+std::to_string(xtal),6,1200,2400,"Track Momentum [MeV]","Entries");
-      //plot1D("St"+std::to_string(stn)+"_E_"+std::to_string(xtal),6,1200,2400,"Cluster Energy [MeV]","Entries");
-
     }
+      
   }
 }
 
@@ -58,92 +48,90 @@ void Plotter::InitHistos() {
 //loop over the entries in the tree, making plots:
 
 void Plotter::Run() {
-
-
-  bool failCut = false;
-  // TFile *input1 = TFile::Open("../makePlots2/time_xtal.root");  
-     
-  //loop over the clusterTracker/tracker tree:
- vector<int> failedCuts_;
-   for(int i = 0; i < 64; i++){
-     failedCuts_.push_back(0);
-   }
   
-  
- while( NextallmuonsEvent() ) {
+  // Quality cut var 
+  bool qualityPass;
+  // Set a cut to be skipped
+  const int skipCut = 63; 
 
-   // vector<string> cutNames_;
-   //cutsNames_.at(0) = "nHits";
-   
-   
+  // Initialise an empty vector to store the results from 64 bit Q
+  vector<int> failedCuts_;
+  for(int i = 0; i < 64; i++){
+    failedCuts_.push_back(0);
+  }
+
+  while( NextallmuonsEvent() ) {
+
     //loop over the matches in this event:
-   for(int i=0; i<am->nmatches; i++) {
+    for(int i=0; i<am->nmatches; i++) {
+       
+      // Empty vector to contain the results bit by bit (refreshing each event)
+      vector<int> failedCutsBits_;
+      for(int i = 0; i < 64; i++){
+	failedCutsBits_.push_back(0);
+      }
 
-     // scan accoss
-     long long Q = am->trkPositronVertexQualityStatus[i]; 
+      // 64 bit integer refering to the cut results
+      long long Q = am->trkPositronVertexQualityStatus[i]; 
 
-     /* the loop above shifts the bit to print into the least significant bit (bit 0) of a temporary and ANDs it with 1 to remove all the other (higher order) bits and leave a 0 or 1. It starts with the most significant bit (63) and iterates down to the least significant bit (0), ensuring that the bits are printed in the correct order. */
-     //     std::cout<<std::bitset<64>(Q);
-     //x     TH1 *cuts = new TH1("cuts","cuts",65,-0.5,63.5);
-     
-     for (int iCut = 63; iCut >= 0; iCut--) {
-       if( (Q >> iCut) & 1 ) {
-	 failedCuts_.at(iCut)++;
-      	 Fill1D("cuts",iCut);
-	 cout<<iCut<<endl;
-	 //	 cuts->SetBinContent(iCut+1,1);
-	  }
-        }
-     
-     // cout<<"\n"<<endl;
+      // Scan across the bits and find the non zero ones
+      // Put these in a hist, and a vector
+      for (int iCut = 63; iCut >= 0; iCut--) {
+	//std::cout<<((Q >> iCut) & 1);
+	failedCutsBits_.at(iCut) = (Q >> iCut) & 1;
+	if( (Q >> iCut) & 1 ) {
+	  failedCuts_.at(iCut)++;
+	  Fill1D("cuts",iCut);
+	}
+      }
+       
+      // Define the qualityPass bool (if skipping cuts) 
+      for (int iCut = 0; iCut < 63; iCut++) {
+	if(iCut == skipCut) continue;
+	if(failedCutsBits_.at(iCut) == 0) {
+	  qualityFail = false;
+	}
+	else {
+	  qualityFail = true;
+	  break;
+	}
+      }
 
-       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
+      // If using all cuts, just set (Q == true) continue;
+      if(qualityFail == true) continue;
+
+      if(am->nhits[i] != 1) continue;
+
+      const double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
       
       const double logEop = log(am->EovP[i]);
       const double dt = am->Tdiff[i];
- 
-      int caloSt = am->cluCaloNum[i];
-
+      const int caloSt = am->cluCaloNum[i];
       const double caloX_raw = am->cluX[i];
       const double caloY_raw = am->cluY[i];
-      int xtal = CaloNum(caloX_raw, caloY_raw);
+      const int xtal = CaloNum(caloX_raw, caloY_raw);
       const double caloX = 112.5 - 25*(caloX_raw);
       const double caloY = SetCaloY(caloSt, caloY_raw);
       const double caloY_test = -(75.0 - 25*(caloY_raw));
-
-      double trX = am->vX[i];
-      double trY = am->vY[i];
-  
+      const double trX = am->vX[i];
+      const double trY = am->vY[i];
       const double dX = caloX - trX;
       const double dY = caloY - trY;
       const double dR = sqrt(dX*dX + dY*dY);
+      const double t = (am -> cluTime[i]);
+      const double E = am->cluEne[i];
+      const double Ep = E/p;
 
-      double t = (am -> cluTime[i]);
-
-      double E = am->cluEne[i];
-      double Ep = E/p;
-
-      const double hits = am->nhits[i];
-      if(hits != 1) continue;
-
-      xtal = 0;
-      //      cout<<caloSt<<endl;
-     
-      Fill1D("St"+std::to_string(caloSt)+"_dR_"+std::to_string(xtal),dR);
-      Fill1D("St"+std::to_string(caloSt)+"_dt_"+std::to_string(xtal),dt);
-      Fill1D("St"+std::to_string(caloSt)+"_logEop_"+std::to_string(xtal),logEop);
+      Fill1D("St"+std::to_string(caloSt)+"_dR",dR);
+      Fill1D("St"+std::to_string(caloSt)+"_dt",dt);
+      Fill1D("St"+std::to_string(caloSt)+"_logEop",logEop);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t",t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(xtal),t,Ep);
-      Fill2D("St"+std::to_string(caloSt)+"_E_vs_p_"+std::to_string(xtal),p,E);      
+      Fill2D("St"+std::to_string(caloSt)+"_E_vs_p",p,E);      
 
-   }
-   ///   for(int t(0); t<64; t++)
-   // cout<<t<<" "<<failedCuts_.at(t)<<"\n"<<endl;
-   // Fill1D(cut
-   
- }
+    }
+  }
   
- // input1 -> Close();
-  
- return;
+  return;
   
 }
