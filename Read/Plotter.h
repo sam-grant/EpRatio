@@ -387,7 +387,7 @@ int main(int argc, char *argv[]){
   if (argc < 2){
     cout<<"Using hard-coded file list"<<endl;
     //    fileNames.push_back("../../60hr_v9_17_01/gm2rootTrees_ana_15922.root");
-    fileNames.push_back("../../60hr_test_tree/gm2rootTrees_ana.root");
+    fileNames.push_back("../../ntuples/60hr_5036B_allMuons/gm2rootTrees_allMuons_15921.root");
   }
   
   for (int i = 1; i < argc; ++i){

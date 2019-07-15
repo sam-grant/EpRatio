@@ -29,14 +29,13 @@ void Plotter::InitHistos() {
 
   plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
 
-  for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    
+  for (int stn(13); stn < 20 ; stn = stn + 6) {
     plot1D("St"+std::to_string(stn)+"_logEop",200,-3.5,1,"Log(E/p)","Entries");
     plot1D("St"+std::to_string(stn)+"_dR",200,0,70,"dR [mm]","Entries");
     plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
     plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
     plot2D("St"+std::to_string(stn)+"_Ep_vs_t",50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
-    for( int xtal(0); xtal<54; xtal++) {
+    for(int xtal(0); xtal<54; xtal++) {
       plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(xtal),50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
     }
       
@@ -50,9 +49,9 @@ void Plotter::InitHistos() {
 void Plotter::Run() {
   
   // Quality cut var 
-  bool qualityPass;
+  bool qualityFail;
   // Set a cut to be skipped
-  const int skipCut = 63; 
+  int skipCut = 64;//18; 
 
   // Initialise an empty vector to store the results from 64 bit Q
   vector<int> failedCuts_;
@@ -85,7 +84,7 @@ void Plotter::Run() {
 	}
       }
        
-      // Define the qualityPass bool (if skipping cuts) 
+      // Define the qualityFail bool (if skipping cuts) 
       for (int iCut = 0; iCut < 63; iCut++) {
 	if(iCut == skipCut) continue;
 	if(failedCutsBits_.at(iCut) == 0) {
@@ -102,25 +101,27 @@ void Plotter::Run() {
 
       if(am->nhits[i] != 1) continue;
 
-      const double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
+      double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
       
-      const double logEop = log(am->EovP[i]);
-      const double dt = am->Tdiff[i];
-      const int caloSt = am->cluCaloNum[i];
-      const double caloX_raw = am->cluX[i];
-      const double caloY_raw = am->cluY[i];
-      const int xtal = CaloNum(caloX_raw, caloY_raw);
-      const double caloX = 112.5 - 25*(caloX_raw);
-      const double caloY = SetCaloY(caloSt, caloY_raw);
-      const double caloY_test = -(75.0 - 25*(caloY_raw));
-      const double trX = am->vX[i];
-      const double trY = am->vY[i];
-      const double dX = caloX - trX;
-      const double dY = caloY - trY;
-      const double dR = sqrt(dX*dX + dY*dY);
-      const double t = (am -> cluTime[i]);
-      const double E = am->cluEne[i];
-      const double Ep = E/p;
+      double logEop = log(am->EovP[i]);
+      double dt = am->Tdiff[i];
+      int caloSt = am->cluCaloNum[i];
+      if(caloSt > 19) continue;
+      int trkSt = am->trkStationNum[i];
+      double caloX_raw = am->cluX[i];
+      double caloY_raw = am->cluY[i];
+      int xtal = CaloNum(caloX_raw, caloY_raw);
+      double caloX = 112.5 - 25*(caloX_raw);
+      double caloY = SetCaloY(caloSt, caloY_raw);
+      double trX = am->vX[i];
+      double trY = am->vY[i];
+      double dX = caloX - trX;
+      double dY = caloY - trY;
+      double dR = sqrt(dX*dX + dY*dY);
+      double t = (am -> cluTime[i]);
+      if(t<4200) continue;
+      double E = am->cluEne[i];
+      double Ep = E/p;
 
       Fill1D("St"+std::to_string(caloSt)+"_dR",dR);
       Fill1D("St"+std::to_string(caloSt)+"_dt",dt);
