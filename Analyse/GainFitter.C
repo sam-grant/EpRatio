@@ -25,11 +25,17 @@ double gain_sag(double *x, double *par) {
 }
 
 int main() {
-  bool quality = false;
-        string suffix = "_skip18";
-	// string suffix = "";
+  bool quality = true;
+  string suffix = "_skip18";
+  // Set input and output
+  /* string suffix; */
+  /* if(quality && skip) suffix = "_skip18_Q"; */
+  /* else if(!quality && skip) suffix = "_skip18_noQ"; */
+  /* else if(quality && !skip) suffix = "_Q"; */
+  /* else if(!quality && !skip) suffix = "_noQ"; */
+  
   // Define number of g-2 cycles to use 
-  const int cycles = 50;
+  const double cycles = 12.5;
 
   // Counter for crystals 
   int counter = 0;
@@ -62,7 +68,7 @@ int main() {
     // Crystal loop
     for (int xtal(0); xtal < 54; xtal++) {
       // Define time limit
-      const int maxTime = 4.2*cycles;
+      const int maxTime = 4.2*50;
 
       // Book histogram
       string h = "St"+to_string(stn)+"_Ep_vs_t_"+to_string(xtal);
@@ -110,11 +116,15 @@ int main() {
       /////////////////////////////////////////////////////
       if (quality) {
 	// Avoid low stats
-        if (N < 200000) continue;
+        if (N < 100000) continue;
 	// Require a reasonable reduced chi square
-     	if( chiSqrNDF < 0.5 || chiSqrNDF > 1.5) continue;
+	//     	if( chiSqrNDF < 0.5 || chiSqrNDF > 1.5) continue;
+	if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
 	// Require low error
 	if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
+      	if( isnan(tau_err) == true || isnan(A_err) ) continue;
+	// factor of 100 greater than they should be
+      	if(tau > 100 || A > 1) continue;
       }
       // cout << N << endl;
       ////////////////////////////////////////////////////
@@ -126,11 +136,12 @@ int main() {
       //      gStyle->SetOptStat(11);
       gStyle->SetOptFit(11111);
       hist->SetLineWidth(2);
+      f1->SetLineWidth(5);
       //      gStyle->SetStatX(0.49);
       //  gStyle->SetStatY(0.89);
       hist->GetXaxis()->SetTitle("In Fill Time [#mus]");
       hist->GetYaxis()->SetRangeUser(0.99,1.01);
-      hist->GetXaxis()->SetRangeUser(0,maxTime);
+      hist->GetXaxis()->SetRangeUser(0,maxTime*2);
       hist->Draw();
       hist->SetDirectory(output);
       if (save){

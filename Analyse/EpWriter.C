@@ -14,11 +14,14 @@
 using namespace std;
 
 int main() {
-  bool quality = false;
+  bool quality = true;
+  bool skip = true;
   // Set input and output
   string suffix;
-  if(quality) suffix = "_skip18_Q";
-  else if(!quality) suffix = "_skip18_noQ";
+  if(quality && skip) suffix = "_skip18_Q";
+  else if(!quality && skip) suffix = "_skip18_noQ";
+  else if(quality && !skip) suffix = "_Q";
+  else if(!quality && !skip) suffix = "_noQ";
 
   //  string suffix = "";
   string input_name = "RootFiles/fits_allMuons"+suffix+".root";
@@ -70,6 +73,7 @@ int main() {
 
       //Fill histograms
       if (stn == 13) {
+	if(xtal==17) continue;
 	tau13->SetBinContent(xtal+1,tau);
 	tau13->SetBinError(xtal+1,tau_err);
 	amp13->SetBinContent(xtal+1,amp);

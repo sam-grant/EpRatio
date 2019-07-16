@@ -52,11 +52,17 @@ void draw(TH1D *hist, TFile *output, string name, string title, bool fit) {
 int main() {
 
  const int nBins = 20;
- bool quality = true;
- string suffix;
- if (quality) suffix = "_skip18_Q";
- else if (!quality) suffix = "_skip18_noQ";
+ const int xMin = -5;
+ const int xMax = 5;
 
+ bool quality = true;
+ bool skip = true;
+  // Set input and output
+  string suffix;
+  if(quality && skip) suffix = "_skip18_Q";
+  else if(!quality && skip) suffix = "_skip18_noQ";
+  else if(quality && !skip) suffix = "_Q";
+  else if(!quality && !skip) suffix = "_noQ";
  //  string suffix = "";
   string inputFnameEp = "RootFiles/EpParameters"+suffix+".root";
   string inputFnameLaser = "RootFiles/LaserParameters.root";
@@ -65,7 +71,7 @@ int main() {
     
   // Set input
   TH1D *Ep, *laser;
-  string h[4] = {"tau_13","amp_13","tau_19","amp_19"};
+  string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   TFile *inputEp = TFile::Open(inputFnameEp.c_str());
   TFile *inputLaser = TFile::Open(inputFnameLaser.c_str());
  
@@ -77,10 +83,13 @@ int main() {
   double pullValue, fracValue, EpValue, laserValue, EpError, laserError;
 
   // Book histograms
-  TH1D *pullHist = new TH1D("pullHist","pullHist",nBins,-5,5);
-  //  pullHist->GetXaxis()->SetLimits(-500,500);
-  TH1D *fracHist = new TH1D("fracHist","fracHist",nBins,-5,5);
-  //  fracHist->GetXaxis()->SetLimits(-500,500);
+  TH1D *pullHist = new TH1D("pullHist","pullHist",nBins,xMin,xMax);
+  TH1D *fracHist = new TH1D("fracHist","fracHist",nBins,xMin,xMax);
+  TH1D *pullHistTau = new TH1D("pullHistTau","pullHistTau",nBins,xMin,xMax);
+  TH1D *fracHistTau = new TH1D("fracHistTau","fracHistTau",nBins,xMin,xMax);
+  TH1D *pullHistAmp = new TH1D("pullHistAmp","pullHistAmp",nBins,xMin,xMax);
+  TH1D *fracHistAmp = new TH1D("fracHistAmp","fracHistAmp",nBins,xMin,xMax);
+
   int counter = 0;
 
   // Start hist loop
@@ -88,8 +97,8 @@ int main() {
     
     cout<<"hist : "<<h[iHist]<<endl;
     // Start xtal loop
-    for(int xtal(0); xtal < 54; xtal++) {
-      
+    for (int xtal(0); xtal < 54; xtal++) {
+      //      if (xtal==23) continue;      
       // Get histograms
       Ep = (TH1D*)inputEp->Get(h[iHist].c_str());
       laser = (TH1D*)inputLaser->Get(h[iHist].c_str());
@@ -104,27 +113,44 @@ int main() {
       
       // Calculate pull
       pullValue=pull(EpValue,laserValue,EpError,laserError);
-      if(pullValue > 3 || pullValue < -3) continue;
       fracValue=frac(laserValue,EpValue);
 
       // Print
       cout<<"xtal: "<<xtal<<"; pull: "<<pullValue<<"; frac unc: "<<fracValue<<endl;
-      
-      // Fill
       pullHist->Fill(pullValue);
       fracHist->Fill(fracValue);
+      // Fill
+      if(iHist < 2) {
+      pullHistTau->Fill(pullValue);
+      fracHistTau->Fill(fracValue);
+      }
+      else if(iHist >= 2) {
+      pullHistAmp->Fill(pullValue);
+      fracHistAmp->Fill(fracValue);
+      }
       counter++;
+
+      /* pullHistAmp->GetXaxis()->SetLimits(-300,300); */
+      /* pullHistTau->GetXaxis()->SetLimits(-300,300); */
+      /* fracHistAmp->GetXaxis()->SetLimits(-300,300); */
+      /* fracHistAmp->GetXaxis()->SetLimits(-300,300); */
     }
     
   }
+  //  fracHistTau->GetXaxis()->SetLimits(-500,500);
+  //fracHistAmp->GetXaxis()->SetLimits(-500,500);
+  //  fracHistTau->
+  
   cout<<"xtals: "<<counter<<endl;
   counter = 0;
-  draw(pullHist,output,("Plots/pull_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (All Parameters);Pull [#sigma];Entries",false);
-  draw(fracHist,output,("Plots/frac_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (All Parameters);Laser - E/p / Laser;Entries",false);
-  
+    draw(pullHist,output,("Plots/pull_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (Combined);Pull [#sigma];Entries",false);
+  draw(fracHist,output,("Plots/frac_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (Combined);Laser - E/p / Laser;Entries",false);
+
+  draw(pullHistTau,output,("Plots/pull_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (#tau);Pull [#sigma];Entries",false);
+  draw(fracHistTau,output,("Plots/frac_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (#tau);Laser - E/p / Laser;Entries",false);
+   draw(pullHistAmp,output,("Plots/pull_amp_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (A);Pull [#sigma];Entries",false);
+  draw(fracHistAmp,output,("Plots/frac_amp_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (A);Laser - E/p / Laser;Entries",false);
   output->Write(); 
-  delete pullHist;
-  delete fracHist;
 
   cout<<outputFname<<" created"<<endl;
   return 0;
