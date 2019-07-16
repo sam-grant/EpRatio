@@ -26,7 +26,8 @@ double gain_sag(double *x, double *par) {
 
 int main() {
   bool quality = true;
-  string suffix = "_skip18";
+  string suffix = "";//_skip18";
+
   // Set input and output
   /* string suffix; */
   /* if(quality && skip) suffix = "_skip18_Q"; */
@@ -35,24 +36,27 @@ int main() {
   /* else if(!quality && !skip) suffix = "_noQ"; */
   
   // Define number of g-2 cycles to use 
-  const double cycles = 12.5;
+  const int cycles = 25;
+  const double range = 12.5;
 
   // Counter for crystals 
   int counter = 0;
-
+  
   // To save plots to png then save = true  
   bool save = false;
-  //  bool save = true;
+ 
   // Open input ROOT file
-  string input_fname = "RootFiles/plots_allMuons"+suffix+".root";
+  string input_fname = "RootFiles/plots_timeXtal"+suffix+".root";
   TFile *input = TFile::Open(input_fname.c_str());
   cout << "Reading ... " << input_fname << endl;
+
   if(quality) suffix = suffix+"_Q";
   else if(!quality) suffix = suffix+"_noQ";
+
   // Book output ROOT file
   string output_fname;
   
-  output_fname = "RootFiles/fits_allMuons"+suffix+".root";
+  output_fname = "RootFiles/fits_timeXtal"+suffix+".root";
   
   TFile *output = new TFile(output_fname.c_str(), "recreate");
 
@@ -61,10 +65,7 @@ int main() {
   
   // Station loop
   for (int stn(13); stn < 20; stn = stn + 6) {
-    // if (stn == 13) continue;
-    //cout<<"Station "<<stn<<endl;
-    // cout<<"xtal, Entries, chiSqr/NDF, tau, A "<<endl;
-    
+
     // Crystal loop
     for (int xtal(0); xtal < 54; xtal++) {
       // Define time limit
@@ -77,7 +78,7 @@ int main() {
       if(hist == 0) continue;
 
       // Book the gain sag function
-      TF1 *f1 = new TF1("f1", gain_sag, 4.2, 4.2*cycles, 3);
+      TF1 *f1 = new TF1("f1", gain_sag, 4.2, 4.2*range, 3);
       f1->SetNpx(10000);
 
       // Set a starting time constant, expectation from laser is ~5 us  
@@ -126,22 +127,20 @@ int main() {
 	// factor of 100 greater than they should be
       	if(tau > 100 || A > 1) continue;
       }
-      // cout << N << endl;
-      ////////////////////////////////////////////////////
+    
       // Add up surviving crystals
       counter++;
-      // cout<<counter<<endl;
+    
       // Draw, format, and save
       hist->SetStats(1);
-      //      gStyle->SetOptStat(11);
       gStyle->SetOptFit(11111);
-      hist->SetLineWidth(2);
-      f1->SetLineWidth(5);
+      hist->SetLineWidth(3);
+      f1->SetLineWidth(3);
       //      gStyle->SetStatX(0.49);
       //  gStyle->SetStatY(0.89);
       hist->GetXaxis()->SetTitle("In Fill Time [#mus]");
       hist->GetYaxis()->SetRangeUser(0.99,1.01);
-      hist->GetXaxis()->SetRangeUser(0,maxTime*2);
+      hist->GetXaxis()->SetRangeUser(0,maxTime*cycles);
       hist->Draw();
       hist->SetDirectory(output);
       if (save){

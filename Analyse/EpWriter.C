@@ -15,7 +15,7 @@ using namespace std;
 
 int main() {
   bool quality = true;
-  bool skip = true;
+  bool skip = false;
   // Set input and output
   string suffix;
   if(quality && skip) suffix = "_skip18_Q";
@@ -24,7 +24,7 @@ int main() {
   else if(!quality && !skip) suffix = "_noQ";
 
   //  string suffix = "";
-  string input_name = "RootFiles/fits_allMuons"+suffix+".root";
+  string input_name = "RootFiles/fits_timeXtal"+suffix+".root";
   string output_name = "RootFiles/EpParameters"+suffix+".root";
       
   TFile *input = TFile::Open(input_name.c_str());

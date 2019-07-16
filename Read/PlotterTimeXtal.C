@@ -26,7 +26,7 @@ void Plotter::InitTrees(TString input_file) {
 }
 
 void Plotter::InitHistos() {
-
+  const int cycles = 25;
   plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
 
   for (int stn(13); stn < 20 ; stn = stn + 6) {
@@ -34,9 +34,9 @@ void Plotter::InitHistos() {
     plot1D("St"+std::to_string(stn)+"_dR",200,0,70,"dR [mm]","Entries");
     plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
     plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
-    plot2D("St"+std::to_string(stn)+"_Ep_vs_t",50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
+    plot2D("St"+std::to_string(stn)+"_Ep_vs_t",cycles,0,4200*cycles,1000,0,4,"In Fill Time [ns]", "E/p");
     for(int xtal(0); xtal<54; xtal++) {
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(xtal),50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
+      plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(xtal),cycles,0,4200*cycles,1000,0,4,"In Fill Time [ns]", "E/p");
     }
       
   }
@@ -51,7 +51,7 @@ void Plotter::Run() {
   // Quality cut var 
   bool qualityFail;
   // Set a cut to be skipped
-  int skipCut = 64;//18; 
+  int skipCut = 64; 
 
   // Initialise an empty vector to store the results from 64 bit Q
   vector<int> failedCuts_;
