@@ -78,6 +78,7 @@ void draw2(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title, b
   double X2 = tps1->GetX2NDC();
   double Y2 = tps1->GetY2NDC();
   cout<<X1<<" "<<X2<<" "<<Y1<<" "<<Y2<<endl;
+
   hist2->Draw();
   gPad->Update();
     
@@ -94,15 +95,15 @@ void draw2(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title, b
     
   TCanvas *c = new TCanvas("c","c",1500,1000);
   hist1->SetLineWidth(2);
-  hist1->SetLineColor(kRed);
-  hist2->SetLineColor(kBlue);
+  hist1->SetLineColor(kBlue);
+  hist2->SetLineColor(kRed);
   hist1->SetLineWidth(3);
   hist2->SetLineWidth(3);
   hist1->SetTitle(title.c_str());
   hist1->Draw();
   hist2->Draw("same");
-  // tps1->Draw("same");
-  //tps2->Draw("same");
+  tps1->Draw("same");
+  tps2->Draw("same");
   c->SaveAs(name.c_str());
   //  hist1->SetDirectory(output);
   delete c;
@@ -115,7 +116,7 @@ int main() {
  /* const int xMin = -5; */
  /* const int xMax = 5; */
 
- bool quality = true;
+  bool quality = false;//true;
  bool skip = true;
   // Set input and output
   string suffix;
@@ -158,7 +159,7 @@ int main() {
     cout<<"hist : "<<h[iHist]<<endl;
     // Start xtal loop
     for (int xtal(0); xtal < 54; xtal++) {
-         if (xtal==32) continue;      
+      //         if (xtal==32) continue;      
       // Get histograms
       Ep = (TH1D*)inputEp->Get(h[iHist].c_str());
       laser = (TH1D*)inputLaser->Get(h[iHist].c_str());
@@ -190,26 +191,18 @@ int main() {
       }
       counter++;
 
-      /* pullHistAmp->GetXaxis()->SetLimits(-300,300); */
-      /* pullHistTau->GetXaxis()->SetLimits(-300,300); */
-      /* fracHistAmp->GetXaxis()->SetLimits(-300,300); */
-      /* fracHistAmp->GetXaxis()->SetLimits(-300,300); */
     }
     
   }
-  //  fracHistTau->GetXaxis()->SetLimits(-500,500);
-  //fracHistAmp->GetXaxis()->SetLimits(-500,500);
-  //  fracHistTau->
-  
   cout<<"xtals: "<<counter<<endl;
   counter = 0;
 
   draw(pullHist,output,("Plots/pull_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (Combined);Pull [#sigma];Entries",false);
   draw(fracHist,output,("Plots/frac_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (Combined);(Laser - E/p) / Laser [%];Entries",false);
 
-  draw2(fracHistAmp,fracHistTau, output,("Plots/frac_overlay_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty;(Laser - E/p) / Laser [%];Entries",false);
+  draw2(fracHistAmp,fracHistTau,output,("Plots/frac_overlay_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty;(Laser - E/p) / Laser [%];Entries",false);
 
-   draw2(pullHistAmp,pullHistTau, output,("Plots/pull_overlay_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull;Pull [#sigma];Entries",false);
+   draw2(pullHistAmp,pullHistTau,output,("Plots/pull_overlay_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull;Pull [#sigma];Entries",false);
     
   draw(pullHistTau,output,("Plots/pull_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (#tau);Pull [#sigma];Entries",false);
   draw(fracHistTau,output,("Plots/frac_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (#tau);(Laser - E/p) / Laser [%];Entries",false);

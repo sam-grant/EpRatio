@@ -53,7 +53,7 @@ int main() {
     TH1D *Ep_hist = (TH1D*)Ep->Get(h[ihist].c_str());
     laser_hist->SetTitle("Laser");
     Ep_hist->SetTitle("E/p Ratio");
-    draw(laser_hist,Ep_hist,title[ihist],fname[ihist]);	       
+    draw(laser_hist,Ep_hist,title[ihist],fname[ihist]);
   }
   return 0;
 }
