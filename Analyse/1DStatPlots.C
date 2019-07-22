@@ -100,10 +100,12 @@ void draw2(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title, b
   hist1->SetLineWidth(3);
   hist2->SetLineWidth(3);
   hist1->SetTitle(title.c_str());
+
   hist1->Draw();
   hist2->Draw("same");
-  tps1->Draw("same");
+  tps1->Draw();
   tps2->Draw("same");
+
   c->SaveAs(name.c_str());
   //  hist1->SetDirectory(output);
   delete c;
@@ -112,22 +114,14 @@ void draw2(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title, b
 
 int main() {
 
- /* const int nBins = 30; */
- /* const int xMin = -5; */
- /* const int xMax = 5; */
-
-  bool quality = false;//true;
- bool skip = true;
-  // Set input and output
+  bool quality = true;//false;//true;
   string suffix;
-  if(quality && skip) suffix = "_skip18_Q";
-  else if(!quality && skip) suffix = "_skip18_noQ";
-  else if(quality && !skip) suffix = "_Q";
-  else if(!quality && !skip) suffix = "_noQ";
- //  string suffix = "";
+  if(quality) suffix = "_Q";
+  else if(!quality) suffix = "_noQ";
   string inputFnameEp = "RootFiles/EpParameters"+suffix+".root";
   string inputFnameLaser = "RootFiles/LaserParameters.root";
-  
+  cout<<"Reading... "<<inputFnameEp<<endl;
+  cout<<"Reading... "<<inputFnameLaser<<endl;
   string outputFname = "RootFiles/1DStatPlots"+suffix+".root";
     
   // Set input
@@ -139,17 +133,17 @@ int main() {
   // Set output
   TFile *output = new TFile(outputFname.c_str(),"RECREATE");
 
-
   // string input_Ep_name, input_laser_name, output_name, label;
   double pullValue, fracValue, EpValue, laserValue, EpError, laserError;
 
   // Book histograms
-  TH1D *pullHist = new TH1D("pullHist","pullHist",20,-5,5);
-  TH1D *fracHist = new TH1D("fracHist","fracHist",16,-200,200);
-  TH1D *pullHistTau = new TH1D("pullHistTau","pullHistTau",20,-5,5);
-  TH1D *fracHistTau = new TH1D("fracHistTau","fracHistTau",16,-200,200);
-  TH1D *pullHistAmp = new TH1D("pullHistAmp","pullHistAmp",20,-5,5);
-  TH1D *fracHistAmp = new TH1D("fracHistAmp","fracHistAmp",16,-200,200);
+  int factor = 1;
+  TH1D *pullHist = new TH1D("pullHist","pullHist",20*factor,-5,5);
+  TH1D *fracHist = new TH1D("fracHist","fracHist",20*factor,-210,210);
+  TH1D *pullHistTau = new TH1D("pullHistTau","pullHistTau",20*factor,-5,5);
+  TH1D *fracHistTau = new TH1D("fracHistTau","fracHistTau",20*factor,-250,250);
+  TH1D *pullHistAmp = new TH1D("pullHistAmp","pullHistAmp",20*factor,-5,5);
+  TH1D *fracHistAmp = new TH1D("fracHistAmp","fracHistAmp",20*factor,-250,250);
 
   int counter = 0;
 
@@ -197,17 +191,21 @@ int main() {
   cout<<"xtals: "<<counter<<endl;
   counter = 0;
 
-  draw(pullHist,output,("Plots/pull_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (Combined);Pull [#sigma];Entries",false);
-  draw(fracHist,output,("Plots/frac_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (Combined);(Laser - E/p) / Laser [%];Entries",false);
+  string axes1 = ";Pull [#sigma];Entries";
+  string axes2 = ";(Laser - E/p) / Laser [%];Entries";
+  
+  draw(pullHist,output,("Plots/pull_1D"+suffix+".png").c_str(),"St 12 & 18 | Pull (Combined)"+axes1,false);
+  draw(fracHist,output,("Plots/frac_1D"+suffix+".png").c_str(),"St 12 & 18 | Percentage Uncertainty (Combined);"+axes2,false);
 
-  draw2(fracHistAmp,fracHistTau,output,("Plots/frac_overlay_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty;(Laser - E/p) / Laser [%];Entries",false);
-
-   draw2(pullHistAmp,pullHistTau,output,("Plots/pull_overlay_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull;Pull [#sigma];Entries",false);
+  pullHistAmp->GetYaxis()->SetRangeUser(0,6.5);
+  draw2(pullHistAmp,pullHistTau,output,("Plots/pull_overlay_1D"+suffix+".png").c_str(),"St 12 & 18 | Pull;"+axes1,false);
+  fracHistAmp->GetYaxis()->SetRangeUser(0,9.5);
+  draw2(fracHistAmp,fracHistTau,output,("Plots/frac_overlay_1D"+suffix+".png").c_str(),"St 12 & 18 | Percentage Uncertainty"+axes2,false);
     
-  draw(pullHistTau,output,("Plots/pull_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (#tau);Pull [#sigma];Entries",false);
-  draw(fracHistTau,output,("Plots/frac_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (#tau);(Laser - E/p) / Laser [%];Entries",false);
-   draw(pullHistAmp,output,("Plots/pull_amp_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (A);Pull [#sigma];Entries",false);
-  draw(fracHistAmp,output,("Plots/frac_amp_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (A);(Laser - E/p) / Laser [%];Entries",false);
+  /* draw(pullHistTau,output,("Plots/pull_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (#tau);Pull [#sigma];Entries",false); */
+  /* draw(fracHistTau,output,("Plots/frac_tau_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (#tau);(Laser - E/p) / Laser [%];Entries",false); */
+  /*  draw(pullHistAmp,output,("Plots/pull_amp_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Pull (A);Pull [#sigma];Entries",false); */
+  /* draw(fracHistAmp,output,("Plots/frac_amp_1D"+suffix+".png").c_str(),"Calos 13 & 19 | Percentage Uncertainty (A);(Laser - E/p) / Laser [%];Entries",false); */
   output->Write(); 
 
   cout<<outputFname<<" created"<<endl;

@@ -25,18 +25,19 @@ double GainSag(double *x, double *par) {
 }
 
 int main() {
-  bool quality = true;
+  bool quality = true;//true;
+  // To save plots to png then save = true  
+  bool save = true;
+
   //  string suffix = "_skip18";
   string suffix = "";
   // Define number of g-2 cycles to use 
   int cycles = 50;
-  int range = 50;
+  int range = 23;
 
   // Counter for crystals 
   int counter = 0;
   
-  // To save plots to png then save = true  
-  bool save = false;
  
   // Open input ROOT file
   string input_fname = "RootFiles/plots_timeXtalLong"+suffix+".root";
@@ -72,7 +73,7 @@ int main() {
 
         // Set a starting time constant, expectation from laser is ~5 us  
       // Book the gain sag function
-      TF1 *f1 = new TF1("f1", GainSag, 4.2, 4.2*range/4, 3);
+      TF1 *f1 = new TF1("f1", GainSag, 4.2, 4.2*range, 3);
       f1->SetNpx(10000);
 
                 f1->SetParameter(2,5);

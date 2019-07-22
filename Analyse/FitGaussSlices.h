@@ -50,7 +50,7 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   double binCentre;
   double centre;
   // Slice loop
-  cout<<"calo,xtal,Ep,dEp,dEp/Ep"<<endl;
+  //  cout<<"calo,xtal,Ep,dEp,dEp/Ep"<<endl;
   for(int i = 0 ; i < nSlices; i++) {
     // Define steps
     loStep = i+1;
@@ -73,12 +73,12 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
     // if(error/value<0.05) {
       projX -> SetBinContent(i+1, value);
       projX -> SetBinError(i+1, error);
-      //  }
-      // else {
-      // projX -> SetBinContent(i+1, 0);
-      //  projX -> SetBinError(i+1, 0);
-      // }
-    //    cout<<calo<<","<<i<<","<<value<<","<<error<<","<<error/value<<endl;
+    //    }
+    //   else {
+    //   projX -> SetBinContent(i+1, 0);
+    //    projX -> SetBinError(i+1, 0);
+    //   }
+    // cout<<calo<<","<<i<<","<<value<<","<<error<<","<<error/value<<endl;
 
     TCanvas *c1 = new TCanvas();
     projY->SetMarkerColor(kBlack);
