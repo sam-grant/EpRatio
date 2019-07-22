@@ -24,7 +24,7 @@
 
 using namespace std;
 
-void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFile *output, bool save) {
+void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFile *output, int calo, bool save) {
   //Clone input to be safe 
   TH2D *hist_clone = (TH2D*)hist->Clone("hist_clone");
   //Get number of bins
@@ -50,13 +50,14 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   double binCentre;
   double centre;
   // Slice loop
+  cout<<"calo,xtal,Ep,dEp,dEp/Ep"<<endl;
   for(int i = 0 ; i < nSlices; i++) {
     // Define steps
     loStep = i+1;
     hiStep = i+1;
     // Perform projection
     projY = hist_clone->ProjectionY("prY",loStep,hiStep);
-    // Clean up empty bins 
+    // Clean up low bins 
     if (projY->GetEntries() < 1) continue;
     //Define the threshold at half maximum to avoid those tails.
     threshold =  (projY -> GetBinContent(projY->GetMaximumBin()));// * (2/3);
@@ -65,13 +66,20 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
     fitMin = projY -> GetBinCenter(projY -> FindFirstBinAbove(threshold,1));
     fitMax = projY -> GetBinCenter(projY -> FindLastBinAbove(threshold,1));
     // "Q" : supress printing "M" use minuit to improve fit result, "R" fit over range
-    projY -> Fit(gFunc,"RQ","",fitMin,fitMax);
+    projY -> Fit(gFunc,"RMQ","",fitMin,fitMax);
     // Fill a histogram with the fit results
     double value = gFunc->GetParameter(1);
     double error = gFunc->GetParError(1);
-    //    if(error>0.05*value) continue;    
-    projX -> SetBinContent(i+1, value);//gFunc->GetParameter(1));
-    projX -> SetBinError(i+1, error);//gFunc->GetParError(1));
+    // if(error/value<0.05) {
+      projX -> SetBinContent(i+1, value);
+      projX -> SetBinError(i+1, error);
+      //  }
+      // else {
+      // projX -> SetBinContent(i+1, 0);
+      //  projX -> SetBinError(i+1, 0);
+      // }
+    //    cout<<calo<<","<<i<<","<<value<<","<<error<<","<<error/value<<endl;
+
     TCanvas *c1 = new TCanvas();
     projY->SetMarkerColor(kBlack);
     projY->SetLineColor(kBlack);
