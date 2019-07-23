@@ -58,7 +58,7 @@ void draw2(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title, b
     hist1->Fit(gFunc);
     gStyle->SetOptFit(11);
   }
-  hist1->SetName("A");
+  hist1->SetName("#alpha");
   hist2->SetName("#tau_{r}");
   hist1->Draw();
   gPad->Update();
@@ -195,10 +195,10 @@ int main() {
   string axes2 = ";(Laser - E/p) / Laser [%];Entries";
   
   draw(pullHist,output,("Plots/pull_1D"+suffix+".png").c_str(),"St 12 & 18 | Pull (Combined)"+axes1,false);
-  draw(fracHist,output,("Plots/frac_1D"+suffix+".png").c_str(),"St 12 & 18 | Percentage Uncertainty (Combined);"+axes2,false);
+  draw(fracHist,output,("Plots/frac_1D"+suffix+".png").c_str(),"St 12 & 18 | Percentage Uncertainty (Combined)"+axes2,false);
 
   pullHistAmp->GetYaxis()->SetRangeUser(0,6.5);
-  draw2(pullHistAmp,pullHistTau,output,("Plots/pull_overlay_1D"+suffix+".png").c_str(),"St 12 & 18 | Pull;"+axes1,false);
+  draw2(pullHistAmp,pullHistTau,output,("Plots/pull_overlay_1D"+suffix+".png").c_str(),"St 12 & 18 | Pull"+axes1,false);
   fracHistAmp->GetYaxis()->SetRangeUser(0,9.5);
   draw2(fracHistAmp,fracHistTau,output,("Plots/frac_overlay_1D"+suffix+".png").c_str(),"St 12 & 18 | Percentage Uncertainty"+axes2,false);
     

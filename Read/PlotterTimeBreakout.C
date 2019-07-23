@@ -1,7 +1,3 @@
-//Simple code to make plots from the Europa OmegaA ntuples
-// gavin.hesketh@ucl.ac.uk
-// modified by: samuel.grant.18@ucl.ac.uk
-
 //to use a particular branch, make sure it is uncommented in Reader.C
 //branch variables are listed in Reader.h
 
@@ -10,6 +6,8 @@
 #include "TMath.h"
 #include "TFile.h"
 #include "TH1.h"
+
+using namespace std;
 
 int CaloNum(int caloX, int caloY) {
   return caloX+9*caloY;
@@ -26,17 +24,16 @@ void Plotter::InitTrees(TString input_file) {
 }
 
 void Plotter::InitHistos() {
-
+  const int cycles = 50;
   plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
-
   for (int stn(13); stn < 20 ; stn = stn + 6) {
     plot1D("St"+std::to_string(stn)+"_logEop",200,-3.5,1,"Log(E/p)","Entries");
     plot1D("St"+std::to_string(stn)+"_dR",200,0,70,"dR [mm]","Entries");
     plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
     plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
-    plot2D("St"+std::to_string(stn)+"_Ep_vs_t",50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
-    for(int xtal(0); xtal<54; xtal++) {
-      plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(xtal),50,0,4200*50,1000,0,4,"In Fill Time [ns]", "E/p");
+    plot2D("St"+std::to_string(stn)+"_Ep_vs_t",cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
+    for(int brd(0); brd<2; brd++) {
+      plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(brd),cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
     }
       
   }
@@ -48,10 +45,10 @@ void Plotter::InitHistos() {
 
 void Plotter::Run() {
   
-  // Quality cut var 
+  // Quality cut variable 
   bool qualityFail;
   // Set a cut to be skipped
-  int skipCut = 64;//18; 
+  int skipCut = 18; 
 
   // Initialise an empty vector to store the results from 64 bit Q
   vector<int> failedCuts_;
@@ -59,11 +56,17 @@ void Plotter::Run() {
     failedCuts_.push_back(0);
   }
 
+  // Get E/p means for normalisation
+  string inputName = "../Analyse/RootFiles/plots_EpXtal.root";
+  TFile *input = TFile::Open(inputName.c_str());
+  
   while( NextallmuonsEvent() ) {
 
     //loop over the matches in this event:
     for(int i=0; i<am->nmatches; i++) {
-       
+
+      if(am->nhits[i] != 1) continue;       
+
       // Empty vector to contain the results bit by bit (refreshing each event)
       vector<int> failedCutsBits_;
       for(int i = 0; i < 64; i++){
@@ -97,16 +100,14 @@ void Plotter::Run() {
       }
 
       // If using all cuts, just set (Q == true) continue;
-      if(qualityFail == true) continue;
-
-      if(am->nhits[i] != 1) continue;
+      if(qualityFail) continue;
 
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
       
       double logEop = log(am->EovP[i]);
       double dt = am->Tdiff[i];
       int caloSt = am->cluCaloNum[i];
-      if(caloSt > 19) continue;
+      //if(caloSt > 19) continue;
       int trkSt = am->trkStationNum[i];
       double caloX_raw = am->cluX[i];
       double caloY_raw = am->cluY[i];
@@ -123,11 +124,31 @@ void Plotter::Run() {
       double E = am->cluEne[i];
       double Ep = E/p;
 
+      //Normalisation
+      string h = "St"+std::to_string(caloSt)+"_Ep_vs_xtal";
+      TH1D *scale = (TH1D*)input->Get(h.c_str());
+      double scaleFactor = scale->GetBinContent(xtal+1);
+      if(scaleFactor==0) continue;
+      Ep = Ep / scaleFactor;
+
+      // Seperate boards
+      int shortLifeXtal[22] = {0,9,10,11,14,15,18,19,20,23,24,27,30,31,34,35,36,39,40,43,44,45};
+      int brd;
+      for (int j = 0 ; j < 22 ; j++ ) {
+        if (xtal == shortLifeXtal[j]) {
+          brd = 0;
+          break;
+        }
+        else {
+          brd = 1;
+        }
+      }
+      
       Fill1D("St"+std::to_string(caloSt)+"_dR",dR);
       Fill1D("St"+std::to_string(caloSt)+"_dt",dt);
       Fill1D("St"+std::to_string(caloSt)+"_logEop",logEop);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t",t,Ep);
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(xtal),t,Ep);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd),t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_E_vs_p",p,E);      
 
     }
