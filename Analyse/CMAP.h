@@ -32,7 +32,7 @@ void CMAP(TH2D *hist, string title, string fname, TFile *output, bool save) {
   // Set name...
   hist_clone->SetName(fname.c_str());
   // Draw it
-  TCanvas *c = new TCanvas("c", "c", 1500, 1000);
+  TCanvas *c = new TCanvas("c", "c", 3000, 2000);
   hist_clone->SetStats(0);
   hist_clone->SetTitle(title.c_str());
   c->SetRightMargin(0.13);
@@ -40,7 +40,7 @@ void CMAP(TH2D *hist, string title, string fname, TFile *output, bool save) {
   hist_clone->SetOption("COLZ");
   hist_clone->Draw();
   if (save) {
-    c->SaveAs((fname+".png").c_str()); 
+    c->SaveAs(("Plots/"+fname+".png").c_str()); 
   }
   hist_clone->SetDirectory(output);
   delete c;

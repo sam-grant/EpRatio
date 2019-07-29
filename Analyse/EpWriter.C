@@ -24,7 +24,7 @@ int main() {
   /* else if(!quality && !skip) suffix = "_noQ"; */
 
   //  string suffix = "";
-  string input_name = "RootFiles/fits_timeXtalLong_Q.root";//"+suffix+".root";
+  string input_name = "RootFiles/fits_TimeXtalLong_Q.root";//"+suffix+".root";
   string output_name = "RootFiles/EpParameters_Q.root";//+suffix+".root";
       
   TFile *input = TFile::Open(input_name.c_str());

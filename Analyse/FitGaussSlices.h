@@ -28,14 +28,15 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   //Clone input to be safe 
   TH2D *hist_clone = (TH2D*)hist->Clone("hist_clone");
   //Get number of bins
-  int nBins = hist_clone->GetNbinsX(); 
-  // Set number of slices. You can hardcode this to change the number of slices
+  int nBins = hist_clone->GetNbinsX();
+   // Set number of slices. You can hardcode this to change the number of slices
   int nSlices = nBins;
   // Get the length of the slice in x
   int length = nBins / nSlices;
   hist_clone -> RebinX(length);
   // Define the gaussian function
   TF1 *gFunc = new TF1("gFunc", "gaus");
+  gFunc->SetLineWidth(5);
   // Declare step edges
   int loStep;
   int hiStep;
@@ -52,6 +53,7 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   // Slice loop
   //  cout<<"calo,xtal,Ep,dEp,dEp/Ep"<<endl;
   for(int i = 0 ; i < nSlices; i++) {
+    TCanvas *c1 = new TCanvas();//"c1","c1",3000,2000);
     // Define steps
     loStep = i+1;
     hiStep = i+1;
@@ -71,25 +73,20 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
     double value = gFunc->GetParameter(1);
     double error = gFunc->GetParError(1);
     // if(error/value<0.05) {
-      projX -> SetBinContent(i+1, value);
-      projX -> SetBinError(i+1, error);
-    //    }
-    //   else {
-    //   projX -> SetBinContent(i+1, 0);
-    //    projX -> SetBinError(i+1, 0);
-    //   }
-    // cout<<calo<<","<<i<<","<<value<<","<<error<<","<<error/value<<endl;
+    projX -> SetBinContent(i+1, value);
+    projX -> SetBinError(i+1, error);
 
-    TCanvas *c1 = new TCanvas();
+    gStyle->SetOptStat(2210);
+    gStyle->SetOptFit(111);
+    projY->SetTitle(("Stn "+to_string(calo-1)+", Bin "+to_string(i)+";Cluster Energy, E / Track Momentum, p;Entries").c_str());
     projY->SetMarkerColor(kBlack);
     projY->SetLineColor(kBlack);
+    ///    projY->GetXaxis()->SetRangeUser(0.7,1.4);
     projY->Draw();
-    // gStyle->SetOptFit();
-    projY->SetStats(0);
     projY->SetName((g_fname+"_"+to_string(i)).c_str());
-    projY->SetDirectory(output);
+    //    projY->SetDirectory(output);
     if (save) {
-      c1->SaveAs((g_fname+"_"+to_string(i)+".png").c_str());
+      //         c1->SaveAs(("Plots/"+g_fname+"_"+to_string(i)+".png").c_str());
     }
     delete c1;
     //cout << i << " " <<  gFunc->GetParameter(1) << endl;
@@ -101,19 +98,20 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   // Set name...
   projX->SetName(fname.c_str());
   // Plot means 
-  TCanvas *c2 = new TCanvas("c2", "c2", 2000, 1000);
+  TCanvas *c2 = new TCanvas("c2", "c2", 3000, 2000);
   projX->SetStats(0);
-  gStyle->SetOptStat(110010);
+  gStyle->SetOptStat(2210);
+  projX->GetYaxis()->SetRangeUser(0.94,0.98);
   projX->SetTitle(title.c_str());
   projX->SetMarkerColor(kBlack);
   projX->SetLineColor(kBlack);
-  projX->SetLineWidth(2);
+  projX->SetLineWidth(5);
   projX->GetXaxis()->SetRange(binmin,binmax);
   //  projX->GetYaxis()->SetRangeUser(.71,1.25);
-  gPad->SetGridy();
+  //  gPad->SetGridy();
   projX->DrawCopy();
   if (save) {
-    c2->SaveAs((fname+".png").c_str());
+    c2->SaveAs(("Plots/"+fname+".png").c_str());
   }
   // Save to ROOT file
   projX->SetDirectory(output);
