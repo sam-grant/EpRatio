@@ -36,7 +36,7 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   hist_clone -> RebinX(length);
   // Define the gaussian function
   TF1 *gFunc = new TF1("gFunc", "gaus");
-  gFunc->SetLineWidth(5);
+  //  gFunc->SetLineWidth(5);
   // Declare step edges
   int loStep;
   int hiStep;
@@ -72,16 +72,19 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
     // Fill a histogram with the fit results
     double value = gFunc->GetParameter(1);
     double error = gFunc->GetParError(1);
-    // if(error/value<0.05) {
-    projX -> SetBinContent(i+1, value);
-    projX -> SetBinError(i+1, error);
-
+    //    if(error/value<0.05) {
+      projX -> SetBinContent(i+1, value);
+      projX -> SetBinError(i+1, error);
+    // }
+    // else {
+    //   projX -> SetBinContent(i+1, 0);
+    //   projX -> SetBinError(i+1, 0);
+    // }
     gStyle->SetOptStat(2210);
     gStyle->SetOptFit(111);
     projY->SetTitle(("Stn "+to_string(calo-1)+", Bin "+to_string(i)+";Cluster Energy, E / Track Momentum, p;Entries").c_str());
     projY->SetMarkerColor(kBlack);
     projY->SetLineColor(kBlack);
-    ///    projY->GetXaxis()->SetRangeUser(0.7,1.4);
     projY->Draw();
     projY->SetName((g_fname+"_"+to_string(i)).c_str());
     //    projY->SetDirectory(output);
@@ -101,13 +104,13 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   TCanvas *c2 = new TCanvas("c2", "c2", 3000, 2000);
   projX->SetStats(0);
   gStyle->SetOptStat(2210);
-  projX->GetYaxis()->SetRangeUser(0.94,0.98);
+  //  projX->GetYaxis()->SetRangeUser(0.94,0.98);
   projX->SetTitle(title.c_str());
   projX->SetMarkerColor(kBlack);
   projX->SetLineColor(kBlack);
-  projX->SetLineWidth(5);
+  //  projX->SetLineWidth(5);
   projX->GetXaxis()->SetRange(binmin,binmax);
-  //  projX->GetYaxis()->SetRangeUser(.71,1.25);
+  //  projX->GetYaxis()->SetRangeUser(.75,1.05);
   //  gPad->SetGridy();
   projX->DrawCopy();
   if (save) {
