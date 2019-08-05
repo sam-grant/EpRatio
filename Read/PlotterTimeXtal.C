@@ -48,7 +48,7 @@ void Plotter::Run() {
   // Quality cut variable 
   bool qualityFail;
   // Set a cut to be skipped
-  int skipCut = 18; 
+  int skipCut = 63;//18;
 
   // Initialise an empty vector to store the results from 64 bit Q
   vector<int> failedCuts_;
@@ -74,19 +74,22 @@ void Plotter::Run() {
       }
 
       // 64 bit integer refering to the cut results
-      long long Q = am->trkPositronVertexQualityStatus[i]; 
-
+      //      if(am->trkCaloVertexQualityStatus[i]!=0) continue;//{
+      //         long long Q = am->trkLostVertexQualityStatus[i];
+	    
+      long long Q = am->trkPositronVertexQualityStatus[i];
+      // long long Q
       // Scan across the bits and find the non zero ones
       // Put these in a hist, and a vector
       for (int iCut = 63; iCut >= 0; iCut--) {
-	//std::cout<<((Q >> iCut) & 1);
+	std::cout<<((Q >> iCut) & 1);
 	failedCutsBits_.at(iCut) = (Q >> iCut) & 1;
 	if( (Q >> iCut) & 1 ) {
 	  failedCuts_.at(iCut)++;
 	  Fill1D("cuts",iCut);
 	}
       }
-       
+
       // Define the qualityFail bool (if skipping cuts) 
       for (int iCut = 0; iCut < 63; iCut++) {
 	if(iCut == skipCut) continue;
@@ -100,7 +103,10 @@ void Plotter::Run() {
       }
 
       // If using all cuts, just set (Q == true) continue;
-      if(qualityFail) continue;
+      std::cout<<" qualityFail: "<<qualityFail<<std::endl;
+      if(qualityFail == true) continue;
+
+      if(Q!=0) continue;
 
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
       

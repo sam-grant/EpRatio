@@ -497,6 +497,7 @@ class allmuonsReader : public Reader {
    Bool_t          decayHitVolume[110];   //[nmatches]
    UInt_t          nMatchedClusters[221];   //[nvertices]
    ULong64_t       trkPositronVertexQualityStatus[110]; //[nmatches]
+   ULong64_t       trkCaloVertexQualityStatus[110]; //[nmatches]
 
 private:
    // List of branches
@@ -555,6 +556,7 @@ private:
    TBranch        *b_decayTime;   //!
    TBranch        *b_decayHitVolume;   //!
    TBranch        *b_nMatchedClusters;   //!
+   TBranch        *b_trkCaloVertexQualityStatus;
    TBranch        *b_trkPositronVertexQualityStatus;
       void Init();
 

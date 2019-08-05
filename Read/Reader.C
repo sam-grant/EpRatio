@@ -207,7 +207,9 @@ void allmuonsReader::Init() {
    // number of coincidences
   // LoadBranch("trkPassCandidateQuality",trkPassCandidateQuality,b_trkPassCandidateQuality);
   //   LoadBranchVector("trkPassTrackQuality",trkPassTrackQuality,b_trkPassTrackQuality);
-     LoadBranchVector("trkPositronVertexQualityStatus",trkPositronVertexQualityStatus,b_trkPositronVertexQualityStatus);
+     LoadBranchVector("trkCaloVertexQualityStatus",trkCaloVertexQualityStatus,b_trkCaloVertexQualityStatus);
+  LoadBranchVector("trkPositronVertexQualityStatus",trkPositronVertexQualityStatus,b_trkPositronVertexQualityStatus);
+     
   // LoadBranch("trkPassVertexQuality",trkPassVertexQuality,b_trkPassVertexQuality);
   LoadBranch("ncoin", ncoin, b_ncoin);
    LoadBranchVector("firstclu", firstclu, b_firstclu);
@@ -243,7 +245,7 @@ void allmuonsReader::Init() {
    // LoadBranchVector("trkT0", trkT0, b_trkT0);
    // LoadBranchVector("trkPassCandidateQuality", trkPassCandidateQuality, b_trkPassCandidateQuality);
    //LoadBranchVector("trkPassTrackQuality", trkPassTrackQuality, b_trkPassTrackQuality);
-   //LoadBranchVector("trkPassVertexQuality", trkPassVertexQuality, b_trkPassVertexQuality);
+   //LoadBraxnchVector("trkPassVertexQuality", trkPassVertexQuality, b_trkPassVertexQuality);
    LoadBranchVector("vX", vX, b_vX);
    LoadBranchVector("vY", vY, b_vY);
    LoadBranchVector("vZ", vZ, b_vZ);
