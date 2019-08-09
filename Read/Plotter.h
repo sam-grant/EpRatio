@@ -62,6 +62,7 @@ public:
 
   bool FiducialXtal(const double x, const double y);
   bool FiducialMain(const double x, const double y);
+  bool FiducialHacky(const int xtal);
 
   //could add any number of readers here:
   clusterTrackerTrackReader *ctt;
@@ -150,7 +151,7 @@ Plotter::~Plotter() {
     else plots1D[i]->Write();
   }
   for(int i=0; i<plots2D.size(); i++) {
-    if(plots2D[i]->GetEntries()==0) cout <<"2D Plot not used: "<<plots2D[i]->GetName()<<endl;
+   if(plots2D[i]->GetEntries()==0) cout <<"2D Plot not used: "<<plots2D[i]->GetName()<<endl;
     else plots2D[i]->Write();
   }
   
@@ -347,26 +348,37 @@ bool Plotter::FiducialXtal(const double x, const double y) {
 bool Plotter::FiducialMain(const double x, const double y) {
 
   bool fid = false;
-  bool fidy = false;
-  bool fidx = false;
- 
-  //  const double fx = x;
-  // const double fy = y;
-  // const double xCentre = (9*25)/2;
-  //const double yCentre = (6*25)/2;
-  const double xLo = -62.5;//-80;
-  const double xHi = 12.5;
-  const double yLo = -25;
-  const double yHi = 25;
-  // const double yBound = 50;
+  const double fx = fabs(x);
+  const double fy = fabs(y);
+  const int step = 25;
+  // Length between 0 and xMax is 9*25/2 = 112.5, length between 0 and yMax is 6*25/2 = 75.
+  // We need to draw a rectangle with new lengths xMax-25 and yMax-25.
+  const double xBound = (9*step/2)-step;
+  const double yBound = (6*step/2)-step;
+  if(fx < xBound && fy < yBound) fid = true;
+  return fid;
+  
+  // Old, cutting out flat E/p region
+  // bool fidy = false;
+  // bool fidx = false;
+     // const double xLo = -62.5;
+  // const double xHi = 12.5;
+  // // const double yLo = -25;
+  // // const double yHi = 25;
+  // if( yLo < y && y < yHi) fidy = true;
+  // if( xLo < x && x < xHi) fidx = true;
+  // if(fidy && fidx) fid = true;
+}
 
-  if( yLo < y && y < yHi) fidy = true;
-  if( xLo < x && x < xHi) fidx = true;
-
-  if(fidy && fidx) {   
-    fid = true;
+bool Plotter::FiducialHacky(const int xtal) {
+  bool fid = true;
+  int i[26] = {0,1,2,3,4,5,6,7,8,9,17,18,26,27,35,36,44,45,46,47,48,49,50,51,52,53};
+  for(int loop(0); loop<26; loop++) {
+    if(xtal == i[loop]) {
+      fid=false;
+      break;
+    }
   }
-   
   return fid;
 }
 

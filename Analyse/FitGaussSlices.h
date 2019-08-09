@@ -53,6 +53,8 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   // Slice loop
   //  cout<<"calo,xtal,Ep,dEp,dEp/Ep"<<endl;
   for(int i = 0 ; i < nSlices; i++) {
+    // Fiducial region
+    
     TCanvas *c1 = new TCanvas();//"c1","c1",3000,2000);
     // Define steps
     loStep = i+1;
@@ -87,7 +89,7 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
     projY->SetLineColor(kBlack);
     projY->Draw();
     projY->SetName((g_fname+"_"+to_string(i)).c_str());
-    //    projY->SetDirectory(output);
+    projY->SetDirectory(output);
     if (save) {
       //         c1->SaveAs(("Plots/"+g_fname+"_"+to_string(i)+".png").c_str());
     }

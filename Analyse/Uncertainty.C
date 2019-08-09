@@ -2,7 +2,6 @@
 // Sam Grant
 // samuel.grant.18@ucl.ac.uk
 
-
 #include <iostream>
 #include "TF1.h"
 #include "TH1D.h"
@@ -33,12 +32,12 @@ double Error(double laserValue, double laserError, double EpValue, double EpErro
 void DrawNFit(TH1D *hist, TFile *output, string fname, string title) {
   TCanvas *c = new TCanvas("c","c",3000,2000);
   TF1 *lineFit = new TF1("lineFit", "pol 0");
-  lineFit->SetLineWidth(10);
+  lineFit->SetLineWidth(5);
   gStyle->SetOptStat(0);
   hist->Fit(lineFit);
   gStyle->SetOptFit(111);
-  hist->SetLineWidth(10);
   hist->SetLineColor(kBlack);
+  hist->SetLineWidth(5);
   hist->SetTitle(title.c_str());
   hist->Draw();
   c->SaveAs(fname.c_str());
@@ -55,7 +54,7 @@ TH1D *Fill(vector<double> values_, vector<double> errors_) {
     return 0;
   }
   
-  TH1D *hist = new TH1D("hist","hist title",values_.size(),0,values_.size()-1);
+  TH1D *hist = new TH1D("hist","hist title",values_.size(),0.5,values_.size()+0.5);
 
   for(int i(0); i<values_.size(); i++) {
     hist->SetBinContent(i+1,values_.at(i));

@@ -208,7 +208,8 @@ void allmuonsReader::Init() {
   // LoadBranch("trkPassCandidateQuality",trkPassCandidateQuality,b_trkPassCandidateQuality);
   //   LoadBranchVector("trkPassTrackQuality",trkPassTrackQuality,b_trkPassTrackQuality);
      LoadBranchVector("trkCaloVertexQualityStatus",trkCaloVertexQualityStatus,b_trkCaloVertexQualityStatus);
-  LoadBranchVector("trkPositronVertexQualityStatus",trkPositronVertexQualityStatus,b_trkPositronVertexQualityStatus);
+     LoadBranchVector("trkPositronVertexQualityStatus",trkPositronVertexQualityStatus,b_trkPositronVertexQualityStatus);
+     LoadBranchVector("trkLostMuonVertexQualityStatus",trkLostMuonVertexQualityStatus,b_trkLostMuonVertexQualityStatus);
      
   // LoadBranch("trkPassVertexQuality",trkPassVertexQuality,b_trkPassVertexQuality);
   LoadBranch("ncoin", ncoin, b_ncoin);

@@ -32,6 +32,7 @@ void Plotter::InitHistos() {
     plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
     plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
     plot2D("St"+std::to_string(stn)+"_Ep_vs_t",cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
+    plot2D("St"+std::to_string(stn)+"_x_vs_y",200,-150,150,200,-120,120,"Forwards Extrapolated Track Position X [mm]","Forwards Extrapolated Track Position X [mm]");
     for(int brd(0); brd<2; brd++) {
       plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(brd),cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
     }
@@ -57,7 +58,7 @@ void Plotter::Run() {
   }
 
   // Get E/p means for normalisation
-  string inputName = "../Analyse/RootFiles/plots_EpXtal.root";
+  string inputName = "../Analyse/RootFiles/PlotsEpXtalFid.root";
   TFile *input = TFile::Open(inputName.c_str());
   
   while( NextallmuonsEvent() ) {
@@ -143,14 +144,14 @@ void Plotter::Run() {
           brd = 1;
         }
       }
-      
+      //      std::cout<<xtal<<endl;
       Fill1D("St"+std::to_string(caloSt)+"_dR",dR);
       Fill1D("St"+std::to_string(caloSt)+"_dt",dt);
       Fill1D("St"+std::to_string(caloSt)+"_logEop",logEop);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t",t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd),t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_E_vs_p",p,E);      
-
+      Fill2D("St"+std::to_string(caloSt)+"_x_vs_y",trX,trY);      
     }
   }
   

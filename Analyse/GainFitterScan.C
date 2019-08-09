@@ -29,36 +29,33 @@ double GainSag(double *x, double *par) {
 
 void draw(vector<TH1D *> hist_, string fname, int stn, int par, int err, bool save) {
 
-  string calo, para, tpara, axes;
+  string calo, para, axes;
   string us = "";
 
-  if(stn == 13) calo = "St 12 |";
-  else calo = "St 18 |";
+  if(stn == 13) calo = "Stn 12";
+  else calo = "Stn 18";
   if(par == 0 && err == 0) {
     para = " #alpha";
-    tpara = " Amplitude";
   }
   else if(par == 0 && err == 1) {
     para = " #delta#alpha";
-    tpara = " Amplitude Uncertainty";
      }
   else if(par == 1 && err == 0) {
     para = " #tau_{r}";
     us  = " [#mus]";
-    tpara = " Recovery Time";
   }
   else if(par == 1 && err == 1) {
     para = " #delta#tau_{r}";
     us  = " [#mus]";
-    tpara = " Recovery Time Uncertainty";
   }
   axes = ";Fit End Time [#mus];"+para+us;
   gStyle->SetPalette(kRainBow);
   int nColors = gStyle->GetNumberOfColors();
   int nHistos = hist_.size();;
   //cout<<hist_.size()<<endl;
-  TCanvas *c = new TCanvas("c","c",1500,1000);
+  TCanvas *c = new TCanvas("c","c",3000,2000);
   TLegend *leg = new TLegend(0.92,0.11,0.98,0.89);
+  leg->SetBorderSize(0);
   double x1, x2, y1, y2;
   x1 = 4.2*23;
   x2 = x1;
@@ -105,23 +102,24 @@ void draw(vector<TH1D *> hist_, string fname, int stn, int par, int err, bool sa
     hist_.at(i)->GetYaxis()->SetRangeUser(y1,y2);
     hist_.at(i)->SetStats(0);
     hist_.at(i)->SetLineWidth(0);
-    hist_.at(i)->SetMarkerSize(2);
+    hist_.at(i)->SetMarkerSize(5);
     hist_.at(i)->SetMarkerStyle(20);//kStar);
     int histoColor = (float)nColors / hist_.size() * i;
     hist_.at(i)->SetMarkerColor(gStyle->GetColorPalette(histoColor));
     if(i==0) hist_.at(i)->Draw("P");
     hist_.at(i)->Draw("P SAME");
-    l->SetLineWidth(2);
+    l->SetLineWidth(5);
     l->SetLineStyle(2);
     l->Draw("same");
-    leg ->AddEntry(hist_.at(i));
-    hist_.at(i)->SetTitle((calo+tpara+axes).c_str());
+    leg->AddEntry(hist_.at(i));
+    hist_.at(i)->SetTitle((calo+axes).c_str());
    }
   c->Draw();
   leg->Draw();
   if(save) c->SaveAs(("Plots/"+fname+".png").c_str());
   
   delete c;
+  delete leg;
   return;
 }
   
@@ -184,7 +182,6 @@ int main() {
 	  if( isnan(tau_err) || isnan(A_err) ) continue;
 	  // factor of 100 greater than they should be
 	  if(tau > 100 || A > 1) continue;
-	  //	  cout<<"calo "<<stn<<" xtal "<<xtal<<" time "<<tscan*4.2<<" tau "<<tau<<" A "<<A<<endl;
 	  if (iErr == 0) {
 	    scanA->SetBinContent(tscan, A);//f1->GetParameter(par));
 	    scanTau->SetBinContent(tscan, tau);//f1->GetParameter(par));
@@ -195,16 +192,18 @@ int main() {
 	  }
      	  scanA->SetBinError(tscan, 0);//A_err);//f1->GetParError(par));
 	  scanTau->SetBinError(tscan, 0);//tau_err);//f1->GetParError(par));
-     	  scanA->SetName(("Xtal "+to_string(xtal)).c_str()); 
+     	  scanA->SetName(("Xtal "+to_string(xtal)).c_str());
+	  scanTau->SetName(("Xtal "+to_string(xtal)).c_str()); 
 	} // fill loop
 	scanVecA_.push_back(scanA);
 	scanVecTau_.push_back(scanTau);
+
       } // xtal loop
        string unc;
        if(iErr == 1) unc = "Err";
        else unc = "";
-      string fnameA = "St_"+to_string(stn)+"_A"+unc;
-      string fnameTau = "St_"+to_string(stn)+"_Tau"+unc;
+      string fnameA = "St"+to_string(stn)+"AlphaFitEndPointScan"+unc;
+      string fnameTau = "St"+to_string(stn)+"TauFitEndPointScan"+unc;
       draw(scanVecA_, fnameA, stn, 0, iErr, save);
       draw(scanVecTau_, fnameTau, stn, 1, iErr, save);
     }

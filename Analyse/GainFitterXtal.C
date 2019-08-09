@@ -27,33 +27,32 @@ double GainSag(double *x, double *par) {
 int main() {
   
   bool quality = true;
-  // To save plots to png then save = true  
-  bool save = true;
-
-  //  string suffix = "_skip18";
-  string suffix = "";
-  // Define number of g-2 cycles to use 
+  bool save = save;
+  // Number of g-2 cycles
   int cycles = 50;
+  // Fit range
   int range = 23;
-
+  string suffix;
   // Counter for crystals 
   int counter = 0;
  
   // Open input ROOT file
-  string inputFname = "RootFiles/plots_TimeXtalLong"+suffix+".root";
+  // string inputFname = "RootFiles/plots_TimeXtalLong"+suffix+".root";
+  string inputFname = "RootFiles/PlotsTimeXtal.root";//Long"+suffix+".root";
   TFile *input = TFile::Open(inputFname.c_str());
   cout << "Reading ... " << inputFname << endl;
 
-  if(quality) suffix = suffix+"_Q";
-  else if(!quality) suffix = suffix+"_noQ";
+  if(quality) suffix = "_Q";
+  else if(!quality) suffix = "_noQ";
 
   // Book output ROOT file
-  string outputFname = "RootFiles/fits_timeXtalLong"+suffix+".root";
+  string outputFname = "RootFiles/FitsTimeXtal"+suffix+".root";
   TFile *output = new TFile(outputFname.c_str(), "recreate");
   
   // Define time limit
   const int maxTime = 4.2*cycles;
 
+  cout<<"Xtal,N,ChiSqrNdf,Tau,dTau,Alpha,dAlpha"<<endl;
   // Station loop
   for (int stn(13); stn < 20; stn = stn + 6) {
 
@@ -103,17 +102,13 @@ int main() {
         if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
         // Require low relative error
         if( tau_err > 0.5*tau || A_err > 0.5*A) continue;
-        // Get rid of infinite errors please!
-        if( isnan(tau_err) == true || isnan(A_err) == true ) continue;
-        // Chop anything a factor of 100 greater than the expectation
-        if(tau > 100 || A > 1) continue;
       }
 
       // Add up surviving crystals
       counter++;
-    
+     
       // Book canvas, make it high def
-      TCanvas *c1 = new TCanvas("c1","c1",3000,2000);
+      TCanvas *c1 = new TCanvas("","",3000,2000);
  
       // Draw, format, and save
       gStyle->SetOptStat(10);
@@ -126,13 +121,13 @@ int main() {
       hist->GetXaxis()->SetRangeUser(0,4.2*cycles);
 
       hist->Draw();
-      
       hist->SetDirectory(output);
+
       if (save) {
 		c1->SaveAs(("PlotsGoldList/"+h+".png").c_str());
       }
       // Make some print outs
-      cout<<xtal<<", "<<N<<", "<<chiSqrNDF<<", "<<tau<<"+-"<<tau_err<<", "<<A<<"+-"<<A_err<<endl;
+      cout<<xtal<<","<<N<<","<<chiSqrNDF<<","<<tau<<","<<tau_err<<","<<A<<","<<A_err<<endl;
       // Delete the canvas
       delete c1;
     }

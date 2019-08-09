@@ -33,13 +33,13 @@ void draw(TH1D *hist, TFile *output, string name, string title, bool fit) {
   gStyle->SetOptStat(2210);
   if(fit) {
     // Define the gaussian function
-    TF1 *gFunc = new TF1("gFunc", "gaus");//,-2,2);
+    TF1 *gFunc = new TF1("gFunc", "gaus");
     hist->Fit(gFunc);
     gStyle->SetOptFit(11);
   }
-  TCanvas *c = new TCanvas("c","c",1500,1000);
+  TCanvas *c = new TCanvas("c","c",3000,2000);
   hist->SetName(name.c_str());
-  hist->SetLineWidth(3);
+  hist->SetLineWidth(5);
   hist->SetLineColor(kBlack);
   hist->SetTitle(title.c_str());
   hist->Draw();
@@ -93,12 +93,11 @@ void draw2(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title, b
   tps2->SetY1NDC((Y1-0.025)-(Y2-Y1));
   tps2->SetY2NDC(Y1-0.025);
     
-  TCanvas *c = new TCanvas("c","c",1500,1000);
-  hist1->SetLineWidth(2);
+  TCanvas *c = new TCanvas("c","c",3000,2000);
   hist1->SetLineColor(kBlue);
   hist2->SetLineColor(kRed);
-  hist1->SetLineWidth(3);
-  hist2->SetLineWidth(3);
+  hist1->SetLineWidth(5);
+  hist2->SetLineWidth(5);
   hist1->SetTitle(title.c_str());
 
   hist1->Draw();
@@ -122,7 +121,7 @@ int main() {
   string inputFnameLaser = "RootFiles/LaserParameters.root";
   cout<<"Reading... "<<inputFnameEp<<endl;
   cout<<"Reading... "<<inputFnameLaser<<endl;
-  string outputFname = "RootFiles/1DStatPlots"+suffix+".root";
+  string outputFname = "RootFiles/Statistics.root";//1DStatPlots"+suffix+".root";
     
   // Set input
   TH1D *Ep, *laser;

@@ -25,17 +25,16 @@ void Plotter::InitTrees(TString input_file) {
 
 void Plotter::InitHistos() {
   const int cycles = 50;
-  plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
+  //  plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
   for (int stn(13); stn < 20 ; stn = stn + 6) {
     plot1D("St"+std::to_string(stn)+"_logEop",200,-3.5,1,"Log(E/p)","Entries");
     plot1D("St"+std::to_string(stn)+"_dR",200,0,70,"dR [mm]","Entries");
     plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
-    plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
+     plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]"); 
     plot2D("St"+std::to_string(stn)+"_Ep_vs_t",cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
     for(int xtal(0); xtal<54; xtal++) {
       plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(xtal),cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
     }
-      
   }
 }
 
@@ -48,7 +47,7 @@ void Plotter::Run() {
   // Quality cut variable 
   bool qualityFail;
   // Set a cut to be skipped
-  int skipCut = 63;//18;
+  int skipCut = 18;
 
   // Initialise an empty vector to store the results from 64 bit Q
   vector<int> failedCuts_;
@@ -74,15 +73,12 @@ void Plotter::Run() {
       }
 
       // 64 bit integer refering to the cut results
-      //      if(am->trkCaloVertexQualityStatus[i]!=0) continue;//{
-      //         long long Q = am->trkLostVertexQualityStatus[i];
-	    
       long long Q = am->trkPositronVertexQualityStatus[i];
       // long long Q
       // Scan across the bits and find the non zero ones
       // Put these in a hist, and a vector
       for (int iCut = 63; iCut >= 0; iCut--) {
-	std::cout<<((Q >> iCut) & 1);
+	//	std::cout<<((Q >> iCut) & 1);
 	failedCutsBits_.at(iCut) = (Q >> iCut) & 1;
 	if( (Q >> iCut) & 1 ) {
 	  failedCuts_.at(iCut)++;
@@ -103,10 +99,8 @@ void Plotter::Run() {
       }
 
       // If using all cuts, just set (Q == true) continue;
-      std::cout<<" qualityFail: "<<qualityFail<<std::endl;
+      //      std::cout<<" qualityFail: "<<qualityFail<<std::endl;
       if(qualityFail == true) continue;
-
-      if(Q!=0) continue;
 
       double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
       
@@ -129,7 +123,6 @@ void Plotter::Run() {
       if(t<4200) continue;
       double E = am->cluEne[i];
       double Ep = E/p;
-
       //Normalisation
       string h = "St"+std::to_string(caloSt)+"_Ep_vs_xtal";
       TH1D *scale = (TH1D*)input->Get(h.c_str());
@@ -142,7 +135,7 @@ void Plotter::Run() {
       Fill1D("St"+std::to_string(caloSt)+"_logEop",logEop);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t",t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(xtal),t,Ep);
-      Fill2D("St"+std::to_string(caloSt)+"_E_vs_p",p,E);      
+      Fill2D("St"+std::to_string(caloSt)+"_E_vs_p",p,E);       
 
     }
   }
