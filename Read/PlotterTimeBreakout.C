@@ -58,7 +58,7 @@ void Plotter::Run() {
   }
 
   // Get E/p means for normalisation
-  string inputName = "../Analyse/RootFiles/PlotsEpXtalFid.root";
+  string inputName = "../AnalyseTime/RootFiles/PlotsEpXtalFid.root";
   TFile *input = TFile::Open(inputName.c_str());
   
   while( NextallmuonsEvent() ) {
@@ -131,7 +131,7 @@ void Plotter::Run() {
       double scaleFactor = scale->GetBinContent(xtal+1);
       if(scaleFactor==0) continue;
       Ep = Ep / scaleFactor;
-
+      if(xtal==4||xtal==35||xtal==27||xtal==49) std::cout<<"Oh no "<<xtal<<std::endl;
       // Seperate boards
       int shortLifeXtal[22] = {0,9,10,11,14,15,18,19,20,23,24,27,30,31,34,35,36,39,40,43,44,45};
       int brd;
@@ -151,7 +151,7 @@ void Plotter::Run() {
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t",t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(brd),t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_E_vs_p",p,E);      
-      Fill2D("St"+std::to_string(caloSt)+"_x_vs_y",trX,trY);      
+      Fill2D("St"+std::to_string(caloSt)+"_x_vs_y",caloX,caloY);      
     }
   }
   

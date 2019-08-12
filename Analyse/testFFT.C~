@@ -1,9 +1,0 @@
-void FFT(TH1 *hist) {
-
-  TH1 *mag = 0;
-      TVirtualFFT::SetTransform(0);
-      mag = hist -> FFT(mag,"MAG");
-  
-
-  return;
-}
