@@ -98,7 +98,7 @@ void Plotter::Run() {
       double caloY_raw = am->cluY[i];
       int xtal = CaloNum(caloX_raw, caloY_raw);
 
-      if(!FiducialHacky(xtal)) continue;
+      if(!FiducialEdge(xtal)) continue;
       //      std::cout<<xtal<<std::endl;
 
       double E = am->cluEne[i];

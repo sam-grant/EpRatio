@@ -41,7 +41,7 @@ public:
   TH2* plot2DMaker(TString name, int nbinsx, float xlow, float xhigh, int nbinsy, float ylow, float yhigh, TString xtitle="x axis", TString ytitle="", int col=2);  
   void Fill1D(TString name, double val, double weight=1);
   void plot2D(TString name, int xnbins, float xlow, float xhigh, int ynbins, float ylow, float yhigh, TString xtitle="x axis", TString ytitle="", int col=2);
-  void Fill2D(TString name, double xval, double yval, double weight=1);
+ void Fill2D(TString name, double xval, double yval, double weight=1);
 
   void plot1DTr(TString name, int nbins, float xlow, float xhigh, TString xtitle="x axis", TString ytitle="", int col=2);  
   void Fill1DTr(TString name, double val, double weight=1);
@@ -382,11 +382,7 @@ bool Plotter::FiducialEdge(const int xtal) {
   return fid;
 }
 
-
-
-
 //=========================================================
-
 
 // Can call the Plotter with a list of files to read.
 // Defaults to a single hard-coded file
@@ -399,7 +395,7 @@ int main(int argc, char *argv[]){
   if (argc < 2){
     cout<<"Using hard-coded file list"<<endl;
     //    fileNames.push_back("../../60hr_v9_17_01/gm2rootTrees_ana_15922.root");
-    fileNames.push_back("../../ntuples/60hr_5036B_allMuons/gm2rootTrees_allMuons_15921.root");
+    fileNames.push_back("../../Ntuples/60hr_5036B_allMuons/gm2rootTrees_allMuons_15921.root");
   }
   
   for (int i = 1; i < argc; ++i){

@@ -1,17 +1,5 @@
-
-#!/bin/bash
-for file in `ls ../../ntuples/60hr_5036B_allMuons/gm2rootTrees_allMuons_159*.root`; do
+for file in `ssh gm2liv ls /mnt/strawRaid01/omegaEU/9day_5040A/gm2skim*.root`; do
     echo $file
-    #    ./PlotterEpXtal $file
-    #    ./PlotterEpXtalFid $file
-    #    ./PlotterTimeXtal $file
         ./PlotterTimeBreakout $file
-    #    ./PlotterCuts $file
 done
-
-#hadd RootFiles/TimeXtalLong.root plots*.root
-#hadd RootFiles/EpXtal.root plots*.root
-#hadd RootFiles/TimeBreakoutLong.root plots*.root
-#hadd -f RootFiles/trkPositron.root plots*.root
-#hadd -f RootFiles/RawEpXtalFid.root
-hadd -f RootFiles/RawTimeBreakout.root
+hadd RootFiles/RawTimeBreakout9day.root
