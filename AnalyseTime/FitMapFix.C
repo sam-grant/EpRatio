@@ -15,12 +15,13 @@ using namespace std;
 
 int main() {
   string inputFname = "RootFiles/FitsTimeXtalFixLaser_Q.root";
+  
   TFile *input = TFile::Open(inputFname.c_str());
   cout<<"Reading... "<<inputFname<<endl;
 
   int place = 0;
   
-  TCanvas *c1  = new TCanvas("","",6000,6000);    
+  TCanvas *c1  = new TCanvas("","",9000,9000);    
   c1->Divide(3,6);
   for (int stn(13) ; stn < 20 ; stn = stn + 6 ) {
 
@@ -43,7 +44,7 @@ int main() {
     }
 
   }
-    string fname = "Plots/FitXtalMapFixLaser.png";
+    string fname = "Plots/FitXtalMapFidLaser.png";
     c1->SaveAs(fname.c_str());
     delete c1;
 

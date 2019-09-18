@@ -25,7 +25,7 @@ void Plotter::InitTrees(TString input_file) {
 
 void Plotter::InitHistos() {
   const int cycles = 50;
-  //  plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
+  plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
   for (int stn(13); stn < 20 ; stn = stn + 6) {
     plot1D("St"+std::to_string(stn)+"_logEop",200,-3.5,1,"Log(E/p)","Entries");
     plot1D("St"+std::to_string(stn)+"_dR",200,0,70,"dR [mm]","Entries");
@@ -56,7 +56,7 @@ void Plotter::Run() {
   }
 
   // Get E/p means for normalisation
-  string inputName = "../Analyse/RootFiles/plots_EpXtal.root";
+  string inputName = "../AnalyseTime/RootFiles/PlotsEpXtalFid.root";
   TFile *input = TFile::Open(inputName.c_str());
   
   while( NextallmuonsEvent() ) {
@@ -82,7 +82,7 @@ void Plotter::Run() {
 	failedCutsBits_.at(iCut) = (Q >> iCut) & 1;
 	if( (Q >> iCut) & 1 ) {
 	  failedCuts_.at(iCut)++;
-	  Fill1D("cuts",iCut);
+      	  Fill1D("cuts",iCut);
 	}
       }
 

@@ -1,0 +1,14 @@
+Alpha:
+
+Minimizer is Linear
+Chi2                      =      31.0216
+NDf                       =           17
+p0                        =     0.439923   +/-   0.0469843
+
+
+Tau:
+
+Minimizer is Linear
+Chi2                      =      17.1656
+NDf                       =           17
+p0                        =    -0.434905   +/-   0.0954384

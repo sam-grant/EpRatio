@@ -36,7 +36,7 @@ void draw(vector<double> true_, vector<double> fix_,  string title, string fname
   leg->SetBorderSize(0);
   hist1->SetStats(0);
   hist2->SetStats(0);
-  hist1->SetMarkerColor(kGreen+2);
+  hist1->SetMarkerColor(kGreen-3);
   hist2->SetMarkerColor(kRed);
   hist1->SetLineWidth(0);
   hist1->SetMarkerSize(5);
@@ -48,8 +48,8 @@ void draw(vector<double> true_, vector<double> fix_,  string title, string fname
   }
   hist1->SetMarkerStyle(20);
   hist2->SetMarkerStyle(20);
-  hist1->SetTitle("True Fits");
-  hist2->SetTitle("Fixed Fits");
+  hist1->SetTitle("True fits");
+  hist2->SetTitle("Fixed fits");
   leg->AddEntry(hist1);
   leg->AddEntry(hist2);
   hist1->GetYaxis()->SetRangeUser(0,2.5);
@@ -76,7 +76,7 @@ int main() {
   /* string title[2] = {"Stn 12;Crystal Number;#chi^{2}/NDF","Stn 18;Crystal Number;#chi^{2}/NDF"};x */
 
   string fname = "Plots/ChiSqrCompare.png"; 
-  string title = ";Fit Number;#chi^{2}/NDF"; 
+  string title = ";Fit Number;#chi^{2}/ndf"; 
   vector<double> chi1_;
   vector<double> chi2_;
   

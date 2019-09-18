@@ -122,9 +122,10 @@ int main() {
       gStyle->SetOptStat(10);
       gStyle->SetOptFit(111);
       gStyle->SetStatH(0.13);
+      
       hist->SetLineWidth(5);
 
-      hist->GetXaxis()->SetTitle("In Fill Time [#mus]");
+      hist->SetTitle(";In Fill Time [#mus];Cluster Energy, E / Track Momentum, p");
       hist->GetYaxis()->SetRangeUser(0.99,1.01);
       hist->GetXaxis()->SetRangeUser(0,4.2*cycles);
 

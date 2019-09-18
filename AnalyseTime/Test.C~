@@ -1,0 +1,19 @@
+#include <iostream>
+#include "TCanvas.h"
+#include "TF1.h"
+
+using namespace std;
+
+int main() {
+
+  float x = x[0];
+  TF1 *func = new TF1("func", sin(x), -10, 10);
+  
+  TCanvas *c = new TCanvas();
+  func->Draw();
+  c->SaveAs("sinx.pdf");
+  
+
+  return 0;
+
+}

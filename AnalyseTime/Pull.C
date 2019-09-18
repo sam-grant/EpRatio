@@ -21,6 +21,8 @@ double pull(double EpValue,double laserValue, double EpError, double laserError)
 
 // Drawing function
 void draw(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title) {
+
+  //  gStyle->SetStatFormat("g");
   
   // Arrange the stat boxes...
   hist1->Draw();
@@ -59,6 +61,9 @@ void draw(TH1D *hist1, TH1D *hist2, TFile *output, string name, string title) {
 
   // Draw it
   TCanvas *c = new TCanvas("c","c",3000,2000);
+  gStyle->SetOptStat(22);
+  gPad->Update();
+
   hist1->SetLineColor(kBlue);
   hist2->SetLineColor(kRed);
   hist1->SetLineWidth(5);

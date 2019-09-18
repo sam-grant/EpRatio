@@ -19,7 +19,7 @@ using namespace std;
 double Value(double laserValue, double EpValue) {
   // Fractional shift
   double result = (laserValue - EpValue) / laserValue;
-  return sqrt(pow(result,2));
+  return result;//sqrt(pow(result,2));
 }
 // Define percentage uncertainty uncertainty
 double Error(double laserValue, double laserError, double EpValue, double EpError) {
@@ -133,10 +133,10 @@ int main() {
   } // End hist loop
 
   TH1D *tauHist = Fill(tauValues_,tauErrors_);
-  DrawNFit(tauHist,output,"Plots/UncertaintyFitTau.png",";Fit Number;|#Delta#tau_{r}|/#tau_{r}");
+  DrawNFit(tauHist,output,"Plots/UncertaintyFitTau.png",";Fit Number;#Delta#tau_{r}/#tau_{r}");
 
   TH1D *alphaHist = Fill(alphaValues_,alphaErrors_);
-  DrawNFit(alphaHist,output,"Plots/UncertaintyFitAlpha.png",";Fit Number;|#Delta#alpha|/#alpha");
+  DrawNFit(alphaHist,output,"Plots/UncertaintyFitAlpha.png",";Fit Number;#Delta#alpha/#alpha");
     
   output->Write(); 
 

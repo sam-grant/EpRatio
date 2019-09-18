@@ -35,17 +35,17 @@ void draw(vector<TH1D *> hist_, string fname, int stn, int par, int err, bool sa
   if(stn == 13) calo = "Stn 12";
   else calo = "Stn 18";
   if(par == 0 && err == 0) {
-    para = " #alpha";
+    para = "Amplitude, #alpha";
   }
   else if(par == 0 && err == 1) {
-    para = " #delta#alpha";
+    para = "Amplitude Uncertainty, #delta#alpha";
      }
   else if(par == 1 && err == 0) {
-    para = " #tau_{r}";
+    para = "Recovery Time Constant, #tau_{r}";
     us  = " [#mus]";
   }
   else if(par == 1 && err == 1) {
-    para = " #delta#tau_{r}";
+    para = "Recovery Time Constant Uncertainty, #delta#tau_{r}";
     us  = " [#mus]";
   }
   axes = ";Fit End Time [#mus];"+para+us;
@@ -54,8 +54,11 @@ void draw(vector<TH1D *> hist_, string fname, int stn, int par, int err, bool sa
   int nHistos = hist_.size();;
   //cout<<hist_.size()<<endl;
   TCanvas *c = new TCanvas("c","c",3000,2000);
-  TLegend *leg = new TLegend(0.92,0.11,0.98,0.89);
+  TLegend *leg = new TLegend(0.91,0.01,0.98,0.99);
   leg->SetBorderSize(0);
+  //leg->SetHeader("Crystal","U");
+  gStyle->SetLegendTextSize(0.03);
+  //  leg->SetTextAlign(2);
   double x1, x2, y1, y2;
   x1 = 4.2*23;
   x2 = x1;
@@ -100,6 +103,11 @@ void draw(vector<TH1D *> hist_, string fname, int stn, int par, int err, bool sa
     double range = 4.2*23;
     TLine *l = new TLine(range,y1,range,y2);//80, 0, 80, 100);
     hist_.at(i)->GetYaxis()->SetRangeUser(y1,y2);
+   /*   hist_.at(i)->SetTitleSize(0.1f,"t");  */
+   /* hist_.at(i)->SetTitleSize(0.1f,"x");   */
+   /*  hist_.at(i)->SetTitleSize(0.1f,"y");  */
+    /* hist_.at(i)->GetXaxis()->CenterTitle(); */
+    /* hist_.at(i)->GetYaxis()->CenterTitle(); */
     hist_.at(i)->SetStats(0);
     hist_.at(i)->SetLineWidth(0);
     hist_.at(i)->SetMarkerSize(5);
@@ -112,6 +120,7 @@ void draw(vector<TH1D *> hist_, string fname, int stn, int par, int err, bool sa
     l->SetLineStyle(2);
     l->Draw("same");
     leg->AddEntry(hist_.at(i));
+    //    leg->SetTextAlign("C");
     hist_.at(i)->SetTitle((calo+axes).c_str());
    }
   c->Draw();
@@ -144,7 +153,7 @@ int main() {
       string nameA, nameTau;
       // Crystal loop
        for (int xtal(0); xtal < 54; xtal++) {
-	nameA = "Crystal "+to_string(xtal);
+	nameA = "Xtal "+to_string(xtal);
 	nameTau = nameA;
 	// Start at 2x 4.2
 	TH1D *scanA = new TH1D("",nameA.c_str(),48,1.5*4.2,49.5*4.2);
@@ -192,8 +201,8 @@ int main() {
 	  }
      	  scanA->SetBinError(tscan, 0);//A_err);//f1->GetParError(par));
 	  scanTau->SetBinError(tscan, 0);//tau_err);//f1->GetParError(par));
-     	  scanA->SetName(("Xtal "+to_string(xtal)).c_str());
-	  scanTau->SetName(("Xtal "+to_string(xtal)).c_str()); 
+     	  scanA->SetName((to_string(xtal)).c_str());
+	  scanTau->SetName((to_string(xtal)).c_str()); 
 	} // fill loop
 	scanVecA_.push_back(scanA);
 	scanVecTau_.push_back(scanTau);

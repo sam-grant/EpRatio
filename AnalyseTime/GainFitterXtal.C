@@ -11,6 +11,7 @@
 #include "TStyle.h"
 #include "TLegend.h"
 #include "TDirectory.h"
+#include "TPaveStats.h"
 
 using namespace std;
 
@@ -29,7 +30,7 @@ int main() {
   bool quality = true;
   bool save = true;
   // Number of g-2 cycles
-  int cycles = 50;
+  int cycles = 23;
   // Fit range
   int range = 23;
   string suffix;
@@ -38,7 +39,7 @@ int main() {
  
   // Open input ROOT file
   // string inputFname = "RootFiles/plots_TimeXtalLong"+suffix+".root";
-  string inputFname = "RootFiles/PlotsTimeXtal.root";//Long"+suffix+".root";
+  string inputFname = "RootFiles/PlotsTimeXtalFid.root";//Long"+suffix+".root";
   TFile *input = TFile::Open(inputFname.c_str());
   cout << "Reading ... " << inputFname << endl;
 
@@ -46,7 +47,7 @@ int main() {
   else if(!quality) suffix = "_noQ";
 
   // Book output ROOT file
-  string outputFname = "RootFiles/FitsTimeXtal"+suffix+".root";
+  string outputFname = "RootFiles/FitsTimeXtalFid"+suffix+".root";
   TFile *output = new TFile(outputFname.c_str(), "recreate");
   
   // Define time limit
@@ -69,7 +70,7 @@ int main() {
       // Book the gain sag function
       TF1 *f1 = new TF1("f1", GainSag, 4.2, 4.2*range, 3);
       f1->SetNpx(10000);
-      f1->SetLineWidth(5);
+      f1->SetLineWidth(10);
       f1->SetParameter(2,5);
       f1->SetParName(0,"G_{0}");
       f1->SetParName(1,"#alpha");
@@ -106,22 +107,39 @@ int main() {
 
       // Add up surviving crystals
       counter++;
-     
-      // Book canvas, make it high def
-      TCanvas *c1 = new TCanvas("","",3000,2000);
- 
-      // Draw, format, and save
       hist->SetStats(1);
+      hist->Draw();
+      gPad->Update();
+      gStyle->SetStatFormat("6.3g"); 
       gStyle->SetOptStat(10);
       gStyle->SetOptFit(111);
-      gStyle->SetStatH(0.13);
-      hist->SetLineWidth(5);
+      //Collect stats of the first histogram
+
+      TPaveStats *tps1 = (TPaveStats*)hist -> FindObject("stats");
+
+      tps1->SetLineWidth(0);
+
+      tps1->SetX1NDC(0.49);
+      tps1->SetX2NDC(0.89);
+      tps1->SetY1NDC(0.65);
+      tps1->SetY2NDC(0.89);
+
+      // Book canvas, make it high def
+      TCanvas *c1 = new TCanvas("","",3000,2000);
+      
+      // Draw, format, and save
+      //
+      
+
+      //      gStyle->SetStatH(0.13);
+      hist->SetLineWidth(10);
 
       hist->GetXaxis()->SetTitle("In Fill Time [#mus]");
       hist->GetYaxis()->SetRangeUser(0.99,1.01);
       hist->GetXaxis()->SetRangeUser(0,4.2*cycles);
 
       hist->Draw();
+      tps1->Draw("same");
       hist->SetDirectory(output);
 
       if (save) {

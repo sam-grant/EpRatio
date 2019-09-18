@@ -16,11 +16,11 @@ using namespace std;
 void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
   
   TCanvas *c = new TCanvas("","",3000,2000);
-  TLegend *leg = new TLegend(0.79,0.79,0.89,0.89);
+  TLegend *leg = new TLegend(0.76,0.76,0.89,0.89);
   leg->SetBorderSize(0);
   hist1->SetStats(0);
   hist2->SetStats(0);
-  hist1->SetLineColor(kGreen+2);
+  hist1->SetLineColor(kGreen-3);
   hist2->SetLineColor(kRed);
   hist1->SetLineWidth(5);
   hist2->SetLineWidth(5);
@@ -42,7 +42,7 @@ int main() {
   
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   //  string title[4] = {"St 12 | Recovery Times;Crystal Number;#tau_{r} [#mus]","St 18 | Recovery Times;Crystal Number;#tau_{r} [#mus]","St 12 | Amplitudes;Crystal Number;#alpha","St 18 | Amplitudes;Crystal Number;#alpha"};
-  string title[4] = {"Stn 12;Crystal Number;#tau_{r} [#mus]","Stn 18;Crystal Number;#tau_{r} [#mus]","Stn 12;Crystal Number;#alpha","Stn 18;Crystal Number;#alpha"};
+  string title[4] = {"Stn 12;Crystal Number;Recovery Time Constant, #tau_{r} [#mus]","Stn 18;Crystal Number;Recovery Time Constant, #tau_{r} [#mus]","Stn 12;Crystal Number;Amplitude, #alpha","Stn 18;Crystal Number;Amplitude, #alpha"};
   string laser_input = "RootFiles/LaserParameters.root";
   string Ep_input = "RootFiles/EpParameters_Q.root";
   string fname[4] = {"Plots/St13ScatterTau.png","Plots/St19ScatterTau.png","Plots/St13ScatterAmp.png","Plots/St19ScatterAmp.png"};
@@ -53,7 +53,7 @@ int main() {
     TH1D *laser_hist = (TH1D*)laser->Get(h[ihist].c_str());
     TH1D *Ep_hist = (TH1D*)Ep->Get(h[ihist].c_str());
     laser_hist->SetTitle("Laser");
-    Ep_hist->SetTitle("E/p Ratio");
+    Ep_hist->SetTitle("E/p");
     if(ihist==0) laser_hist->GetYaxis()->SetRangeUser(0,14);
     if(ihist==1) laser_hist->GetYaxis()->SetRangeUser(-3,18);
     if(ihist==2) laser_hist->GetYaxis()->SetRangeUser(0,0.13);

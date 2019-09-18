@@ -24,15 +24,16 @@ void Plotter::InitTrees(TString input_file) {
 }
 
 void Plotter::InitHistos() {
-  const int cycles = 50;
-  plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries");
-  plot2D("E_vs_p_0",1000,0,4000,1000,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
-  plot2D("E_vs_p_1",1000,0,4000,1000,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
-  for (int stn(13); stn < 20 ; stn = stn + 6) {
-    plot1D("St"+std::to_string(stn)+"_logEop",200,-3.5,1,"Log(E/p)","Entries");
-    plot1D("St"+std::to_string(stn)+"_dR",200,0,50,"dR [mm]","Entries");
-    plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
-  }
+  /* const int cycles = 50; */
+  /* plot1D("cuts",64,-0.5,63.5,"Cut Index","Entries"); */
+  /* plot2D("E_vs_p_0",1000,0,4000,1000,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]"); */
+  /* plot2D("E_vs_p_1",1000,0,4000,1000,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]"); */
+  plot2D("E_vs_p_2",1000,0,4000,1000,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]");
+  /* for (int stn(13); stn < 20 ; stn = stn + 6) { */
+  /*   plot1D("St"+std::to_string(stn)+"_logEop",200,-3.5,1,"Log(E/p)","Entries"); */
+  /*   plot1D("St"+std::to_string(stn)+"_dR",200,0,50,"dR [mm]","Entries"); */
+  /*   plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries"); */
+  /* } */
 }
 
 //=========================================================
@@ -75,7 +76,7 @@ void Plotter::Run() {
 	  failedCuts_.at(iCut)++;
 	  if(iCut==18) continue;
 	  if(iCut==19) iCut = iCut - 1;
-          Fill1D("cuts",iCut);
+	  //          Fill1D("cuts",iCut);
         }
       }
 
@@ -122,18 +123,20 @@ void Plotter::Run() {
       double dY = caloY - trY;
       double dR = sqrt(dX*dX + dY*dY);
       double t = (am -> cluTime[i]);
-      if(t<4200) continue;
+      //      if(t<4200) continue;
       double E = am->cluEne[i];
       double Ep = E/p;
 
       //      if(Q1==0) {
 
-	Fill1D("St"+std::to_string(caloSt)+"_dR",dR);
-	Fill1D("St"+std::to_string(caloSt)+"_dt",dt);
-	Fill1D("St"+std::to_string(caloSt)+"_logEop",logEop);
-	Fill2D("E_vs_p_0",p,E);
-	// }
-
+	/* Fill1D("St"+std::to_string(caloSt)+"_dR",dR); */
+	/* Fill1D("St"+std::to_string(caloSt)+"_dt",dt); */
+	/* Fill1D("St"+std::to_string(caloSt)+"_logEop",logEop); */
+	/* Fill2D("E_vs_p_0",p,E); */
+	//	if(
+      if(-3.2 < logEop && logEop < -2.4 && p > 2300) {
+	Fill2D("E_vs_p_2",p,E);
+      }
       /* else if(Q2==0) { */
       /* 	Fill2D("E_vs_p_1",p,E); */
       /* } */
