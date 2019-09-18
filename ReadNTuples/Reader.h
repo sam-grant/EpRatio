@@ -480,6 +480,7 @@ class allmuonsReader : public Reader {
    Bool_t          trkPassCandidateQuality[110];   //[nmatches]
    Bool_t          trkPassTrackQuality[110];   //[nmatches]
    Bool_t          trkPassVertexQuality[110];   //[nmatches]
+   Bool_t          trkPassPositronVertexQuality[110];
    Float_t         vX[110];   //[nmatches]
    Float_t         vY[110];   //[nmatches]
    Float_t         vZ[110];   //[nmatches]
@@ -541,6 +542,7 @@ private:
    TBranch        *b_trkPassCandidateQuality;   //!
    TBranch        *b_trkPassTrackQuality;   //!
    TBranch        *b_trkPassVertexQuality;   //!
+   TBranch        *b_trkPassPositronVertexQuality;
    TBranch        *b_vX;   //!
    TBranch        *b_vY;   //!
    TBranch        *b_vZ;   //!
