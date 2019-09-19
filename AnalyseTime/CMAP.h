@@ -37,6 +37,13 @@ void CMAP(TH2D *hist, string title, string fname, TFile *output, bool save) {
   hist_clone->SetTitle(title.c_str());
   c->SetRightMargin(0.13);
   gStyle->SetPalette(55); 
+  hist_clone->GetXaxis()->CenterTitle(true);
+  hist_clone->GetYaxis()->CenterTitle(true);
+  hist_clone->SetTitleSize(.75);
+  hist_clone->GetXaxis()->SetTitleSize(.05);
+  hist_clone->GetYaxis()->SetTitleSize(.05);
+  hist_clone->GetYaxis()->SetTitleOffset(0.75);
+  hist_clone->GetXaxis()->SetTitleOffset(0.75);
   hist_clone->SetOption("COLZ");
   hist_clone->Draw();
   if (save) {

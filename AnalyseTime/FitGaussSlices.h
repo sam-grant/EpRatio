@@ -104,12 +104,19 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   projX->SetName(fname.c_str());
   // Plot means 
   TCanvas *c2 = new TCanvas("c2", "c2", 3000, 2000);
-  projX->SetStats(0);
+  //  projX->SetStats(0);
   gStyle->SetOptStat(2210);
   //  projX->GetYaxis()->SetRangeUser(0.94,0.98);
   projX->SetTitle(title.c_str());
   projX->SetMarkerColor(kBlack);
   projX->SetLineColor(kBlack);
+  projX->GetXaxis()->CenterTitle(true);
+  projX->GetYaxis()->CenterTitle(true);
+  projX->SetTitleSize(.75);
+  projX->GetXaxis()->SetTitleSize(.05);
+  projX->GetYaxis()->SetTitleSize(.05);
+  projX->GetYaxis()->SetTitleOffset(0.8);
+  projX->GetXaxis()->SetTitleOffset(0.8);
   //  projX->SetLineWidth(5);
   projX->GetXaxis()->SetRange(binmin,binmax);
   //  projX->GetYaxis()->SetRangeUser(.75,1.05);
