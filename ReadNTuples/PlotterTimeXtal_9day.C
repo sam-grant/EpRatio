@@ -9,9 +9,9 @@
 
 using namespace std;
 
-double IFG(double time, double norm, double amp, double tau) {
+double IFG(double time, double amp, double tau) {
   tau = tau * 1000;
-  return norm * ( 1 - amp * exp( -time / tau ) );
+  return ( 1 - amp * exp( -time / tau ) );
 }
 
 int CaloNum(int caloX, int caloY) {
@@ -94,12 +94,12 @@ void Plotter::Run() {
       double G0 = scale->GetBinContent(xtal+1);
       if(G0==0) continue;
 
-      double G = IFG(t,G0,amp,tau);
+      double G = IFG(t,amp,tau);
 
       double Ep = E/p;
       //      std::cout<<"\n time : "<<t<<std::endl;
       // if(t<30000) std::cout<<"\nEp : "<<Ep<<std::endl;
-      Ep = Ep * G; // G includes normalisation
+      Ep = Ep * G / G0; // G includes normalisation
       //if(t<30000) std::cout<<"Ep / G : "<<Ep<<std::endl;
 
 

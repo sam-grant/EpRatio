@@ -7,4 +7,4 @@ for file in `ls /mnt/strawRaid01/omegaEU/9day_5040A/gm2skim_ana_*.root`; do
     ./PlotterTimeXtal_9day $file
 done
 
-hadd RootFiles/RawTimeXtal_9day.root plots*.root
+hadd -f RootFiles/RawTimeXtal_9day.root plots*.root
