@@ -103,7 +103,7 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   // Set name...
   projX->SetName(fname.c_str());
   // Plot means 
-  TCanvas *c2 = new TCanvas("c2", "c2", 3000, 2000);
+  TCanvas *c2 = new TCanvas();//"c2", "c2", 3000, 2000);
   //  projX->SetStats(0);
   gStyle->SetOptStat(2210);
   //  projX->GetYaxis()->SetRangeUser(0.94,0.98);

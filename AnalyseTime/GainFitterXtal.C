@@ -70,7 +70,7 @@ int main() {
       // Book the gain sag function
       TF1 *f1 = new TF1("f1", GainSag, 4.2, 4.2*range, 3);
       f1->SetNpx(10000);
-      f1->SetLineWidth(10);
+      f1->SetLineWidth(5);
       f1->SetParameter(2,5);
       f1->SetParName(0,"G_{0}");
       f1->SetParName(1,"#alpha");
@@ -107,14 +107,15 @@ int main() {
 
       // Add up surviving crystals
       counter++;
+
       hist->SetStats(1);
       hist->Draw();
-      gPad->Update();
+
       gStyle->SetStatFormat("6.3g"); 
       gStyle->SetOptStat(10);
       gStyle->SetOptFit(111);
       //Collect stats of the first histogram
-
+      gPad->Update();
       TPaveStats *tps1 = (TPaveStats*)hist -> FindObject("stats");
 
       tps1->SetLineWidth(0);
@@ -132,18 +133,26 @@ int main() {
       
 
       //      gStyle->SetStatH(0.13);
-      hist->SetLineWidth(10);
+      hist->SetLineWidth(5);
 
       hist->GetXaxis()->SetTitle("In Fill Time [#mus]");
+      hist->GetYaxis()->SetTitle("E/p");
+      hist->GetXaxis()->CenterTitle(true);
+      hist->GetYaxis()->CenterTitle(true);
+      hist->SetTitleSize(.75);
+      hist->GetXaxis()->SetTitleSize(.05);
+      hist->GetYaxis()->SetTitleSize(.05);
+      hist->GetYaxis()->SetTitleOffset(.99);
+      hist->GetXaxis()->SetTitleOffset(.99);      
       hist->GetYaxis()->SetRangeUser(0.99,1.01);
       hist->GetXaxis()->SetRangeUser(0,4.2*cycles);
-
+      //hist->SetStats(0);
       hist->Draw();
       tps1->Draw("same");
       hist->SetDirectory(output);
 
       if (save) {
-		c1->SaveAs(("PlotsGoldList/"+h+".png").c_str());
+		c1->SaveAs(("PlotsGoldList/"+h+".pdf").c_str());
       }
       // Make some print outs
       cout<<xtal<<","<<N<<","<<chiSqrNDF<<","<<tau<<","<<tau_err<<","<<A<<","<<A_err<<endl;

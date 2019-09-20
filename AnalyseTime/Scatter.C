@@ -15,7 +15,7 @@ using namespace std;
 // Function for drawing the plots
 void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
   
-  TCanvas *c = new TCanvas("","",3000,2000);
+  TCanvas *c = new TCanvas();//"","",3000,2000);
   TLegend *leg = new TLegend(0.76,0.76,0.89,0.89);
   leg->SetBorderSize(0);
   hist1->SetStats(0);
@@ -24,6 +24,14 @@ void draw(TH1D *hist1, TH1D *hist2, string title, string fname) {
   hist2->SetLineColor(kRed);
   hist1->SetLineWidth(5);
   hist2->SetLineWidth(5);
+  hist1->GetXaxis()->CenterTitle(true);
+  hist1->GetYaxis()->CenterTitle(true);
+  hist1->SetTitleSize(.75);
+  hist1->GetXaxis()->SetTitleSize(.05);
+  hist1->GetYaxis()->SetTitleSize(.05);
+  hist1->GetYaxis()->SetTitleOffset(0.8);
+  hist1->GetXaxis()->SetTitleOffset(0.8);
+  
   leg->AddEntry(hist1);
   leg->AddEntry(hist2);
   hist1->Draw();
@@ -42,10 +50,10 @@ int main() {
   
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   //  string title[4] = {"St 12 | Recovery Times;Crystal Number;#tau_{r} [#mus]","St 18 | Recovery Times;Crystal Number;#tau_{r} [#mus]","St 12 | Amplitudes;Crystal Number;#alpha","St 18 | Amplitudes;Crystal Number;#alpha"};
-  string title[4] = {"Stn 12;Crystal Number;Recovery Time Constant, #tau_{r} [#mus]","Stn 18;Crystal Number;Recovery Time Constant, #tau_{r} [#mus]","Stn 12;Crystal Number;Amplitude, #alpha","Stn 18;Crystal Number;Amplitude, #alpha"};
+  string title[4] = {"Stn 12;Crystal;#tau_{r} [#mus]","Stn 18;Crystal;#tau_{r} [#mus]","Stn 12;Crystal;#alpha","Stn 18;Crystal;#alpha"};
   string laser_input = "RootFiles/LaserParameters.root";
   string Ep_input = "RootFiles/EpParameters_Q.root";
-  string fname[4] = {"Plots/St13ScatterTau.png","Plots/St19ScatterTau.png","Plots/St13ScatterAmp.png","Plots/St19ScatterAmp.png"};
+  string fname[4] = {"PlotsGoldList/St13ScatterTau.pdf","PlotsGoldList/St19ScatterTau.pdf","PlotsGoldList/St13ScatterAmp.pdf","PlotsGoldList/St19ScatterAmp.pdf"};
   TFile *laser = TFile::Open(laser_input.c_str());
   TFile *Ep = TFile::Open(Ep_input.c_str());
   // Get parameters 

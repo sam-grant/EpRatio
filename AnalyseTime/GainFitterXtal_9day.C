@@ -39,7 +39,8 @@ int main() {
  
   // Open input ROOT file
   // string inputFname = "RootFiles/plots_TimeXtalLong"+suffix+".root";
-  string inputFname = "RootFiles/PlotsTimeXtal_9day.root";//Long"+suffix+".root";
+  string inputFname = "RootFiles/PlotsTimeXtal_9day.root";
+ 
   TFile *input = TFile::Open(inputFname.c_str());
   cout << "Reading ... " << inputFname << endl;
 
@@ -70,7 +71,7 @@ int main() {
       // Book the gain sag function
       TF1 *f1 = new TF1("f1", GainSag, 4.2, 4.2*range, 3);
       f1->SetNpx(10000);
-      f1->SetLineWidth(5);
+      f1->SetLineWidth(3);
       f1->SetParameter(2,5);
       f1->SetParName(0,"G_{0}");
       f1->SetParName(1,"#alpha");
@@ -98,7 +99,7 @@ int main() {
       /////////////////////////////////////////////////////
        if (quality) {
         // Avoid low stats
-        if (N < 100000) continue;
+        if (N < 100000*3.6) continue;
         // Require a reasonable reduced chi square
         if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
         // Require low relative error
@@ -107,47 +108,43 @@ int main() {
 
       // Add up surviving crystals
       counter++;
-      //      hist->SetStats(1);
 
-      //gPad->Update();
-      
-      //Collect stats of the first histogram
+      hist->SetStats(1);
       hist->Draw();
       gStyle->SetStatFormat("6.3g"); 
       gStyle->SetOptStat(10);
       gStyle->SetOptFit(111);
+      //Collect stats of the first histogram
       gPad->Update();
 
-
       TPaveStats *tps1 = (TPaveStats*)hist -> FindObject("stats");
-
       tps1->SetLineWidth(0);
-
       tps1->SetX1NDC(0.49);
       tps1->SetX2NDC(0.89);
       tps1->SetY1NDC(0.65);
       tps1->SetY2NDC(0.89);
 
       // Book canvas, make it high def
-      TCanvas *c1 = new TCanvas("","",3000,2000);
-      
-      // Draw, format, and save
-      //
-      
-
-      //      gStyle->SetStatH(0.13);
-      hist->SetLineWidth(5);
-
+      TCanvas *c1 = new TCanvas();//"","",3000,2000);
+      hist->SetLineWidth(3);
       hist->GetXaxis()->SetTitle("In Fill Time [#mus]");
+      hist->GetYaxis()->SetTitle("E/p");
+      hist->GetXaxis()->CenterTitle(true);
+      hist->GetYaxis()->CenterTitle(true);
+      hist->SetTitleSize(.75);
+      hist->GetXaxis()->SetTitleSize(.05);
+      hist->GetYaxis()->SetTitleSize(.05);
+      hist->GetYaxis()->SetTitleOffset(.99);
+      hist->GetXaxis()->SetTitleOffset(.99);      
       hist->GetYaxis()->SetRangeUser(0.99,1.01);
       hist->GetXaxis()->SetRangeUser(0,4.2*cycles);
-
+      //hist->SetStats(0);
       hist->Draw();
       tps1->Draw("same");
       hist->SetDirectory(output);
 
       if (save) {
-		c1->SaveAs(("PlotsGoldList/"+h+".png").c_str());
+		c1->SaveAs(("Plots_9day/"+h+".pdf").c_str());
       }
       // Make some print outs
       cout<<xtal<<","<<N<<","<<chiSqrNDF<<","<<tau<<","<<tau_err<<","<<A<<","<<A_err<<endl;

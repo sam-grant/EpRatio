@@ -110,6 +110,10 @@ int main() {
     tau19->SetBinContent(i+1,tau19_.at(i));
     amp13->SetBinContent(i+1,amp13_.at(i));
     amp19->SetBinContent(i+1,amp19_.at(i));
+    tau13->SetBinError(i+1,tau13_.at(i)*0.05);
+    tau19->SetBinError(i+1,tau19_.at(i)*0.05);
+    amp13->SetBinError(i+1,amp13_.at(i)*0.05);
+    amp19->SetBinError(i+1,amp19_.at(i)*0.05);
   }
 
   draw(tau13,output);
