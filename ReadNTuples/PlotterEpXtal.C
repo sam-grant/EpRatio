@@ -22,10 +22,11 @@ void Plotter::InitHistos() {
 
   double ymin = 0.5;
   double ymax = 1.5;
-  
+
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-       plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,1000,ymin,ymax,"Crystal Number","E/p");
-   }
+    plot2D("St"+std::to_string(stn)+"_VR",700*5,-500,200,200*5,-100,100);
+  /*      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,1000,ymin,ymax,"Crystal Number","E/p"); */
+  } 
 }
 
 //=========================================================
@@ -51,8 +52,8 @@ void Plotter::Run() {
     //loop over the matches in this event:
     for(int i=0; i<am->nmatches; i++) {
 
-      if(am->nhits[i] != 1) continue;
-      if(am->cluTime[i] < 60000) continue;
+      //if(am->nhits[i] != 1) continue;
+      //      if(am->cluTime[i] < 60000) continue;
 
       // Empty vector to contain the results bit by bit (refreshing each event)
       vector<int> failedCutsBits_;
@@ -87,12 +88,11 @@ void Plotter::Run() {
             // If using all cuts, just set (Q == true) continue;
       if(qualityFail) continue;
 
-      double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] \
-+ am->trkMomZ[i]*am->trkMomZ[i]);
+      double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
 
 
       int caloSt = am->cluCaloNum[i];
-      if(caloSt > 19) continue;
+      // if(caloSt > 19) continue;
       int trkSt = am->trkStationNum[i];
       double caloX_raw = am->cluX[i];
       double caloY_raw = am->cluY[i];
@@ -100,8 +100,10 @@ void Plotter::Run() {
       int xtal = CaloNum(caloX_raw, caloY_raw);
       double E = am->cluEne[i];
       double Ep = E/p;
-
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal",xtal,Ep);
+      // double trX = am->vX[i];
+      //double trY = am->vY[i];
+      Fill2D("St"+std::to_string(caloSt)+"_VR",am->cluX[i],am->cluY[i]);
+      //      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal",xtal,Ep);
      
     }
   }

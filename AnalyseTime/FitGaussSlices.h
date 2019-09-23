@@ -115,8 +115,8 @@ void FitGaussSlices(TH2D *hist, string title, string fname, string g_fname, TFil
   projX->SetTitleSize(.75);
   projX->GetXaxis()->SetTitleSize(.05);
   projX->GetYaxis()->SetTitleSize(.05);
-  projX->GetYaxis()->SetTitleOffset(0.8);
-  projX->GetXaxis()->SetTitleOffset(0.8);
+  projX->GetYaxis()->SetTitleOffset(0.65);
+  projX->GetXaxis()->SetTitleOffset(0.5);
   //  projX->SetLineWidth(5);
   projX->GetXaxis()->SetRange(binmin,binmax);
   //  projX->GetYaxis()->SetRangeUser(.75,1.05);

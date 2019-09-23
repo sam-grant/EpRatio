@@ -24,7 +24,7 @@ void draw(TH1D *hist0, TH1D *hist1, TH1D *hist2, TFile *output, string name, str
   
   hist0->SetStats(0);
   hist0->SetLineColor(kBlack);
-  hist0->SetLineWidth(5);
+  hist0->SetLineWidth(3);
   gStyle->SetOptStat(2211);
   gStyle->SetStatFormat("6.3g");
   hist1->Draw();
@@ -36,9 +36,9 @@ void draw(TH1D *hist0, TH1D *hist1, TH1D *hist2, TFile *output, string name, str
   tps1->SetTextColor(kBlue);
   tps1->SetLineColor(kBlue);
 
-  tps1->SetX1NDC(0.70);
+  tps1->SetX1NDC(0.65);
   tps1->SetX2NDC(0.89);
-  tps1->SetY1NDC(0.69);
+  tps1->SetY1NDC(0.65);
   tps1->SetY2NDC(0.89);
 
   double X1 = tps1->GetX1NDC();
@@ -63,17 +63,25 @@ void draw(TH1D *hist0, TH1D *hist1, TH1D *hist2, TFile *output, string name, str
   tps2->SetY2NDC(Y1-0.025);
 
   TCanvas *c = new TCanvas("c","c",3000,2000);
+  //  hist1->GetXaxis()->SetRangeUser(-3,5);
   hist1->SetLineColor(kBlue);
   hist2->SetLineColor(kRed);
-  hist1->SetLineWidth(5);
-  hist2->SetLineWidth(5);
-  tps1->SetLineWidth(5);
-  tps2->SetLineWidth(5);
+  hist1->SetLineWidth(3);
+  hist2->SetLineWidth(3);
+  hist1->GetXaxis()->CenterTitle(true);
+  hist1->GetYaxis()->CenterTitle(true);
+  hist1->SetTitleSize(.75);
+  hist1->GetXaxis()->SetTitleSize(.05);
+  hist1->GetYaxis()->SetTitleSize(.05);
+  hist1->GetYaxis()->SetTitleOffset(0.70);
+  hist1->GetXaxis()->SetTitleOffset(0.75);
+  tps1->SetLineWidth(2);
+  tps2->SetLineWidth(2);
   hist1->SetTitle(title.c_str());
 
   //  gPad->Update();
   // 
-  gPad->SetFrameLineWidth(5);   
+  gPad->SetFrameLineWidth(3);   
   //  hist0->Draw();
   hist1->Draw("same");//"same");
   hist2->Draw("same");
@@ -170,7 +178,7 @@ int main() {
   cout<<"xtals: "<<counter<<endl;
 
   pullHistAmp->GetYaxis()->SetRangeUser(0,7);
-  draw(dummy,pullHistAmp,pullHistTau,output,"Plots/PullOverlay1D2.png","Stn 12 & 18;Pull [#sigma];Entries");
+  draw(dummy,pullHistAmp,pullHistTau,output,"Plots/PullOverlay1D2.pdf",";Pull [#sigma];Entries");
 
   output->Write(); 
 

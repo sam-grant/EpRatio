@@ -31,14 +31,57 @@ double Error(double laserValue, double laserError, double EpValue, double EpErro
 void DrawNFit(TH1D *hist, TFile *output, string fname, string title) {
   TCanvas *c = new TCanvas("c","c",3000,2000);
   TF1 *lineFit = new TF1("lineFit", "pol 0");
+
+  gStyle->SetStatFormat("6.3g");
+
+      /* hist->Draw(); */
+      /* gStyle->SetStatFormat("6.3g"); */
+      gStyle->SetOptStat(10); 
+      gStyle->SetOptFit(110);
+      /* //Collect stats of the first histogram */
+      /* gPad->Update(); */
+      hist->Draw();
+      gPad->Update();
+      TPaveStats *tps1 = (TPaveStats*)hist -> FindObject("stats"); 
+      tps1->SetLineWidth(0);
+
+      tps1->SetX1NDC(0.49);
+      tps1->SetX2NDC(0.89);
+      tps1->SetY1NDC(0.11);
+      tps1->SetY2NDC(0.31);
+  /* Hist->SetStats(1); */
+  /* hist->Draw(); */
+  /* gStyle->SetOptStat(0); */
+  /* gStyle->SetOptFit(111); */
+  /* gPad->Update(); */
+
+  /* //Collect stats of the first histogram */
+  /* TPaveStats *tps1 = (TPaveStats*)hist->FindObject("stats"); */
+
+  /* //  tps1->SetTextColor(kBlue); */
+  /* // tps1->SetLineColor(kBlue); */
+
+  /* tps1->SetX1NDC(0.65); */
+  /* tps1->SetX2NDC(0.89); */
+  /* tps1->SetY1NDC(0.15); */
+  /* tps1->SetY2NDC(0.25); */
+  
   lineFit->SetLineWidth(5);
-  gStyle->SetOptStat(0);
+  
   hist->Fit(lineFit);
-  gStyle->SetOptFit(111);
+
   hist->SetLineColor(kBlack);
   hist->SetLineWidth(5);
   hist->SetTitle(title.c_str());
+  hist->GetXaxis()->CenterTitle(true);
+  hist->GetYaxis()->CenterTitle(true);
+  hist->SetTitleSize(.75);
+  hist->GetXaxis()->SetTitleSize(.05);
+  hist->GetYaxis()->SetTitleSize(.05);
+  hist->GetYaxis()->SetTitleOffset(0.9);
+  hist->GetXaxis()->SetTitleOffset(0.75);
   hist->Draw();
+  tps1->Draw("same");
   c->SaveAs(fname.c_str());
   hist->SetDirectory(output);
   delete c;
@@ -133,10 +176,10 @@ int main() {
   } // End hist loop
 
   TH1D *tauHist = Fill(tauValues_,tauErrors_);
-  DrawNFit(tauHist,output,"Plots/UncertaintyFitTau.png",";Fit Number;#Delta#tau_{r}/#tau_{r}");
+  DrawNFit(tauHist,output,"Plots/UncertaintyFitTau.pdf",";Fit Number;#Delta#tau_{r}/#tau_{r}");
 
   TH1D *alphaHist = Fill(alphaValues_,alphaErrors_);
-  DrawNFit(alphaHist,output,"Plots/UncertaintyFitAlpha.png",";Fit Number;#Delta#alpha/#alpha");
+  DrawNFit(alphaHist,output,"Plots/UncertaintyFitAlpha.pdf",";Fit Number;#Delta#alpha/#alpha");
     
   output->Write(); 
 

@@ -50,7 +50,7 @@ int main() {
   
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
   //  string title[4] = {"St 12 | Recovery Times;Crystal Number;#tau_{r} [#mus]","St 18 | Recovery Times;Crystal Number;#tau_{r} [#mus]","St 12 | Amplitudes;Crystal Number;#alpha","St 18 | Amplitudes;Crystal Number;#alpha"};
-  string title[4] = {"Stn 12;Crystal;#tau_{r} [#mus]","Stn 18;Crystal;#tau_{r} [#mus]","Stn 12;Crystal;#alpha","Stn 18;Crystal;#alpha"};
+  string title[4] = {"Station 12;Crystal;#tau_{r} [#mus]","Station 18;Crystal;#tau_{r} [#mus]","Station 12;Crystal;#alpha","Station 18;Crystal;#alpha"};
   string laser_input = "RootFiles/LaserParameters.root";
   string Ep_input = "RootFiles/EpParameters_Q.root";
   string fname[4] = {"PlotsGoldList/St13ScatterTau.pdf","PlotsGoldList/St19ScatterTau.pdf","PlotsGoldList/St13ScatterAmp.pdf","PlotsGoldList/St19ScatterAmp.pdf"};
