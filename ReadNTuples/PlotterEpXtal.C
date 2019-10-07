@@ -24,8 +24,8 @@ void Plotter::InitHistos() {
   double ymax = 1.5;
 
   for (int stn = 13; stn < 20 ; stn = stn + 6) {
-    plot2D("St"+std::to_string(stn)+"_VR",700*5,-500,200,200*5,-100,100);
-  /*      plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,1000,ymin,ymax,"Crystal Number","E/p"); */
+    //    plot2D("St"+std::to_string(stn)+"_VR",700*5,-500,200,200*5,-100,100);
+     plot2D("St"+std::to_string(stn)+"_Ep_vs_xtal",54,-0.5,53.5,1000,ymin,ymax,"Crystal Number","E/p"); 
   } 
 }
 
@@ -102,8 +102,8 @@ void Plotter::Run() {
       double Ep = E/p;
       // double trX = am->vX[i];
       //double trY = am->vY[i];
-      Fill2D("St"+std::to_string(caloSt)+"_VR",am->cluX[i],am->cluY[i]);
-      //      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal",xtal,Ep);
+      //      Fill2D("St"+std::to_string(caloSt)+"_VR",am->cluX[i],am->cluY[i]);
+      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_xtal",xtal,Ep);
      
     }
   }

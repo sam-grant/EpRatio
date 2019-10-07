@@ -4,7 +4,7 @@ for file in `ls ../../Ntuples/60hr_5036B_allMuons/gm2rootTrees_allMuons*.root`; 
     echo $file
 #    ./PlotterEpXtal_9day $file
 #    ./PlotterTimeBreakout_9day $file
-    ./PlotterCuts $file
+    ./PlotterCaloPositions_noQ $file
 done
 
-hadd -f RootFiles/RawCuts.root plots*.root
+hadd -f RootFiles/ForwardsVertices_noQ.root plots*.root
