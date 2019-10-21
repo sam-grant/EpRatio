@@ -1,11 +1,17 @@
-from ROOT import TCanvas, TH1D, TFile, TStyle, TLegend, TPaveStats, TDirectory
+from ROOT import TCanvas, TH1D, TFile, TStyle, TLegend, TPaveStats, TDirectory, THistPainter
+import numpy as np
 
-def pull(EpVal, LVal, EpErr, LErr):
-    sigma = sqrt(EpErr*EpErr+LErr*LErr)
-    return (EpVal-LVal)/sigma
+def pull(EpVal, LasVal, EpErr, LasErr):
+    sigma = np.sqrt(np.square(EpErr) + np.square(LasErr))
+    return (LasVal - EpVal) / sigma
 
-def draw(h1, h2, plotName, title):
-    c = TCanvas()
+def draw(h1, h2, name, title):
+    # Get stats of h1
+    h1.Draw()
+    gPad.Update()
+    statBox1 = h1.FindObject("stats")
+    
+    c = TCanvas("c1","",800,600)
     leg = TLegend(0.76,0.76,0.89,0.89)
     leg.AddEntry(h1,"E/p")
     leg.AddEntry(h2,"Laser")
@@ -18,28 +24,38 @@ def draw(h1, h2, plotName, title):
     h1.SetTitle(title)
     h1.GetXaxis().CenterTitle(1)
     h1.GetYaxis().CenterTitle(1)
-    h1.GetXaxis().SetTitleSize(.05)
-    h1.GetYaxis().SetTitleSize(.05)
-    h1.GetYaxis().SetTitleOffset(.8);
-    h1.GetXaxis().SetTitleOffset(0.8);
+    h1.GetXaxis().SetTitleSize(.04)
+    h1.GetYaxis().SetTitleSize(.04)
+    h1.GetYaxis().SetTitleOffset(1.1);
+    h1.GetXaxis().SetTitleOffset(1.1);
     h1.Draw()
     h2.Draw("same")
     leg.Draw("same")
     c.SaveAs(plotName)
 
-Ep = TFile.Open("RootFiles/LaserParameters_9day.root")
-laser = TFile.Open("RootFiles/EpParameters_9day_Q.root")
+EpFile = TFile.Open("RootFiles/LaserParameters_9day.root")
+laserFile = TFile.Open("RootFiles/EpParameters_9day_Q.root")
 
 histNames = ["tau_13","tau_19","amp_13","amp_19"]
-plotNames = ["pyPlots_9day/St13ScatterTau.pdf","pyPlots_9day/St19ScatterTau.pdf",
-             "pyPlots_9day/St13ScatterAmp.pdf","pyPlots_9day/St19ScatterAmp.pdf"]
-titleNames = ["Station 12;Crystal Number;#tau [#mus]","Station 18;Crystal Number;#tau [#mus]",
-              "Station 12;Crystal Number;#alpha""Station 18;Crystal Number;#alpha"]
+plotNames = "pyPlots_9day/pyPull_9day.pdf"
+titleNames = ";Pull [#sigma];Entries"
 
-for i in range(0,4):
+for ihist in range(0,4):
 
-    EpHist = Ep.Get(histNames[i])
-    laserHist = laser.Get(histNames[i])
+    EpHist = EpFile.Get(histNames[i])
+    laserHist = laserFile.Get(histNames[i])
+
+    for xtal in range(0,54):
+
+        EpVal = EpHist.GetBinContent(xtal+1)
+        EpErr = EpHist.GetBinContent(xtal+1)
+                
+        lasVal = laserHist.GetBinContent(xtal+1)
+        lasErr = laserHist.GetBinError(xtal+1)
+
+        
+
+        
 
     if(i==0): EpHist.GetYaxis().SetRangeUser(2,13)
     if(i==1): EpHist.GetYaxis().SetRangeUser(2,13)
