@@ -1,0 +1,6 @@
+Plots/
+TestPlots/
+ROOT/
+*.pdf
+*.png
+*.root
