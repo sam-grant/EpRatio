@@ -396,7 +396,7 @@ int main(int argc, char *argv[]){
     cout<<"Using hard-coded file list"<<endl;
     //    fileNames.push_back("../../60hr_v9_17_01/gm2rootTrees_ana_15922.root");
     //   fileNames.push_back("../../Ntuples/60hr_5036B_allMuons/gm2rootTrees_allMuons_15921.root");
-        fileNames.push_back("/mnt/strawRaid01/omegaEU/9day_5040A/gm2skim_ana_16355.root");
+    fileNames.push_back("/mnt/strawRaid01/omegaEU/60hr_v9_17_01/gm2rootTrees_ana_15922.root");
   }
   
   for (int i = 1; i < argc; ++i){
