@@ -36,7 +36,7 @@ void Plotter::InitHistos() {
     // plot1D("St"+std::to_string(stn)+"_dR",200,0,70,"dR [mm]","Entries");
     // plot1D("St"+std::to_string(stn)+"_dt",200,-15,15,"dt [ns]","Entries");
     // plot2D("St"+std::to_string(stn)+"_E_vs_p",200,0,4000,200,0,4000,"Track Momentum [MeV]","Cluster Energy [MeV]"); 
-    plot2D("St"+std::to_string(stn)+"_Ep_vs_t",cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
+    //plot2D("St"+std::to_string(stn)+"_Ep_vs_t",cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
     for(int xtal(0); xtal<54; xtal++) {
       plot2D("St"+std::to_string(stn)+"_Ep_vs_t_"+std::to_string(xtal),cycles,0,4200*cycles,1000,0.5,1.5,"In Fill Time [ns]", "E/p");
     }
@@ -50,8 +50,8 @@ void Plotter::InitHistos() {
 void Plotter::Run() {
   
   // Get E/p means for normalisation
-  TFile *normInput = TFile::Open("../AnalyseTime/RootFiles/PlotsEpXtal_9day.root");
-  TFile *ifgInput = TFile::Open("RootFiles/ifg_9day.root");
+  TFile *normInput = TFile::Open("../ROOT/PlotsEpXtalFid_9day.root");
+  TFile *ifgInput = TFile::Open("../ROOT/LaserParametersProduction_9day.root");
 
   while( NextallmuonsEvent() ) {
 
@@ -97,16 +97,13 @@ void Plotter::Run() {
       double G = IFG(t,amp,tau);
 
       double Ep = E/p;
-      //      std::cout<<"\n time : "<<t<<std::endl;
-      // if(t<30000) std::cout<<"\nEp : "<<Ep<<std::endl;
-      Ep = Ep * G / G0; // G includes normalisation
-      //if(t<30000) std::cout<<"Ep / G : "<<Ep<<std::endl;
 
+      Ep = Ep * G / G0; // G includes normalisation
 
       // Fill1D("St"+std::to_string(caloSt)+"_dR",dR);
       // Fill1D("St"+std::to_string(caloSt)+"_dt",dt);
       // Fill1D("St"+std::to_string(caloSt)+"_logEop",logEop);
-      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t",t,Ep);
+      //      Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t",t,Ep);
       Fill2D("St"+std::to_string(caloSt)+"_Ep_vs_t_"+std::to_string(xtal),t,Ep);
       // Fill2D("St"+std::to_string(caloSt)+"_E_vs_p",p,E);       
 
