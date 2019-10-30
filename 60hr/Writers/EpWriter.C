@@ -15,9 +15,8 @@ using namespace std;
 
 int main() {
 
-  string path = "~/Documents/gm2/EpRatio/Analyse/60hr/";
-  string inputName = path+"RootFiles/FitsTimeXtal_60hr.root";
-  string outputName = path+"RootFiles/EpParameters_60hr.root";
+  string inputName = "../ROOT/FitsTimeXtalFid_60hr.root";
+  string outputName = "../ROOT/EpParameters_60hr.root";
 
   TFile *input = TFile::Open(inputName.c_str());
 

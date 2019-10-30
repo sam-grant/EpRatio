@@ -18,7 +18,7 @@ using namespace std;
 // Define percentage uncertainty 
 double Value(double laserValue, double EpValue) {
   // Fractional shift
-  double result = (laserValue - EpValue) / laserValue;
+  double result = sqrt(pow((laserValue - EpValue),2)) / laserValue;
   return result;//sqrt(pow(result,2));
 }
 // Define percentage uncertainty uncertainty
@@ -28,43 +28,24 @@ double Error(double laserValue, double laserError, double EpValue, double EpErro
   return sqrt(pow(term1,2) + pow(term2,2));
 }
 // Drawing function
-void DrawNFit(TH1D *hist, TFile *output, string fname, string title) {
+void DrawNFit(TH1D *hist,string fname, string title) {
   TCanvas *c = new TCanvas("c","c",800,600);
   TF1 *lineFit = new TF1("lineFit", "pol 0");
 
   gStyle->SetStatFormat("6.3g");
 
-      /* hist->Draw(); */
-      /* gStyle->SetStatFormat("6.3g"); */
-      gStyle->SetOptStat(10); 
-      gStyle->SetOptFit(110);
-      /* //Collect stats of the first histogram */
-      /* gPad->Update(); */
-      hist->Draw();
-      gPad->Update();
-      TPaveStats *tps1 = (TPaveStats*)hist -> FindObject("stats"); 
-      tps1->SetLineWidth(0);
+  gStyle->SetOptStat(10); 
+  gStyle->SetOptFit(110);
 
-      tps1->SetX1NDC(0.49);
-      tps1->SetX2NDC(0.89);
-      tps1->SetY1NDC(0.11);
-      tps1->SetY2NDC(0.31);
-  /* Hist->SetStats(1); */
-  /* hist->Draw(); */
-  /* gStyle->SetOptStat(0); */
-  /* gStyle->SetOptFit(111); */
-  /* gPad->Update(); */
+  hist->Draw();
+  gPad->Update();
+  TPaveStats *tps1 = (TPaveStats*)hist -> FindObject("stats"); 
+  tps1->SetLineWidth(0);
 
-  /* //Collect stats of the first histogram */
-  /* TPaveStats *tps1 = (TPaveStats*)hist->FindObject("stats"); */
-
-  /* //  tps1->SetTextColor(kBlue); */
-  /* // tps1->SetLineColor(kBlue); */
-
-  /* tps1->SetX1NDC(0.65); */
-  /* tps1->SetX2NDC(0.89); */
-  /* tps1->SetY1NDC(0.15); */
-  /* tps1->SetY2NDC(0.25); */
+  tps1->SetX1NDC(0.11);
+  tps1->SetX2NDC(0.50);
+  tps1->SetY1NDC(0.69);
+  tps1->SetY2NDC(0.89);
   
   lineFit->SetLineWidth(3);
   
@@ -83,7 +64,6 @@ void DrawNFit(TH1D *hist, TFile *output, string fname, string title) {
   hist->Draw();
   tps1->Draw("same");
   c->SaveAs(fname.c_str());
-  hist->SetDirectory(output);
   delete c;
   delete lineFit;
   return;
@@ -100,7 +80,7 @@ TH1D *Fill(vector<double> values_, vector<double> errors_) {
 
   for(int i(0); i<values_.size(); i++) {
     hist->SetBinContent(i+1,values_.at(i));
-    cout<<"Bin: "<<i+1<<", Value: "<<values_.at(i)<<", Error: "<<errors_.at(i)<<endl;
+    //cout<<"Bin: "<<i+1<<", Value: "<<values_.at(i)<<", Error: "<<errors_.at(i)<<endl;
     hist->SetBinError(i+1,errors_.at(i));
   }
   
@@ -109,23 +89,19 @@ TH1D *Fill(vector<double> values_, vector<double> errors_) {
 }
 
 int main() {
-  
-  string EpInputName = "RootFiles/EpParameters_9day_Q.root";
-  string laserInputName = "RootFiles/LaserParameters_9day.root";
-  string outputName = "RootFiles/PercentageUncertainty_9day.root";
 
-  // Set inputs
+  string EpInputName = "../ROOT/EpParameters_9day.root";
+  string laserInputName = "../ROOT/LaserParametersProduction_9day.root";
+  
+    // Set inputs
   TFile *EpInput = TFile::Open(EpInputName.c_str());
   TFile *laserInput = TFile::Open(laserInputName.c_str());
 
-  // Set output
-  TFile *output = new TFile(outputName.c_str(),"RECREATE");
-  
   cout<<"Reading... "<<EpInputName<<endl;
   cout<<"Reading... "<<laserInputName<<endl;
-    
+
   string h[4] = {"tau_13","tau_19","amp_13","amp_19"};
- 
+
   vector<double> tauValues_;
   vector<double> alphaValues_;
   vector<double> tauErrors_;
@@ -134,7 +110,7 @@ int main() {
   // Start hist loop
   cout<<"Starting histogram loop\n"<<endl;
   for (int ihist(0); ihist < 4; ihist++) {
-    
+
     cout<<"histogram : "<<h[ihist]<<"\n"<<endl;
     
     TH1D *Ep = (TH1D*)EpInput->Get(h[ihist].c_str());
@@ -145,7 +121,7 @@ int main() {
     // Start xtal loop
     
     for (int xtal(0); xtal < 54; xtal++) {
-      
+
       if(Ep->GetBinContent(xtal+1) == 0) continue;
       
       double val = Value(laser->GetBinContent(xtal+1),Ep->GetBinContent(xtal+1));
@@ -154,36 +130,34 @@ int main() {
       // Fill vectors
       if(ihist < 2) {
 	//	if(xtal==21)continue;
-	tauValues_.push_back(val);
-	tauErrors_.push_back(err);
-      }
-      else if(ihist >= 2) {
-	alphaValues_.push_back(val);
-	alphaErrors_.push_back(err);
-      }
-      else {
-	cout<<"Error"<<endl;
-      }
+       tauValues_.push_back(val);
+       tauErrors_.push_back(err);
+     }
+     else if(ihist >= 2) {
+       alphaValues_.push_back(val);
+       alphaErrors_.push_back(err);
+     }
+     else {
+       cout<<"Error"<<endl;
+     }
 
       // Print out results
-      if(val != 100) {
-	cout<<"xtal: "<<xtal<<", "<<val<<"+/-"<<err<<"%"<<endl;
-	counter++;
-      }
+     if(val != 100) {
+       cout<<"xtal: "<<xtal<<", "<<val<<"+/-"<<err<<"%"<<endl;
+       counter++;
+     }
 
     } // End xtal loop
-      cout<<"\nSurviving xtals: "<<counter<<endl;
+    delete Ep;
+    delete laser;
+    cout<<"\nSurviving xtals: "<<counter<<endl;
   } // End hist loop
 
   TH1D *tauHist = Fill(tauValues_,tauErrors_);
-  DrawNFit(tauHist,output,"Plots_9day/UncertaintyFitTau.pdf",";Fit Number;#Delta#tau_{r}/#tau_{r}");
+  DrawNFit(tauHist,"../TestPlots/UncertaintyFitTau_9day.pdf",";Fit Number;|#Delta#tau_{r}|/#tau_{r}");
 
   TH1D *alphaHist = Fill(alphaValues_,alphaErrors_);
-  DrawNFit(alphaHist,output,"Plots_9day/UncertaintyFitAlpha.pdf",";Fit Number;#Delta#alpha/#alpha");
-    
-  output->Write(); 
-
-  cout<<outputName<<" created"<<endl;
+  DrawNFit(alphaHist,"../TestPlots/UncertaintyFitAlpha_9day.pdf",";Fit Number;|#Delta#alpha|/#alpha");
   
   return 0;
 }

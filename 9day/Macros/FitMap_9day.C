@@ -14,7 +14,7 @@
 using namespace std;
 
 int main() {
-  string inputFname = "RootFiles/FitsTimeXtal_9day_Q.root";
+  string inputFname = "../ROOT/FitsTimeXtalFid_9day.root";
   TFile *input = TFile::Open(inputFname.c_str());
   cout<<"Reading... "<<inputFname<<endl;
 
@@ -33,6 +33,10 @@ int main() {
       TH1D *h = (TH1D*)input->Get(name.c_str());
       if(h==0) continue;
 
+      // Some formatting
+      h->SetTitle(("Station "+to_string(stn-1)+", Crystal "+to_string(xtal)+";In fill time [#mus];E/p").c_str());
+      h->GetYaxis()->SetTitleOffset(1.25);
+      h->GetXaxis()->SetRange(0,23);
       c1->cd(place+1);
       place++;
       cout<<place<<endl;
@@ -44,7 +48,7 @@ int main() {
     }
 
   }
-    string fname = "Plots_9day/FitXtalMap_9day.pdf";
+    string fname = "../TestPlots/FitXtalMap_9day.pdf";
     c1->SaveAs(fname.c_str());
     delete c1;
 

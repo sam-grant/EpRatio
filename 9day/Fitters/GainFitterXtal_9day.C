@@ -30,10 +30,9 @@ int main() {
   bool quality = true;
   bool save = false;
   // Number of g-2 cycles
-  int cycles = 23;
+  int cycles = 50;
   // Fit range
-  int range = 23;
-  string suffix;
+  int range = 50;
   // Counter for crystals 
   int counter = 0;
   double tau_err_tot = 0.0;
@@ -43,16 +42,13 @@ int main() {
  
   // Open input ROOT file
   // string inputFname = "RootFiles/plots_TimeXtalLong"+suffix+".root";
-  string inputFname = "../ROOT/PlotsTimeXtal_9day.root";
+  string inputFname = "../ROOT/PlotsTimeXtalFid_9day.root";
  
   TFile *input = TFile::Open(inputFname.c_str());
   cout << "Reading ... " << inputFname << endl;
 
-  if(quality) suffix = "_Q";
-  else if(!quality) suffix = "_noQ";
-
   // Book output ROOT file
-  string outputFname = "RootFiles/FitsTimeXtal_9day"+suffix+".root";
+  string outputFname = "../ROOT/FitsTimeXtalFid_9day.root";
   TFile *output = new TFile(outputFname.c_str(), "recreate");
   
   // Define time limit
@@ -104,7 +100,7 @@ int main() {
       /////////////////////////////////////////////////////
        if (quality) {
         // Avoid low stats
-        if (N < 100000*3.6) continue;
+        if (N < 100000) continue;
         //if (N < 400000) continue;
         // Require a reasonable reduced chi square
         if( chiSqrNDF < 0.25 || chiSqrNDF > 4) continue;
@@ -150,7 +146,7 @@ int main() {
       tps1->Draw("same");
       hist->SetDirectory(output);
 
-      if (save) c1->SaveAs(("ShortFits_9day/"+h+".pdf").c_str());
+      if (save) c1->SaveAs(("../TestPlots/"+h+".pdf").c_str());
       
       // Make some print outs
       cout<<xtal<<","<<N<<","<<chiSqrNDF<<","<<tau<<","<<tau_err<<","<<A<<","<<A_err<<endl;

@@ -26,14 +26,14 @@ double GainSag(double *x, double *par) {
 }
 
 int main() {
-  
-  bool quality = true;
+
   bool save = false;
+  bool quality = true;
   // Number of g-2 cycles
   int cycles = 23;
   // Fit range
   int range = 23;
-  string suffix;
+  
   // Counter for crystals 
   int counter = 0;
   double tau_err_tot = 0.0;
@@ -42,16 +42,13 @@ int main() {
  
   // Open input ROOT file
   // string inputFname = "RootFiles/plots_TimeXtalLong"+suffix+".root";
-  string inputFname = "RootFiles/PlotsTimeXtalFid_60hr.root";
+  string inputFname = "../ROOT/PlotsTimeXtalFid_60hr.root";
  
   TFile *input = TFile::Open(inputFname.c_str());
   cout << "Reading ... " << inputFname << endl;
 
-  if(quality) suffix = "_Q";
-  else if(!quality) suffix = "_noQ";
-
   // Book output ROOT file
-  string outputFname = "RootFiles/FitsTimeXtal_60hr"+suffix+".root";
+  string outputFname = "../ROOT/FitsTimeXtalFid_60hr.root";
   TFile *output = new TFile(outputFname.c_str(), "recreate");
   
   // Define time limit
@@ -147,9 +144,8 @@ int main() {
       tps1->Draw("same");
       hist->SetDirectory(output);
 
-      if (save) {
-		c1->SaveAs(("PlotsGoldList/"+h+".pdf").c_str());
-      }
+      if (save) c1->SaveAs(("../TestPlots/"+h+".pdf").c_str());
+
       // Make some print outs
       cout<<xtal<<","<<N<<","<<chiSqrNDF<<","<<tau<<","<<tau_err<<","<<A<<","<<A_err<<endl;
       //cout<<tau_err<<","<<A_err<<endl;
