@@ -36,7 +36,7 @@ int main() {
       // Some formatting
       h->SetTitle(("Station "+to_string(stn-1)+", Crystal "+to_string(xtal)+";In fill time [#mus];E/p").c_str());
       h->GetYaxis()->SetTitleOffset(1.25);
-      h->GetXaxis()->SetRange(0,23);
+      h->GetXaxis()->SetRangeUser(0,23*4.2);
       c1->cd(place+1);
       place++;
       cout<<place<<endl;
