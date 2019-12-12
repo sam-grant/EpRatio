@@ -1,4 +1,4 @@
-# Format Station 12 Crystal 24 fit for presentation
+# Calo fits
 
 from ROOT import TFile, TCanvas, TH1D, TF1, gStyle, gPad, TPaveStats
 
@@ -42,6 +42,8 @@ for calo in range(13,20,6):
 	h.GetYaxis().SetTitleSize(.04)
 	h.GetYaxis().SetTitleOffset(1.25)
 	h.GetXaxis().SetTitleOffset(1.1)
+
+	h.SetLineWidth(3)
 
 	h.GetXaxis().SetRangeUser(0,4.2*23)
 
