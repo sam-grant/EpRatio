@@ -19,7 +19,7 @@ TLine *Line(TH1D *hist) {
 
   TF1 *fit = hist->GetFunction("SlowGainFunc");
 
-  TLine *line = new TLine(4.2,fit->GetParameter(0),4.2*50,fit->GetParameter(0));
+  TLine *line = new TLine(0,fit->GetParameter(0),4.2*50,fit->GetParameter(0));
 
   line->SetLineWidth(3);
   line->SetLineStyle(2);
@@ -41,6 +41,7 @@ TF1 *LineFit(TH1D *hist) {
 
 double SlowGainFunc(double *x, double *par) {
 
+//  return par[0] + par[1] * exp(-x[0] / par[2]);
   return par[0] + par[1] * exp(-x[0] / 64.44);
 
 }
@@ -50,7 +51,7 @@ void SlowGainFit(TH1D *hist) {
   TF1 *func = new TF1("SlowGainFunc", SlowGainFunc, 4.2, 4.2*50, 2);
 
   func->SetLineWidth(3);
-
+  //func->FixParameter(2,64.44);
   hist->Fit(func,"Q");
 
   cout<<"Offset:   \t"<<func->GetParameter(0)<<endl;
@@ -88,15 +89,28 @@ void FancyDraw(TH1D *hist, int stn, string title, string name) {
   hist->SetTitle(title.c_str());
 
   hist->GetYaxis()->SetTitleOffset(1.3);
-  hist->GetXaxis()->SetTitleOffset(1.0);
+  hist->GetXaxis()->SetTitleOffset(0.9);
   hist->GetXaxis()->CenterTitle(true);
   hist->GetYaxis()->CenterTitle(true);
+
+  double min = hist->GetFunction("SlowGainFunc")->GetParameter(0) - 0.002;
+  double max = hist->GetFunction("SlowGainFunc")->GetParameter(0) + 0.003;
+
+  hist->GetYaxis()->SetRangeUser(min, max);
+  hist->GetXaxis()->SetRangeUser(0.0, 210);
   hist->SetTitleSize(.75);
   hist->GetXaxis()->SetTitleSize(.05);
   hist->GetYaxis()->SetTitleSize(.05);
   c->SetLeftMargin(0.13);
 
   hist->Draw();
+  TF1* tmp = new TF1("S1", SlowGainFunc, 0.0, 4.5, 2);
+  tmp->SetLineColor(kGreen-3);
+  tmp->SetLineWidth(3);
+  for (int i(0); i<2; i++) tmp->FixParameter(i, hist->GetFunction("SlowGainFunc")->GetParameter(i));
+  hist->Fit(tmp->GetName(), "R+");
+  tmp->Draw("SAME");
+  hist->Draw("SAME");
 
   Line(hist)->Draw("same");
   c->SaveAs(("../TestPlots/"+name+(to_string(stn))+".png").c_str());
@@ -125,7 +139,7 @@ int main() {
 
     // Fit a pol0 to normalise
     TF1 *lineFit = LineFit(h);
-    h->Scale(1./lineFit->GetParameter(0));
+   // h->Scale(1./lineFit->GetParameter(0));
 
     cout<<"Station:\t"<<stn-1<<endl;
 
