@@ -44,8 +44,7 @@ void Plotter::Run() {
       if(am->nhits[i] != 1) continue;
       if(am->cluTime[i] < 60000) continue;
       
-      double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] \
-+ am->trkMomZ[i]*am->trkMomZ[i]);
+      double p = sqrt(am->trkMomX[i]*am->trkMomX[i] + am->trkMomY[i]*am->trkMomY[i] + am->trkMomZ[i]*am->trkMomZ[i]);
 
       int caloSt = am->cluCaloNum[i];
       if(caloSt > 19) continue;
