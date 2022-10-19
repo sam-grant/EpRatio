@@ -1,0 +1,19 @@
+15-Jan-2020 16:30:03 CST  Initiating request to open input file "/home/sgrant/gm2pro_daq_full_run1_EndGame_5040A_goldList.root"
+15-Jan-2020 16:30:04 CST  Opened input file "/home/sgrant/gm2pro_daq_full_run1_EndGame_5040A_goldList.root"
+Begin processing the 1st record. run: 15921 subRun: 369 event: 1 at 15-Jan-2020 16:30:10 CST
+Begin processing the 101st record. run: 15921 subRun: 369 event: 102 at 15-Jan-2020 16:30:26 CST
+15-Jan-2020 16:30:35 CST  Closed input file "/home/sgrant/gm2pro_daq_full_run1_EndGame_5040A_goldList.root"
+
+TrigReport ---------- Event  Summary ------------
+TrigReport Events total = 154 passed = 73 failed = 81
+
+TrigReport ------ Modules in End-Path: end_path ------------
+TrigReport  Trig Bit#        Run    Success      Error Name
+TrigReport     0    0         73         73          0 trackCaloMatchingAnaTrack
+
+TimeReport ---------- Time  Summary ---[sec]----
+TimeReport CPU = 27.217862 Real = 27.358042
+
+MemReport  ---------- Memory  Summary ---[base-10 MB]----
+MemReport  VmPeak = 1913.21 VmHWM = 1114.22
+

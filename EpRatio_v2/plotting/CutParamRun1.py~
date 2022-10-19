@@ -1,0 +1,40 @@
+from ROOT import TFile, TLine
+from plotFunc import *
+
+LoadPlotFunc()
+
+inFile = TFile.Open("../plots/Run1/cutParamPlots_Run1.root")
+
+qual = [ "noQ", "cQ", "pQ", "lQ" ] 
+hists = [ "eFracMax", "S12_caloVertexClusterTimeDiff", "S18_caloVertexClusterTimeDiff", "caloVertexClusterRadialDiff", "logEoverP", "EvsP" ]
+
+for i_hist in range(len(hists)):
+
+	for i_qual in range(len(qual)):
+
+		name = hists[i_hists]+"_"+qual[i_qual]
+		plot = inFile.Get(hists[i_hists]+"_"+qual[i_qual])
+
+		FancyDraw2D(plot,
+		
+		hists[i_hist] = inFile.Get(hists[i_hist])
+		hists[i_hist].SetStats(0)
+
+eFracMax = hists[0]
+
+cut = eFracMax.GetBinCenter(eFracMax.GetMaximumBin())
+
+print(cut)
+
+
+
+FancyDraw1DYLine(hists[0],";Fraction of cluster energy in the most energetic crystal;Clusters","../images/Run1/CutParamPlots/eFracMax", cut)
+# Need to split into stations!
+FancyDraw1D(hists[1],";Calo vertex position #minus cluster position [mm];Track-cluster matches","../images/Run1/CutParamPlots/caloVertexClusterTimeDiff")
+FancyDraw1D(hists[2],";Calo vertex time #minus cluster time [ns];Track-cluster matches","../images/Run1/CutParamPlots/caloVertexClusterRadialDiff")
+FancyDraw1D(hists[3],";Track-cluster matches;Log(E/p)","../images/Run1/CutParamPlots/logEoverP")
+hists[4].GetYaxis().SetLimits(0,3.2)
+hists[4].GetXaxis().SetLimits(0,3.2)
+FancyDraw2D(hists[4],";Cluster energy [GeV];Track momentum [GeV]","../images/Run1/CutParamPlots/EvsP")
+
+

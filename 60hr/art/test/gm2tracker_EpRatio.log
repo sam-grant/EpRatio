@@ -1,0 +1,7 @@
+%MSG-s ArtException:  Early 15-Jan-2020 15:30:50 CST JobSetup
+cet::exception caught in art
+---- Configuration BEGIN
+  The following were encountered while processing the module configurations:
+    ERROR: Module with label trackCaloMatching of type EpRatioAna is configured as a producer but defined in code as a analyzer.
+---- Configuration END
+%MSG

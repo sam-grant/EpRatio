@@ -1,0 +1,94 @@
+void S18_chiSquareHist_SingleGaus_60h()
+{
+//=========Macro generated from canvas: c/c
+//=========  (Thu May 14 19:50:18 2020) by ROOT version 6.12/04
+   TCanvas *c = new TCanvas("c", "c",0,0,800,600);
+   c->SetHighLightColor(2);
+   c->Range(0.06249999,-0.7875001,1.9375,7.0875);
+   c->SetFillColor(0);
+   c->SetBorderMode(0);
+   c->SetBorderSize(2);
+   c->SetFrameBorderMode(0);
+   
+   TH1D *name__2 = new TH1D("name__2","60h, station 18",75,0.25,1.75);
+   name__2->SetBinContent(32,1);
+   name__2->SetBinContent(33,1);
+   name__2->SetBinContent(35,2);
+   name__2->SetBinContent(36,2);
+   name__2->SetBinContent(37,1);
+   name__2->SetBinContent(38,1);
+   name__2->SetBinContent(39,6);
+   name__2->SetBinContent(42,2);
+   name__2->SetBinContent(43,1);
+   name__2->SetBinContent(44,2);
+   name__2->SetBinContent(45,1);
+   name__2->SetBinContent(46,2);
+   name__2->SetBinContent(47,2);
+   name__2->SetBinContent(48,2);
+   name__2->SetBinContent(49,3);
+   name__2->SetBinContent(50,4);
+   name__2->SetBinContent(51,2);
+   name__2->SetBinContent(52,2);
+   name__2->SetBinContent(53,2);
+   name__2->SetBinContent(55,4);
+   name__2->SetBinContent(59,1);
+   name__2->SetBinContent(62,2);
+   name__2->SetBinContent(66,1);
+   name__2->SetBinContent(67,1);
+   name__2->SetBinContent(69,1);
+   name__2->SetEntries(49);
+   
+   TPaveStats *ptstats = new TPaveStats(0.11,0.69,0.49,0.89,"brNDC");
+   ptstats->SetName("stats");
+   ptstats->SetBorderSize(1);
+   ptstats->SetFillColor(0);
+   ptstats->SetLineWidth(0);
+   ptstats->SetTextAlign(12);
+   ptstats->SetTextFont(42);
+   TText *ptstats_LaTex = ptstats->AddText("Mean  =   1.19 #pm 0.0254");
+   ptstats_LaTex = ptstats->AddText("Std Dev   =  0.177 #pm 0.0179");
+   ptstats_LaTex = ptstats->AddText("Underflow =      0");
+   ptstats_LaTex = ptstats->AddText("Overflow  =      0");
+   ptstats->SetOptStat(112200);
+   ptstats->SetOptFit(0);
+   ptstats->Draw();
+   name__2->GetListOfFunctions()->Add(ptstats);
+   ptstats->SetParent(name__2);
+   name__2->SetLineWidth(3);
+   name__2->GetXaxis()->SetTitle("#chi^{2}/NDF");
+   name__2->GetXaxis()->CenterTitle(true);
+   name__2->GetXaxis()->SetLabelFont(42);
+   name__2->GetXaxis()->SetLabelSize(0.035);
+   name__2->GetXaxis()->SetTitleOffset(1.1);
+   name__2->GetXaxis()->SetTitleFont(42);
+   name__2->GetYaxis()->SetTitle("Fits");
+   name__2->GetYaxis()->CenterTitle(true);
+   name__2->GetYaxis()->SetNdivisions(4000510);
+   name__2->GetYaxis()->SetLabelFont(42);
+   name__2->GetYaxis()->SetLabelSize(0.035);
+   name__2->GetYaxis()->SetTitleOffset(1.1);
+   name__2->GetYaxis()->SetTitleFont(42);
+   name__2->GetZaxis()->SetLabelFont(42);
+   name__2->GetZaxis()->SetLabelSize(0.035);
+   name__2->GetZaxis()->SetTitleSize(0.035);
+   name__2->GetZaxis()->SetTitleFont(42);
+   name__2->Draw("");
+   
+   ptstats = new TPaveStats(0.11,0.69,0.49,0.89,"brNDC");
+   ptstats->SetName("stats");
+   ptstats->SetBorderSize(1);
+   ptstats->SetFillColor(0);
+   ptstats->SetLineWidth(0);
+   ptstats->SetTextAlign(12);
+   ptstats->SetTextFont(42);
+   ptstats_LaTex = ptstats->AddText("Mean  =   1.19 #pm 0.0254");
+   ptstats_LaTex = ptstats->AddText("Std Dev   =  0.177 #pm 0.0179");
+   ptstats_LaTex = ptstats->AddText("Underflow =      0");
+   ptstats_LaTex = ptstats->AddText("Overflow  =      0");
+   ptstats->SetOptStat(112200);
+   ptstats->SetOptFit(0);
+   ptstats->Draw();
+   c->Modified();
+   c->cd();
+   c->SetSelected(c);
+}

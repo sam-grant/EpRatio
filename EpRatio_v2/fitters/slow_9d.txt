@@ -1,0 +1,16 @@
+Enter run-1 dataset: 60h 9d HK EG
+Starting
+
+Select fit mode: '1' (SingleGaus) '2' (DoubleGaus) '3' (LanGaus)
+Using fitMode: SingleGaus
+Starting
+
+Reading	../plots/9d/plotsEpTimeCalo_SingleGaus_9d.root
+Station:	12
+Offset:   	0.960046
+Amplitude:	-0.000752726±0.000123615
+====================================
+Station:	18
+Offset:   	0.964883
+Amplitude:	0.000378086±0.000119909
+====================================

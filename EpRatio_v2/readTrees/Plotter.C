@@ -1,0 +1,186 @@
+
+// Sam Grant                //
+// Test branch variables    //
+// Read tracker branch      //
+//////////////////////////////
+
+#define Plotter_C
+#include "Plotter.h"
+#include "TMath.h"
+
+const float g2Period = 4.365;
+const float eFracMaxCut = 0.80;
+
+void Plotter::InitTrees(TString input_file) {
+   ttc = new trackAndTrackCaloReader(input_file);
+   //tr = new trackerReader(input_file); 
+}
+
+void Plotter::InitHistos() {
+
+  // Radial position resolution at 1.5 GeV is 1 mm
+
+  // Time resolution is around 1 ns
+
+  // Tracker plots
+  plot1D("pValues",1000,0,1,"p-values");
+  plot1D("trackT0",6000,0,900000,"Track T0 [ns]");
+  plot1D("trackMomentum",128,0,3200,"Track momentum [MeV]"); 
+  plot1D("strawHits",34,-0.5,33.5,"Layers hit");
+
+  // Decay vertex plots
+  plot1D("radialPos",400,-200,200,"Radial position [mm]");
+  plot1D("verticalPos",400,-200,200,"Vertical position [mm]");
+  plot1D("decayVertexMom",128,0,3200,"Decay vertex momentum [MeV]");
+  plot2D("zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
+  plot2D("St12_zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
+  plot2D("St18_zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
+  plot2D("radialPos_vs_time",6000,0,900000,500,-250,250,"Decay time [ns]","Radial decay vertex position [mm]");
+  plot2D("verticalPos_vs_time",6000,0,900000,500,-100,100, "Decay time [ns]", "Vertical decay vertex position [mm]");
+
+  // Cut params
+  plot1D("eFracMax",100,0,1,"Cluster energy fraction in the most energetic crystal");
+  plot1D("S12_caloVertexClusterTimeDiff",35,-20,15,"Calo vertex time #minus cluster time [ns]");
+  plot1D("S18_caloVertexClusterTimeDiff",35,-20,15,"Calo vertex time #minus cluster time [ns]");
+  plot1D("caloVertexClusterRadialDiff",100,0,100,"Calo vertex time #minus cluster time [mm]");
+  plot1D("logEoverP",140,-5,3,"log(E/p)");
+  plot2D("EvsP",128,0,3200,128,0,3200,"Cluster energy [MeV]","Track momentum [MeV]");
+
+  // Cluster matched params
+  plot1D("clusterTime",6000,0,900000, "Cluster time [ns]");
+  plot1D("clusterEnergy",128,0,3200, "Cluster energy [MeV]");
+  plot2D("cluY_vs_cluX",300,-150,150,200,-100,100,"Cluster X [mm]", "Cluster Y [mm]");
+  plot2D("caloVertY_vs_caloVertX",300,-150,150,200,-100,100,"Calo vertex postition X [mm]", "Calo vertex position Y [mm]");
+
+  // Money plots
+  plot2D("EoverP_vs_E",128,0,3200,1000,0,2,"Cluster energy [MeV]", "E/p");
+  //plot2D("uncorrEoverP_vs_E",128,0,3200,1000,0,2,"Cluster energy [MeV]", "E_{uncorr}/p");
+  plot2D("EoverP_vs_time",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E/p");
+  plot2D("uncorrEoverP_vs_time",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+  // Money plots
+  plot2D("EoverP_vs_E_withLaser",128,0,3200,1000,0,2,"Cluster energy [MeV]", "E/p");
+  //plot2D("uncorrEoverP_vs_E_withLaser",128,0,31000,1000,0,2,"Cluster energy [MeV]", "E_{uncorr}/p");
+  plot2D("EoverP_vs_time_withLaser",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E/p");
+  plot2D("uncorrEoverP_vs_time_withLaser",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+
+  for(int i_stn(12); i_stn<19; i_stn = i_stn + 6) {
+
+    plot2D("St"+std::to_string(i_stn)+"_zPos_vs_xPos",750,-7500,7500,750,-7500,7500,"Decay vertex position X [mm]","Decay vertex position Z [mm]");
+    plot2D("St"+std::to_string(i_stn)+"_EoverP_vs_E",128,0,3200,1000,0,2,"Cluster energy [MeV]", "E/p");
+    //plot2D("St"+std::to_string(i_stn)+"_uncorrEoverP_vs_E",128,0,3200,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+    plot2D("St"+std::to_string(i_stn)+"_EoverP_vs_E_withLaser",128,0,3200,1000,0,2,"Cluster energy [MeV]no", "E/p");
+    //plot2D("St"+std::to_string(i_stn)+"_uncorrEoverP_vs_E_withLaser",128,0,3200,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+    plot2D("St"+std::to_string(i_stn)+"_EoverP_vs_time",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E/p");
+    plot2D("St"+std::to_string(i_stn)+"_uncorrEoverP_vs_time",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+    plot2D("St"+std::to_string(i_stn)+"_EoverP_vs_time_withLaser",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E/p");
+    plot2D("St"+std::to_string(i_stn)+"_uncorrEoverP_vs_time_withLaser",50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+  
+    for(int i_xtal(0); i_xtal<54; i_xtal++) { 
+      plot2D("St"+std::to_string(i_stn)+"_EoverP_vs_time_"+std::to_string(i_xtal),50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E/p");
+      plot2D("St"+std::to_string(i_stn)+"_uncorrEoverP_vs_time_"+std::to_string(i_xtal),50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+      plot2D("St"+std::to_string(i_stn)+"_EoverP_vs_time_withLaser_"+std::to_string(i_xtal),50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E/p");
+      plot2D("St"+std::to_string(i_stn)+"_uncorrEoverP_vs_time_withLaser_"+std::to_string(i_xtal),50,0,50*g2Period,1000,0,2,"Cluster time [#mus]", "E_{uncorr}/p");
+    }
+
+  }
+  //plot1D("decayVertexTime",4700, 0, 4700*0.148936, "Cluster time [ns]","Decay vertices");
+  //plot1D("trackClusterRadialDiff",1000,0,100, ";Calo radial position #minus track vertex radial position [mm]""")
+}
+
+//=========================================================
+
+//loop over the entries in the tree, making plots:
+
+void Plotter::Run() {
+  //    int count = 0;
+  //loop over the clusterTracker/tracker tree:
+  while( NextTrackAndTrackCaloEvent() ) {
+    
+    //if(!ttc->passCaloVertexQuality) continue;
+    //if(!ttc->hasCaloVertex) continue;
+    if(!ttc->hasDecayVertex) continue;
+    if(!ttc->passTrackQuality) continue;
+    //if(!ttc->passDecayVertexQuality) continue;
+
+    int stn = ttc->station;
+
+    Fill1D("pValues",ttc->trackPValue);
+    Fill1D("trackT0",ttc->trackT0);
+    Fill1D("trackMomentum",ttc->trackMomentum);
+    Fill1D("strawHits",ttc->nHits);
+
+
+    if(ttc->passDecayVertexQuality) {
+
+      Fill1D("radialPos",ttc->decayVertexPosR-7112);
+      Fill1D("verticalPos",ttc->decayVertexPosY);
+      Fill1D("decayVertexMom",ttc->decayVertexMom);
+      Fill2D("zPos_vs_xPos",ttc->decayVertexPosX,ttc->decayVertexPosZ);
+      Fill2D("St"+std::to_string(stn)+"_zPos_vs_xPos",ttc->decayVertexPosX,ttc->decayVertexPosZ);
+      Fill2D("radialPos_vs_time",ttc->decayTime, ttc->decayVertexPosR-7112);
+      Fill2D("verticalPos_vs_time",ttc->decayTime,ttc->decayVertexPosY);
+      Fill2D("caloVertY_vs_caloVertX",ttc->caloVertexPosX,ttc->caloVertexPosY);
+    
+    }
+  
+    for(int i = 0; i<ttc->nCluMatches; i++) { 
+      
+      if(!ttc->passCaloVertexQuality[i]) continue;
+      if(!ttc->passPositronVertexQuality[i]) continue;
+
+      Fill1D("eFracMax",ttc->xtalMaxEnergyFrac[i]);
+      Fill1D("clusterTime",ttc->clusterTime[i]);
+      Fill1D("clusterEnergy",ttc->clusterEnergy[i]);
+      Fill2D("cluY_vs_cluX",ttc->clusterX[i],ttc->clusterY[i]);
+      Fill2D("EvsP",ttc->trackMomentum,ttc->clusterEnergy[i]);
+      Fill1D("logEoverP",ttc->logEoverP[i]);
+      Fill1D("caloVertexClusterRadialDiff",ttc->caloVertexClusterRadialDiff[i]);
+      if(stn==12) Fill1D("S12_caloVertexClusterTimeDiff",ttc->caloVertexClusterTimeDiff[i]);
+      else if(stn==18) Fill1D("S18_caloVertexClusterTimeDiff",ttc->caloVertexClusterTimeDiff[i]);
+
+      int xtal = ttc->xtalWithMaxE[i];
+
+      if(ttc->inFillLaserCount==0) { 
+
+        Fill2D("EoverP_vs_E",ttc->clusterEnergy[i], ttc->EoverP[i]);
+        //Fill2D("uncorrEoverP_vs_E",ttc->clusterTime[i] * 1e-3, ttc->uncorrEoverP[i]);
+        Fill2D("EoverP_vs_time",ttc->clusterTime[i] * 1e-3, ttc->EoverP[i]);
+        Fill2D("uncorrEoverP_vs_time",ttc->clusterTime[i] * 1e-3, ttc->uncorrEoverP[i]);
+
+        Fill2D("St"+std::to_string(stn)+"_EoverP_vs_E",ttc->clusterEnergy[i], ttc->EoverP[i]);
+        //Fill2D("St"+std::to_string(stn)+"_uncorrEoverP_vs_E",ttc->clusterEnergy[i] * 1e-3, ttc->uncorrEoverP[i]);
+        Fill2D("St"+std::to_string(stn)+"_EoverP_vs_time",ttc->clusterTime[i] * 1e-3, ttc->EoverP[i]);
+        Fill2D("St"+std::to_string(stn)+"_uncorrEoverP_vs_time",ttc->clusterTime[i] * 1e-3, ttc->uncorrEoverP[i]);
+
+        if(ttc->xtalMaxEnergyFrac[i] >= eFracMaxCut) {
+          Fill2D("St"+std::to_string(stn)+"_EoverP_vs_time_"+std::to_string(xtal),ttc->clusterTime[i] * 1e-3, ttc->EoverP[i]);
+          Fill2D("St"+std::to_string(stn)+"_uncorrEoverP_vs_time_"+std::to_string(xtal),ttc->clusterTime[i] * 1e-3, ttc->uncorrEoverP[i]);
+        }
+
+      } else if(ttc->inFillLaserCount>-1) {
+        
+        Fill2D("EoverP_vs_E_withLaser",ttc->clusterEnergy[i], ttc->EoverP[i]);
+        Fill2D("EoverP_vs_time_withLaser",ttc->clusterTime[i] * 1e-3, ttc->EoverP[i]);
+        Fill2D("uncorrEoverP_vs_time_withLaser",ttc->clusterTime[i] * 1e-3, ttc->uncorrEoverP[i]);
+
+        Fill2D("St"+std::to_string(stn)+"_EoverP_vs_E_withLaser",ttc->clusterEnergy[i], ttc->EoverP[i]);
+        Fill2D("St"+std::to_string(stn)+"_EoverP_vs_time_withLaser",ttc->clusterTime[i] * 1e-3, ttc->EoverP[i]);
+        Fill2D("St"+std::to_string(stn)+"_uncorrEoverP_vs_time_withLaser",ttc->clusterTime[i] * 1e-3, ttc->uncorrEoverP[i]);
+
+        if(ttc->xtalMaxEnergyFrac[i] >= eFracMaxCut) {
+          Fill2D("St"+std::to_string(stn)+"_EoverP_vs_time_withLaser_"+std::to_string(xtal),ttc->clusterTime[i] * 1e-3, ttc->EoverP[i]);
+          Fill2D("St"+std::to_string(stn)+"_uncorrEoverP_vs_time_withLaser_"+std::to_string(xtal),ttc->clusterTime[i] * 1e-3, ttc->uncorrEoverP[i]);
+        }
+
+      }
+
+    }
+
+
+  }
+
+  delete ttc;
+  //delete tr;
+  return;
+
+}

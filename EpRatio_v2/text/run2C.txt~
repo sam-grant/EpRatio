@@ -1,0 +1,25 @@
+Enter run-1 dataset: 60h 9d HK EG Run1
+Invalid dataset, stopping
+Select fit mode: '1' (SingleGaus) '2' (DoubleGaus) '3' (LanGaus)
+Using fitMode: SingleGaus
+Starting
+
+Reading	../plots/run2C/plotsEpTimeXtal_SingleGaus_run2C.root
+Xtal,N,ChiSqrNdf,Tau,dTau,Alpha,dAlpha
+12,1.14248,6.84768,2.10668,0.014565,0.00570387
+13,0.787025,6.26739,2.13614,0.0213223,0.00960777
+21,0.997341,10.9259,2.50768,0.0145187,0.00317979
+22,0.928704,9.5619,2.72637,0.0136593,0.00410253
+28,0.912495,11.0908,2.84358,0.0105897,0.00247096
+29,0.863571,12.3727,3.23501,0.0103836,0.00250041
+37,0.9025,7.7331,2.1775,0.0179635,0.00597023
+43,1.99198,15,1.29893,0.1,0.0215995
+46,0.45762,15,1.3595,0.1,0.0141162
+2,0.456154,15,2.67631,0.1,0.0117292
+14,2.52197,15,1.19694,0.0206627,0.00632861
+
+Surviving xtals: 11
+Mean tau_err = 2.20588
+Mean amp_err = 0.00793719
+Mean chiSqrNDF = 1.08744
+Created: ../plots/run2C/fitsEpTimeXtal_SingleGaus_run2C.root
