@@ -2,9 +2,9 @@
 for file in `ls /mnt/strawRaid01/omegaEU/60hr_v9_17_01/gm2*.root`; do
 
     echo $file
-    ./PlotterTimeXtal_60hr $file
+#    ./PlotterTimeXtal_60hr $file
 #    ./PlotterEpXtalFid_60hr $file
-
+    ./PlotterTimeCalo_60hr $file
 #    ./PlotterTimeBreakout_9day $file
 #    ./PlotterDemoPlots_9day $file
 #    ./PlotterVertRadTracker_9day $file
@@ -12,5 +12,5 @@ for file in `ls /mnt/strawRaid01/omegaEU/60hr_v9_17_01/gm2*.root`; do
 done
 
 #hadd ../ROOT/RawEpXtalFid_60hr.root plots*.root
-hadd ../ROOT/RawTimeXtalFid_60hr.root plots*.root
-
+#hadd ../ROOT/RawTimeXtalFid_60hr.root plots*.root
+hadd ../ROOT/RawTimeCalo_60hr.root plots*.root

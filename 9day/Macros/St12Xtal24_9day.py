@@ -33,6 +33,8 @@ h.GetYaxis().SetTitleSize(.04)
 h.GetYaxis().SetTitleOffset(1.25)
 h.GetXaxis().SetTitleOffset(1.1)
 
+h.GetXaxis().SetRangeUser(0,4.2*23)
+
 h.SetTitle(";In fill time [#mus];E/p")
 
 h.Draw()
